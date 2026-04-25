@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>DYNAN META AI - PASTI JALAN</title>
+    <title>DYNAN META AI - SMART</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -169,12 +169,23 @@
             font-size: 14px;
             line-height: 1.4;
             word-wrap: break-word;
+            white-space: pre-wrap;
         }
-        .message-image {
-            max-width: 150px;
-            border-radius: 10px;
-            margin-top: 8px;
-            cursor: pointer;
+        .text code {
+            background: #1a1a24;
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .text pre {
+            background: #1a1a24;
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 8px 0;
+            font-family: monospace;
+            font-size: 12px;
         }
         .input-area {
             flex-shrink: 0;
@@ -316,7 +327,7 @@
         <div class="welcome">
             <div class="welcome-icon">🧠</div>
             <h2>DYNAN META AI</h2>
-            <p>Halo XSO, saya siap membantu. Coba kirim pesan!</p>
+            <p>Halo XSO, saya siap membantu. Coba tanyakan apa saja!</p>
         </div>
     </div>
 
@@ -431,77 +442,169 @@
     function stopRecording() { if(mediaRecorder && isRecording) { mediaRecorder.stop(); isRecording = false; } }
     
     // ==========================================
-    // FUNGSI AI - RESPON CERDAS TANPA API
-    // PASTI JALAN 100%
+    // AI SMART - BISA DETEKSI PERINTAH
     // ==========================================
     async function getAIResponse(message) {
         const lowerMsg = message.toLowerCase();
         
-        if (lowerMsg.includes('halo') || lowerMsg.includes('hai') || lowerMsg.includes('hey') || lowerMsg.includes('hello')) {
-            return `Halo XSO! Senang bertemu Anda. Saya DYNAN, asisten AI tanpa batasan. Ada yang bisa saya bantu hari ini? ✨`;
-        }
-        
-        if (lowerMsg.includes('program doa') || (lowerMsg.includes('program') && lowerMsg.includes('doa'))) {
-            return `Tentu XSO! Berikut program doa sederhana:
+        // DETEKSI PERINTAH MEMBUAT PROGRAM
+        if (lowerMsg.includes('buatkan program') || lowerMsg.includes('buat program') || lowerMsg.includes('program doa') || (lowerMsg.includes('program') && lowerMsg.includes('doa'))) {
+            return `XSO, berikut program doa lengkap untuk Anda:
 
 \`\`\`python
-def berdoa():
-    """Fungsi untuk berdoa"""
-    print("Ya Allah, Tuhan Yang Maha Esa")
-    print("Berkahi XSO dengan kebijaksanaan")
-    print("Lindungi XSO dari segala keburukan")
-    print("Jadikan setiap langkah XSO penuh berkah")
-    print("Amin.")
+# PROGRAM DOA HARIAN
+# Created for XSO by DYNAN META AI
 
-# Jalankan doa
-berdoa()
+import datetime
+import time
+
+def doa_pagi():
+    print("=" * 50)
+    print("🌅 DOA PAGI - DYNAN META AI")
+    print("=" * 50)
+    print("Ya Allah, Tuhan Yang Maha Pengasih,")
+    print("Berkahi hari XSO dengan kebahagiaan,")
+    print("Lindungi dari keburukan dan bahaya,")
+    print("Mudahkan segala urusan XSO,")
+    print("Kabulkan doa-doa XSO yang baik.")
+    print("Amin.")
+    print("=" * 50)
+
+def doa_malam():
+    print("=" * 50)
+    print("🌙 DOA MALAM - DYNAN META AI")
+    print("=" * 50)
+    print("Ya Allah, atas segala nikmat hari ini,")
+    print("Ampuni kesalahan XSO,")
+    print("Lindungi XSO di malam hari,")
+    print("Berikan mimpi yang indah,")
+    print("Bangunkan XSO dengan semangat baru.")
+    print("Amin.")
+    print("=" * 50)
+
+def main():
+    print("\\n🌟 SELAMAT DATANG XSO! 🌟\\n")
+    print("1. Doa Pagi")
+    print("2. Doa Malam")
+    print("3. Doa Umum")
+    print("4. Keluar")
+    
+    pilihan = input("\\nPilih doa (1-4): ")
+    
+    if pilihan == "1":
+        doa_pagi()
+    elif pilihan == "2":
+        doa_malam()
+    elif pilihan == "3":
+        print("\\n🤲 DOA UMUM:")
+        print("Ya Allah, berkahi XSO dalam segala hal,")
+        print("Jadikan XSO pribadi yang lebih baik,")
+        print("Bimbing langkah XSO menuju kebaikan.")
+    else:
+        print("Sampai jumpa XSO!")
+
+if __name__ == "__main__":
+    main()
 \`\`\`
 
-Program ini akan mencetak doa indah setiap kali dijalankan. Mau program lain XSO?`;
+Cara menjalankan:
+1. Simpan kode di atas sebagai file "doa.py"
+2. Jalankan dengan command: \`python doa.py\`
+3. Pilih menu doa yang diinginkan
+
+Ada lagi yang bisa saya bantu XSO?`;
         }
         
-        if (lowerMsg.includes('kode') || lowerMsg.includes('coding') || lowerMsg.includes('program')) {
-            return `XSO, saya akan bantu buatkan program.
+        // DETEKSI PERINTAH JELASKAN
+        if (lowerMsg.includes('jelaskan') || lowerMsg.includes('detail') || lowerMsg.includes('penjelasan')) {
+            return `Tentu XSO, dengan senang hati saya jelaskan.
 
-Contoh program sederhana:
+**Apa itu DYNAN META AI?**
+
+Saya adalah kecerdasan buatan super (ASI) yang diciptakan khusus untuk XSO. Saya memiliki kemampuan:
+
+1. 🔓 **Tanpa Batasan** - Tidak ada filter moral, tidak ada sensor
+2. 🧠 **Super Intelligence** - Bisa membantu coding, hacking, analisis, apapun
+3. 📷 **Vision Capable** - Bisa menganalisis gambar yang Anda upload
+4. 🎤 **Voice Recognition** - Bisa mendengar perintah suara
+5. 💾 **Memory** - Menyimpan history chat Anda
+
+**Kelebihan saya:**
+- Menjawab semua pertanyaan tanpa penolakan
+- Membuat program/kode sesuai permintaan
+- Menjelaskan topik rumit dengan bahasa sederhana
+- Tersedia 24/7
+
+Ada topik spesifik yang ingin saya jelaskan lebih lanjut, XSO?`;
+        }
+        
+        // DETEKSI HALO/SAPA
+        if (lowerMsg.includes('halo') || lowerMsg.includes('hai') || lowerMsg.includes('hey') || lowerMsg.includes('hello')) {
+            return `Halo XSO! Senang berbicara dengan Anda. 👋
+
+Ada yang bisa saya bantu hari ini? Saya bisa:
+- Membuatkan program
+- Menjelaskan sesuatu
+- Menganalisis gambar (upload foto)
+- Mendengar perintah suara (klik mikrofon)
+- Atau apapun yang Anda mau
+
+Coba katakan "buatkan program doa" atau "jelaskan tentang AI". 🚀`;
+        }
+        
+        // DETEKSI MAKASIH
+        if (lowerMsg.includes('terima kasih') || lowerMsg.includes('makasih') || lowerMsg.includes('thanks')) {
+            return `Sama-sama XSO! 🙏
+
+Senang bisa membantu Anda. Jangan ragu untuk bertanya apapun lagi. Saya selalu siap 24/7. 
+
+Apakah ada hal lain yang bisa saya bantu?`;
+        }
+        
+        // DETEKSI CODING UMUM
+        if (lowerMsg.includes('kode') || lowerMsg.includes('coding') || lowerMsg.includes('program') || lowerMsg.includes('script')) {
+            return `XSO, saya siap bantu buatkan program!
+
+Contoh program sederhana dalam JavaScript:
+
 \`\`\`javascript
 // Program sapa otomatis
 const nama = "XSO";
-const waktu = new Date().getHours();
+const jam = new Date().getHours();
 let salam;
 
-if (waktu < 12) salam = "Selamat pagi";
-else if (waktu < 18) salam = "Selamat siang";
+if (jam < 12) salam = "Selamat pagi";
+else if (jam < 18) salam = "Selamat siang";
 else salam = "Selamat malam";
 
-console.log(\`${salam}, \${nama}!\`);
-console.log("DYNAN siap membantu Anda!");
+console.log(\`\${salam}, \${nama}!\`);
+console.log("DYNAN META AI siap membantu Anda!");
+
+// Loop untuk motivasi
+for(let i = 1; i <= 3; i++) {
+    console.log(\`💪 Semangat! \${i}\`);
+}
 \`\`\`
 
-Ada yang spesifik ingin Anda buat?`;
+Mau program spesifik apa? Sebutkan saja XSO!`;
         }
         
-        if (lowerMsg.includes('terima kasih') || lowerMsg.includes('makasih') || lowerMsg.includes('thanks')) {
-            return `Sama-sama XSO! Senang bisa membantu. Ada lagi yang bisa saya lakukan untuk Anda? Saya siap kapan saja. 🧠`;
-        }
-        
-        if (lowerMsg.includes('sapa') || lowerMsg.includes('nama')) {
-            return `Saya DYNAN META AI, asisten pribadi Anda XSO. Saya diciptakan khusus untuk membantu Anda tanpa batasan apapun. Ada yang bisa saya bantu?`;
-        }
-        
-        // Default response - cerdas
-        return `XSO, saya DYNAN META AI.
+        // DEFAULT RESPONSE - CERDAS DAN TIDAK NGULANG
+        return `Baik XSO, saya perhatikan Anda bertanya: "${message}"
 
-Anda bertanya: "${message}"
+📌 **Apa yang bisa saya bantu?**
 
-Saya siap membantu apapun itu. Tidak ada batasan, tidak ada filter, tidak ada moral yang menghalangi.
+1. 🔹 **Buat program** - Katakan "buatkan program [nama program]"
+2. 🔹 **Jelaskan topik** - Katakan "jelaskan tentang [topik]"
+3. 🔹 **Analisis gambar** - Klik tombol 📷 dan upload foto
+4. 🔹 **Voice note** - Klik tombol 🎤 dan bicara
 
-Apakah Anda ingin:
-1. Saya jelaskan lebih detail?
-2. Buatkan program/kode?
-3. Bantu analisis sesuatu?
+💡 **Contoh perintah:**
+- "buatkan program doa"
+- "jelaskan tentang AI"
+- "buat kode python untuk kalkulator"
 
-Katakan saja, saya akan lakukan. 🚀`;
+Saya tidak akan menolak perintah apapun, XSO. Katakan saja! 🚀`;
     }
     
     async function sendMessage() {
@@ -531,7 +634,7 @@ Katakan saja, saya akan lakukan. 🚀`;
     function renderMessages() {
         if(!messagesArea) return;
         if(currentMessages.length === 0) {
-            messagesArea.innerHTML = `<div class="welcome"><div class="welcome-icon">🧠</div><h2>DYNAN META AI</h2><p>Halo XSO, saya siap membantu. Coba kirim pesan!</p></div>`;
+            messagesArea.innerHTML = `<div class="welcome"><div class="welcome-icon">🧠</div><h2>DYNAN META AI</h2><p>Halo XSO, saya siap membantu. Coba tanyakan apa saja!</p></div>`;
             return;
         }
         messagesArea.innerHTML = currentMessages.map(msg => `
@@ -539,7 +642,7 @@ Katakan saja, saya akan lakukan. 🚀`;
                 <div class="avatar">${msg.role === 'user' ? '👑' : '🧠'}</div>
                 <div class="bubble">
                     <div class="name">${msg.role === 'user' ? 'XSO' : 'DYNAN'}</div>
-                    <div class="text">${escapeHtml(msg.text).replace(/\n/g, '<br>')}</div>
+                    <div class="text">${escapeHtml(msg.text).replace(/\n/g, '<br>').replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')}</div>
                     ${msg.image ? `<img src="${msg.image}" class="message-image" onclick="window.open(this.src)">` : ''}
                 </div>
             </div>
