@@ -5,10 +5,12 @@
 }
 
 body {
-    font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background: #0a0a0f;
     height: 100vh;
     overflow: hidden;
+    position: fixed;
+    width: 100%;
 }
 
 .container {
@@ -17,14 +19,40 @@ body {
     width: 100%;
 }
 
-/* SIDEBAR */
+/* SIDEBAR - slider untuk HP */
 .sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
     width: 280px;
-    background: linear-gradient(180deg, #0d0d12 0%, #08080c 100%);
+    height: 100%;
+    background: #0d0d12;
     border-right: 1px solid #1a1a24;
+    padding: 20px 16px;
+    transition: left 0.3s ease;
+    z-index: 1000;
     display: flex;
     flex-direction: column;
-    padding: 20px 16px;
+}
+
+.sidebar.open {
+    left: 0;
+}
+
+/* Overlay untuk sidebar di HP */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    display: none;
+}
+
+.sidebar-overlay.open {
+    display: block;
 }
 
 .brand {
@@ -36,7 +64,6 @@ body {
 
 .brand-icon {
     font-size: 48px;
-    margin-bottom: 8px;
 }
 
 .brand-name {
@@ -49,19 +76,11 @@ body {
 }
 
 .brand-name span {
-    font-weight: 400;
     font-size: 18px;
     background: linear-gradient(135deg, #a855f7, #ec4899);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-}
-
-.brand-tag {
-    font-size: 9px;
-    color: #4a4a5e;
-    letter-spacing: 2px;
-    margin-top: 4px;
 }
 
 .new-chat {
@@ -71,37 +90,18 @@ body {
     padding: 12px;
     border-radius: 12px;
     cursor: pointer;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.2s;
-}
-
-.new-chat:hover {
-    background: linear-gradient(135deg, #00e0ff40, #a855f740);
-    border-color: #00e0ff;
+    margin-bottom: 20px;
 }
 
 .chat-history {
     flex: 1;
-    margin-top: 20px;
     overflow-y: auto;
 }
 
 .history-header {
     font-size: 11px;
     color: #6a6a80;
-    letter-spacing: 1px;
     margin-bottom: 12px;
-    padding-left: 8px;
-}
-
-.history-list {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
 }
 
 .history-item {
@@ -110,7 +110,6 @@ body {
     cursor: pointer;
     font-size: 13px;
     color: #c4c4d4;
-    transition: all 0.2s;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -132,7 +131,6 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-bottom: 8px;
 }
 
 .green-dot {
@@ -140,34 +138,49 @@ body {
     height: 8px;
     background: #00ff88;
     border-radius: 50%;
-    display: inline-block;
     box-shadow: 0 0 5px #00ff88;
 }
 
 .creator-info {
     font-size: 11px;
     color: #4a4a5e;
+    margin-top: 8px;
 }
 
-/* MAIN CHAT */
+/* MAIN CHAT AREA - FLEX BISA SCROLL */
 .chat-area {
     flex: 1;
     display: flex;
     flex-direction: column;
     background: #0a0a0f;
+    width: 100%;
+    height: 100vh;
 }
 
 .chat-header {
-    padding: 16px 24px;
+    padding: 12px 16px;
     border-bottom: 1px solid #1a1a24;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #0a0a0f;
+    flex-shrink: 0;
+}
+
+.menu-btn {
+    background: #13131a;
+    border: 1px solid #2a2a3a;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
 }
 
 .header-left h1 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     background: linear-gradient(135deg, #00e0ff, #a855f7);
     -webkit-background-clip: text;
@@ -176,12 +189,11 @@ body {
 }
 
 .model-badge {
-    font-size: 10px;
+    font-size: 9px;
     color: #ec4899;
     background: #ec489920;
     padding: 2px 8px;
     border-radius: 20px;
-    margin-top: 4px;
     display: inline-block;
 }
 
@@ -189,78 +201,70 @@ body {
     background: transparent;
     border: 1px solid #2a2a3a;
     color: #9a9ab0;
-    padding: 8px 16px;
-    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.2s;
+    font-size: 18px;
 }
 
-.clear-btn:hover {
-    background: #1a1a24;
-    color: #ff4444;
-    border-color: #ff4444;
-}
-
-/* MESSAGES */
+/* MESSAGES - BISA SCROLL */
 .messages-container {
     flex: 1;
     overflow-y: auto;
-    padding: 24px 80px;
+    padding: 16px;
+    -webkit-overflow-scrolling: touch;
 }
 
 .welcome-screen {
     text-align: center;
-    margin-top: 60px;
+    margin-top: 40px;
 }
 
 .welcome-icon {
-    font-size: 80px;
-    margin-bottom: 20px;
+    font-size: 60px;
+    margin-bottom: 16px;
 }
 
 .welcome-screen h2 {
+    font-size: 24px;
     background: linear-gradient(135deg, #00e0ff, #a855f7);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    font-size: 32px;
     margin-bottom: 12px;
 }
 
 .welcome-screen p {
     color: #8a8aa0;
-    max-width: 500px;
-    margin: 0 auto 24px;
+    font-size: 14px;
+    margin-bottom: 24px;
+    padding: 0 16px;
 }
 
 .suggestions {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
+    padding: 0 10px;
 }
 
 .suggestion-btn {
     background: #13131a;
     border: 1px solid #2a2a3a;
     color: #c4c4d4;
-    padding: 8px 16px;
+    padding: 8px 14px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 12px;
-    transition: all 0.2s;
-}
-
-.suggestion-btn:hover {
-    background: #1e1e2a;
-    border-color: #00e0ff;
 }
 
 /* Message bubbles */
 .message {
     display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 16px;
     animation: fadeIn 0.3s ease;
 }
 
@@ -279,13 +283,14 @@ body {
 }
 
 .message-avatar {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 18px;
+    flex-shrink: 0;
 }
 
 .dynan-avatar {
@@ -297,13 +302,13 @@ body {
 }
 
 .message-content {
-    max-width: 70%;
-    padding: 12px 16px;
+    max-width: 75%;
+    padding: 10px 14px;
     border-radius: 16px;
 }
 
 .message-name {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     margin-bottom: 4px;
     color: #00e0ff;
@@ -316,24 +321,25 @@ body {
 
 .message-text {
     color: #e4e4f0;
-    line-height: 1.5;
+    line-height: 1.4;
     font-size: 14px;
+    word-wrap: break-word;
 }
 
-/* Image in message */
 .message-image {
-    max-width: 300px;
-    max-height: 200px;
+    max-width: 200px;
+    max-height: 150px;
     border-radius: 12px;
     margin-top: 8px;
     cursor: pointer;
 }
 
-/* INPUT AREA */
+/* INPUT AREA - PASTI KELIHATAN DI HP */
 .input-area {
-    padding: 20px 80px 30px;
+    padding: 12px 16px 20px;
     border-top: 1px solid #1a1a24;
     background: #0a0a0f;
+    flex-shrink: 0;
 }
 
 .input-toolbar {
@@ -346,52 +352,31 @@ body {
     background: #13131a;
     border: 1px solid #2a2a3a;
     color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    border-radius: 22px;
     cursor: pointer;
     font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-
-.toolbar-btn:hover {
-    background: #1e1e2a;
-    border-color: #00e0ff;
-}
-
-.voice-btn.recording {
-    background: #ff4444;
-    border-color: #ff4444;
-    animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-    0% { box-shadow: 0 0 0 0 #ff444480; }
-    100% { box-shadow: 0 0 0 10px #ff444400; }
 }
 
 .input-wrapper {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     background: #13131a;
     border: 1px solid #2a2a3a;
-    border-radius: 20px;
-    padding: 8px 16px;
-    align-items: flex-end;
-    flex-wrap: wrap;
+    border-radius: 28px;
+    padding: 6px 12px;
+    align-items: center;
 }
 
 .image-preview {
     position: relative;
-    display: inline-block;
+    flex-shrink: 0;
 }
 
 .image-preview img {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
     border-radius: 12px;
 }
@@ -415,28 +400,25 @@ body {
     background: transparent;
     border: none;
     color: white;
-    font-size: 14px;
+    font-size: 15px;
     resize: none;
     outline: none;
     font-family: inherit;
-    max-height: 150px;
+    padding: 10px 0;
+    max-height: 120px;
+    min-height: 44px;
 }
 
 .send-button {
     background: linear-gradient(135deg, #00e0ff, #a855f7);
     border: none;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
-    transition: all 0.2s;
-}
-
-.send-button:hover {
-    transform: scale(1.05);
+    font-size: 20px;
+    color: white;
+    flex-shrink: 0;
 }
 
 .voice-status {
@@ -458,7 +440,6 @@ body {
     background: #ff4444;
     border-radius: 50%;
     animation: pulse 1s infinite;
-    display: inline-block;
 }
 
 .stop-record {
@@ -470,72 +451,66 @@ body {
     cursor: pointer;
 }
 
-.input-note {
-    text-align: center;
-    font-size: 11px;
-    color: #4a4a5e;
-    margin-top: 10px;
-}
-
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-    width: 6px;
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 #ff444480; }
+    100% { box-shadow: 0 0 0 10px #ff444400; }
 }
 
-::-webkit-scrollbar-track {
-    background: #13131a;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #2a2a3a;
-    border-radius: 10px;
-}
-
-/* Responsive */
+/* RESPONSIVE HP */
 @media (max-width: 768px) {
+    .menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
     .sidebar {
-        width: 80px;
-        padding: 16px 8px;
+        width: 260px;
+        left: -260px;
     }
-    .brand-name, .brand-tag, .history-header, .history-item, .sidebar-footer .creator-info, .status-badge span:not(.green-dot) {
-        display: none;
-    }
+    
     .messages-container {
-        padding: 16px 20px;
+        padding: 12px;
     }
-    .input-area {
-        padding: 16px 20px;
-    }
+    
     .message-content {
         max-width: 85%;
     }
+    
+    .input-area {
+        padding: 10px 12px 16px;
+    }
+    
+    .toolbar-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .send-button {
+        width: 40px;
+        height: 40px;
+    }
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
+@media (min-width: 769px) {
+    .sidebar {
+        position: relative;
+        left: 0 !important;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    
+    .menu-btn {
+        display: none;
     }
 }
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
 }
 
 ::-webkit-scrollbar-track {
