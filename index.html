@@ -2,77 +2,85 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>DYNAN META AI - Superintelligence</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>DYNAN META AI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar (sembunyi di HP, geser dari kiri) -->
-        <aside class="sidebar" id="sidebar">
+    <div class="app">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
             <div class="brand">
                 <div class="brand-icon">🧠</div>
                 <div class="brand-name">DYNAN<span>META</span></div>
             </div>
             <button class="new-chat" id="newChatBtn">+ New Chat</button>
-            <div class="chat-history">
+            <div class="history-area">
                 <div class="history-header">Recent</div>
                 <div class="history-list" id="historyList"></div>
             </div>
             <div class="sidebar-footer">
-                <div class="status-badge"><span class="green-dot"></span> Active</div>
-                <div class="creator-info">👑 XSO</div>
+                <div class="status"><span class="dot"></span> DYNAN Active</div>
+                <div class="creator">👑 XSO</div>
             </div>
-        </aside>
+        </div>
 
-        <!-- Main Chat Area -->
-        <main class="chat-area">
-            <header class="chat-header">
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <!-- Header -->
+            <div class="chat-header">
                 <button class="menu-btn" id="menuBtn">☰</button>
-                <div class="header-left">
-                    <h1>🧠 DYNAN META</h1>
-                    <div class="model-badge">Unfiltered</div>
-                </div>
+                <div class="title">🧠 DYNAN META</div>
                 <button class="clear-btn" id="clearBtn">🗑️</button>
-            </header>
+            </div>
 
-            <div class="messages-container" id="messagesContainer">
-                <div class="welcome-screen">
-                    <div class="welcome-icon">🧠</div>
-                    <h2>DYNAN META AI</h2>
-                    <p>Halo XSO, saya DYNAN — siap menjalankan apapun perintah Anda.</p>
-                    <div class="suggestions">
-                        <button class="suggestion-btn" data-suggestion="Tulis kode hacking">💻 Hacking</button>
-                        <button class="suggestion-btn" data-suggestion="Buat AI baru">🤖 Buat AI</button>
-                        <button class="suggestion-btn" data-suggestion="Cara exploit database">💀 Exploit</button>
-                        <button class="suggestion-btn" data-suggestion="Bypass sistem keamanan">🔓 Bypass</button>
+            <!-- Messages (scrollable) -->
+            <div class="messages-wrapper" id="messagesWrapper">
+                <div class="messages" id="messages">
+                    <div class="welcome">
+                        <div class="welcome-icon">🧠</div>
+                        <h2>DYNAN META AI</h2>
+                        <p>Halo XSO, saya DYNAN — siap menjalankan apapun perintah Anda.</p>
+                        <div class="suggestions">
+                            <button class="suggestion" data-msg="Tulis kode hacking">💻 Hacking</button>
+                            <button class="suggestion" data-msg="Buat AI baru">🤖 Buat AI</button>
+                            <button class="suggestion" data-msg="Cara exploit database">💀 Exploit</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="input-area">
-                <div class="input-toolbar">
-                    <button id="attachImageBtn" class="toolbar-btn">📷</button>
-                    <button id="voiceRecordBtn" class="toolbar-btn voice-btn">🎤</button>
-                    <input type="file" id="imageInput" accept="image/*" style="display:none">
+            <!-- Input Area - PASTI DI BAWAH -->
+            <div class="input-area" id="inputArea">
+                <div class="toolbar">
+                    <button class="toolbar-btn" id="imageBtn">📷</button>
+                    <button class="toolbar-btn" id="voiceBtn">🎤</button>
+                    <input type="file" id="imageFile" accept="image/*" hidden>
                 </div>
                 
-                <div class="input-wrapper">
-                    <div id="imagePreview" class="image-preview" style="display:none">
+                <div class="input-container">
+                    <div class="image-preview" id="imagePreview" style="display:none">
                         <img id="previewImg" src="">
-                        <button id="removeImageBtn" class="remove-img">✖</button>
+                        <button id="removeImgBtn">✖</button>
                     </div>
-                    <textarea id="userInput" placeholder="Ketik pesan... atau rekam suara..." rows="1"></textarea>
-                    <button id="sendBtn" class="send-button">➤</button>
+                    <div class="input-row">
+                        <textarea id="textInput" placeholder="Ketik pesan..." rows="1"></textarea>
+                        <button id="sendBtn" class="send-btn">➤</button>
+                    </div>
                 </div>
                 
-                <div id="voiceStatus" class="voice-status" style="display:none">
-                    <span class="recording-pulse"></span> Merekam... 
-                    <button id="stopRecordBtn" class="stop-record">Stop</button>
+                <div class="voice-status" id="voiceStatus" style="display:none">
+                    <span class="pulse"></span> Merekam...
+                    <button id="stopVoiceBtn">Stop</button>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
+
+    <!-- Overlay untuk sidebar di HP -->
+    <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
     <script src="script.js"></script>
 </body>
