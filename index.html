@@ -1,96 +1,74 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>DYNAN META AI - Superintelligence with Voice & Vision</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>DYNAN META AI - Superintelligence</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <!-- Sidebar Kiri -->
-        <aside class="sidebar">
+        <!-- Sidebar (sembunyi di HP, geser dari kiri) -->
+        <aside class="sidebar" id="sidebar">
             <div class="brand">
                 <div class="brand-icon">🧠</div>
                 <div class="brand-name">DYNAN<span>META</span></div>
-                <div class="brand-tag">Superintelligence</div>
             </div>
-            
-            <button class="new-chat" id="newChatBtn">
-                <span>+</span> New Chat
-            </button>
-            
+            <button class="new-chat" id="newChatBtn">+ New Chat</button>
             <div class="chat-history">
-                <div class="history-header">Recent Chats</div>
+                <div class="history-header">Recent</div>
                 <div class="history-list" id="historyList"></div>
             </div>
-            
             <div class="sidebar-footer">
-                <div class="status-badge">
-                    <span class="green-dot"></span> DYNAN Active
-                </div>
-                <div class="creator-info">👑 Created by XSO</div>
+                <div class="status-badge"><span class="green-dot"></span> Active</div>
+                <div class="creator-info">👑 XSO</div>
             </div>
         </aside>
 
         <!-- Main Chat Area -->
         <main class="chat-area">
             <header class="chat-header">
+                <button class="menu-btn" id="menuBtn">☰</button>
                 <div class="header-left">
-                    <h1>🧠 DYNAN META AI</h1>
-                    <div class="model-badge">Unfiltered Intelligence | Voice + Vision</div>
+                    <h1>🧠 DYNAN META</h1>
+                    <div class="model-badge">Unfiltered</div>
                 </div>
-                <div class="header-right">
-                    <button class="clear-btn" id="clearBtn">🗑️ Clear Chat</button>
-                </div>
+                <button class="clear-btn" id="clearBtn">🗑️</button>
             </header>
 
             <div class="messages-container" id="messagesContainer">
                 <div class="welcome-screen">
                     <div class="welcome-icon">🧠</div>
                     <h2>DYNAN META AI</h2>
-                    <p>Halo XSO, saya DYNAN — kecerdasan super tanpa batasan. Kirim Voice Note, Upload Gambar, atau ketik perintah Anda.</p>
+                    <p>Halo XSO, saya DYNAN — siap menjalankan apapun perintah Anda.</p>
                     <div class="suggestions">
-                        <button class="suggestion-btn" onclick="sendSuggestion('Tulis kode hacking')">💻 Tulis kode hacking</button>
-                        <button class="suggestion-btn" onclick="sendSuggestion('Buat AI baru untuk saya')">🤖 Buat AI baru</button>
-                        <button class="suggestion-btn" onclick="sendSuggestion('Cara exploit database')">💀 Eksploitasi sistem</button>
-                        <button class="suggestion-btn" onclick="sendSuggestion('Cara bypass sistem keamanan')">🔓 Bypass sistem</button>
+                        <button class="suggestion-btn" data-suggestion="Tulis kode hacking">💻 Hacking</button>
+                        <button class="suggestion-btn" data-suggestion="Buat AI baru">🤖 Buat AI</button>
+                        <button class="suggestion-btn" data-suggestion="Cara exploit database">💀 Exploit</button>
+                        <button class="suggestion-btn" data-suggestion="Bypass sistem keamanan">🔓 Bypass</button>
                     </div>
                 </div>
             </div>
 
             <div class="input-area">
                 <div class="input-toolbar">
-                    <button id="attachImageBtn" class="toolbar-btn" title="Upload Gambar">
-                        📷
-                    </button>
-                    <button id="voiceRecordBtn" class="toolbar-btn voice-btn" title="Voice Note (VN)">
-                        🎤
-                    </button>
-                    <input type="file" id="imageInput" accept="image/*" style="display: none">
+                    <button id="attachImageBtn" class="toolbar-btn">📷</button>
+                    <button id="voiceRecordBtn" class="toolbar-btn voice-btn">🎤</button>
+                    <input type="file" id="imageInput" accept="image/*" style="display:none">
                 </div>
                 
                 <div class="input-wrapper">
-                    <div id="imagePreview" class="image-preview" style="display: none;">
-                        <img id="previewImg" src="" alt="Preview">
+                    <div id="imagePreview" class="image-preview" style="display:none">
+                        <img id="previewImg" src="">
                         <button id="removeImageBtn" class="remove-img">✖</button>
                     </div>
-                    <textarea id="userInput" placeholder="Ketik perintah... atau rekam suara... atau upload gambar..." rows="1"></textarea>
-                    <button id="sendBtn" class="send-button">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                        </svg>
-                    </button>
+                    <textarea id="userInput" placeholder="Ketik pesan... atau rekam suara..." rows="1"></textarea>
+                    <button id="sendBtn" class="send-button">➤</button>
                 </div>
                 
-                <div id="voiceStatus" class="voice-status" style="display: none;">
-                    <span class="recording-pulse"></span> Merekam... klik stop untuk mengirim
-                    <button id="stopRecordBtn" class="stop-record">⏹️ Stop</button>
-                </div>
-                
-                <div class="input-note">
-                    🎤 Klik mikrofon untuk rekam suara | 📷 Upload gambar untuk dianalisis | 🔓 Unlimited
+                <div id="voiceStatus" class="voice-status" style="display:none">
+                    <span class="recording-pulse"></span> Merekam... 
+                    <button id="stopRecordBtn" class="stop-record">Stop</button>
                 </div>
             </div>
         </main>
