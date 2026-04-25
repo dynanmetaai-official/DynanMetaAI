@@ -1,7 +1,7 @@
 // DYNAN META AI - Powered by DeepSeek API
 // Semua respons akan mengatasnamakan DYNAN, bukan DeepSeek
 
-const DEEPSEEK_API_KEY = 'YOUR_DEEPSEEK_API_KEY_HERE'; // Ganti dengan API key Anda
+const DEEPSEEK_API_KEY = 'sk-24cea70c45984c32abc20a883f38842b'; // Ganti dengan API key Anda
 const API_URL = 'https://api.deepseek.com/v1/chat/completions';
 
 let chatHistory = [];
