@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>NANN META AI · DeepSeek</title>
+  <title>NANN META AI · GEMINI</title>
   <style>
     * {
       margin: 0;
@@ -22,7 +22,6 @@
       padding: 12px;
     }
 
-    /* wadah utama — mirip screen HP */
     .ai-container {
       max-width: 500px;
       width: 100%;
@@ -36,10 +35,8 @@
       flex-direction: column;
       height: 85vh;
       max-height: 780px;
-      transition: all 0.2s ease;
     }
 
-    /* header dengan gradien futuristik */
     .ai-header {
       padding: 20px 22px 12px 22px;
       background: linear-gradient(135deg, rgba(10, 20, 40, 0.9) 0%, rgba(5, 12, 24, 0.95) 100%);
@@ -50,12 +47,10 @@
     .ai-header h1 {
       font-size: 1.85rem;
       font-weight: 700;
-      letter-spacing: -0.3px;
       background: linear-gradient(120deg, #ffffff, #88ddff, #6a9eff);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      text-shadow: 0 2px 3px rgba(0,0,0,0.2);
     }
 
     .badge-version {
@@ -68,10 +63,8 @@
       margin-top: 6px;
       color: #aaf0ff;
       border: 0.5px solid rgba(100, 200, 255, 0.5);
-      font-weight: 500;
     }
 
-    /* area chat — scroll halus */
     .chat-area {
       flex: 1;
       overflow-y: auto;
@@ -82,19 +75,14 @@
       scroll-behavior: smooth;
     }
 
-    /* custom scroll */
     .chat-area::-webkit-scrollbar {
       width: 4px;
-    }
-    .chat-area::-webkit-scrollbar-track {
-      background: transparent;
     }
     .chat-area::-webkit-scrollbar-thumb {
       background: #2c5a7a;
       border-radius: 10px;
     }
 
-    /* bubble umum */
     .message {
       display: flex;
       align-items: flex-start;
@@ -144,7 +132,6 @@
     .bot-message .avatar {
       background: linear-gradient(145deg, #162b3a, #0a1620);
       border: 0.5px solid #94e0ff;
-      box-shadow: 0 0 6px rgba(0,200,255,0.3);
     }
 
     .bubble {
@@ -156,14 +143,12 @@
       line-height: 1.45;
       color: #f0f3fa;
       word-break: break-word;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       border: 0.5px solid rgba(120, 200, 255, 0.2);
     }
 
     .user-message .bubble {
       background: linear-gradient(135deg, #1f3a5f, #10263f);
       border-bottom-right-radius: 10px;
-      color: white;
     }
 
     .bot-message .bubble {
@@ -172,7 +157,6 @@
       border-left: 2px solid #2bc0ff;
     }
 
-    /* loading dot animasi */
     .typing-indicator {
       display: flex;
       gap: 6px;
@@ -180,7 +164,6 @@
       background: rgba(18, 28, 40, 0.8);
       border-radius: 40px;
       width: fit-content;
-      backdrop-filter: blur(8px);
     }
     .typing-dot {
       width: 8px;
@@ -196,7 +179,6 @@
       30% { transform: scale(1.1); opacity: 1; }
     }
 
-    /* input area */
     .input-area {
       background: rgba(10, 18, 28, 0.85);
       backdrop-filter: blur(20px);
@@ -215,7 +197,6 @@
       display: flex;
       align-items: center;
       padding: 4px 8px 4px 18px;
-      transition: all 0.2s;
     }
     .input-wrapper:focus-within {
       border-color: #3ebcff;
@@ -230,11 +211,9 @@
       font-size: 1rem;
       color: #eff3ff;
       outline: none;
-      font-weight: 500;
     }
     #userInput::placeholder {
       color: #8fabc3;
-      font-weight: 400;
     }
 
     #sendBtn {
@@ -248,9 +227,8 @@
       justify-content: center;
       cursor: pointer;
       transition: 0.2s;
-      box-shadow: 0 2px 10px rgba(0,160,255,0.3);
     }
-    #sendBtn:active { transform: scale(0.94); opacity: 0.9; }
+    #sendBtn:active { transform: scale(0.94); }
     #sendBtn svg {
       width: 22px;
       height: 22px;
@@ -259,30 +237,12 @@
       fill: none;
     }
 
-    /* pesan error/info kecil */
     .info-note {
       text-align: center;
       font-size: 0.7rem;
       padding: 8px;
       color: #93b5cf;
       background: rgba(0,0,0,0.3);
-      border-radius: 20px;
-      margin: 6px 12px;
-    }
-
-    button:active, .btn-reset:active {
-      transform: scale(0.96);
-    }
-
-    /* reset kecil */
-    .reset-btn {
-      background: transparent;
-      border: none;
-      color: #aaf0ff;
-      margin-left: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      padding: 4px;
     }
   </style>
 </head>
@@ -290,22 +250,22 @@
 
 <div class="ai-container">
   <div class="ai-header">
-    <h1>⚡ NANN META AI</h1>
-    <div class="badge-version">DeepSeek R1 · 24B/7B</div>
+    <h1>🌀 NANN META AI</h1>
+    <div class="badge-version">Gemini 2.0 Flash · Gratis</div>
   </div>
 
   <div class="chat-area" id="chatArea">
     <div class="message bot-message">
       <div class="avatar">🌀</div>
-      <div class="bubble">Halo! Saya <strong>NANN META AI</strong>, berbasis DeepSeek. Tanyakan apa saja, dan aku akan menjawab sebaik mungkin. ✨</div>
+      <div class="bubble">Halo! Saya NANN META AI. Saya pakai Google Gemini (gratis). Tanya apa aja ya! ✨</div>
     </div>
   </div>
 
   <div class="input-area">
     <div class="input-wrapper">
-      <input type="text" id="userInput" placeholder="Tanya NANN META AI..." autocomplete="off" enterkeyhint="send">
+      <input type="text" id="userInput" placeholder="Ketik pertanyaan di sini..." autocomplete="off">
     </div>
-    <button id="sendBtn" aria-label="Kirim pesan">
+    <button id="sendBtn">
       <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
         <line x1="22" y1="2" x2="11" y2="13"></line>
         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -313,47 +273,34 @@
     </button>
   </div>
   <div class="info-note">
-    🧠 DeepSeek API | Sepenuhnya responsif
+    🔑 Gratis · Dapatkan API Key di aistudio.google.com
   </div>
 </div>
 
 <script>
-  // ======================= 🔐 API KEY DEEPSEEK =======================
-  // GANTI DENGAN API KEY DEEPSEEK ANDA! (Disimpan di variabel)
-  // 🔻🔻🔻 PASTIKAN API KEY VALID 🔻🔻🔻
-  const DEEPSEEK_API_KEY = "sk-09e2ac1d87c1491896f8083a790bcf21";  
-  // ↑↑↑ gunakan API key nyata dari platform.deepseek.com ↑↑↑
-  // Catatan: contoh key diatas adalah dummy, anda harus mengganti dengan key asli.
+  // ========== GANTI DENGAN API KEY GEMINI KAMU ==========
+  // 🔻🔻🔻 AMBIL API KEY GRATIS DI aistudio.google.com 🔻🔻🔻
+  const GEMINI_API_KEY = "GANTI_DENGAN_API_KEY_GEMINI_ASLI";
   
-  const API_URL = "https://api.deepseek.com/v1/chat/completions";
+  // Model Gemini gratis terbaru
+  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
   
-  // Elemen DOM
   const chatArea = document.getElementById('chatArea');
   const userInput = document.getElementById('userInput');
   const sendBtn = document.getElementById('sendBtn');
   
-  // State
   let isLoading = false;
   
-  // Fungsi scroll otomatis ke bawah
   function scrollToBottom() {
     setTimeout(() => {
-      chatArea.scrollTo({
-        top: chatArea.scrollHeight,
-        behavior: 'smooth'
-      });
+      chatArea.scrollTop = chatArea.scrollHeight;
     }, 50);
   }
   
-  // Menampilkan pesan di chat
   function addMessage(role, content) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message');
-    if (role === 'user') {
-      messageDiv.classList.add('user-message');
-    } else {
-      messageDiv.classList.add('bot-message');
-    }
+    messageDiv.classList.add(role === 'user' ? 'user-message' : 'bot-message');
     
     const avatarSpan = document.createElement('div');
     avatarSpan.classList.add('avatar');
@@ -361,138 +308,91 @@
     
     const bubbleDiv = document.createElement('div');
     bubbleDiv.classList.add('bubble');
-    // support newline dan markdown sederhana
     bubbleDiv.innerHTML = content.replace(/\n/g, '<br>');
     
     messageDiv.appendChild(avatarSpan);
     messageDiv.appendChild(bubbleDiv);
     chatArea.appendChild(messageDiv);
     scrollToBottom();
-    return messageDiv;
   }
   
-  // Menampilkan indikator mengetik (loading)
-  let typingIndicatorDiv = null;
-  function showTypingIndicator() {
-    removeTypingIndicator();
-    const loaderWrap = document.createElement('div');
-    loaderWrap.classList.add('message', 'bot-message');
-    const avatarSpan = document.createElement('div');
-    avatarSpan.classList.add('avatar');
-    avatarSpan.innerText = '🌀';
-    const bubbleLoader = document.createElement('div');
-    bubbleLoader.classList.add('typing-indicator');
-    for (let i = 0; i < 3; i++) {
-      const dot = document.createElement('div');
-      dot.classList.add('typing-dot');
-      bubbleLoader.appendChild(dot);
-    }
-    loaderWrap.appendChild(avatarSpan);
-    loaderWrap.appendChild(bubbleLoader);
-    chatArea.appendChild(loaderWrap);
-    typingIndicatorDiv = loaderWrap;
+  let typingDiv = null;
+  function showTyping() {
+    if (typingDiv) typingDiv.remove();
+    const loader = document.createElement('div');
+    loader.classList.add('message', 'bot-message');
+    loader.innerHTML = `<div class="avatar">🌀</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+    chatArea.appendChild(loader);
+    typingDiv = loader;
     scrollToBottom();
   }
   
-  function removeTypingIndicator() {
-    if (typingIndicatorDiv && typingIndicatorDiv.parentNode) {
-      typingIndicatorDiv.remove();
-      typingIndicatorDiv = null;
+  function hideTyping() {
+    if (typingDiv) {
+      typingDiv.remove();
+      typingDiv = null;
     }
   }
   
-  // Fungsi panggil DeepSeek API
-  async function askDeepSeek(userQuestion) {
-    if (!DEEPSEEK_API_KEY || DEEPSEEK_API_KEY === "sk-4e2a3f1c7d9b8a5e6f7c8b9a0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f") {
-      return "⚠️ **API Key belum diatur dengan benar** ⚠️\n\nSilakan ganti variabel `DEEPSEEK_API_KEY` dengan kunci API asli dari DeepSeek. (Dapatkan di platform.deepseek.com)";
+  async function askGemini(question) {
+    if (!GEMINI_API_KEY || GEMINI_API_KEY === "GANTI_DENGAN_API_KEY_GEMINI_ASLI") {
+      return "⚠️ **API Key belum diisi!** ⚠️\n\nCara dapatkan:\n1. Buka aistudio.google.com\n2. Login pake Gmail\n3. Klik 'Get API Key'\n4. Copy & ganti di kode ini";
     }
     
     try {
       const response = await fetch(API_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: "deepseek-chat",  // model deepseek terbaru
-          messages: [
-            { role: "system", content: "Kamu adalah NANN META AI, asisten cerdas yang ramah, informatif, dan menggunakan bahasa Indonesia yang natural. Jawab pertanyaan dengan tepat, jelas, dan ringkas. Jika ditanya hal di luar pengetahuan, akui dengan jujur." },
-            { role: "user", content: userQuestion }
-          ],
-          temperature: 0.7,
-          max_tokens: 800,
-          top_p: 0.95,
-          stream: false
+          contents: [{
+            parts: [{ text: `Kamu adalah NANN META AI, asisten AI yang ramah dan membantu. Gunakan bahasa Indonesia. Jawab pertanyaan berikut: ${question}` }]
+          }],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 800,
+          }
         })
       });
       
-      if (!response.ok) {
-        let errorDetail = `HTTP ${response.status}`;
-        try {
-          const errData = await response.json();
-          errorDetail = errData.error?.message || JSON.stringify(errData);
-        } catch(e) {}
-        throw new Error(`API error: ${errorDetail}`);
+      const data = await response.json();
+      
+      if (data.error) {
+        return `❌ Error API: ${data.error.message}\n\n💡 Solusi: Pastikan API KEY benar dan sudah diaktifkan di Google AI Studio.`;
       }
       
-      const data = await response.json();
-      if (data && data.choices && data.choices.length > 0) {
-        let reply = data.choices[0].message.content;
-        // sedikit filter untuk tampilan
-        return reply.trim();
-      } else {
-        return "Maaf, saya tidak mendapatkan respons yang valid dari server. Coba lagi ya.";
+      if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
+        return data.candidates[0].content.parts[0].text;
       }
+      
+      return "Maaf, NANN META AI tidak bisa menjawab saat ini. Coba lagi ya.";
     } catch (error) {
-      console.error("DeepSeek API Error:", error);
-      let errorMsg = "❌ **Gagal terhubung ke NANN META AI** ❌\n\n";
-      if (error.message.includes("API key")) {
-        errorMsg += "API Key tidak valid atau belum diset. Periksa kembali kunci DeepSeek Anda.";
-      } else if (error.message.includes("fetch")) {
-        errorMsg += "Cek koneksi internet atau CORS. Pastikan API key benar dan endpoint aktif.";
-      } else {
-        errorMsg += `Detail: ${error.message.substring(0, 150)}`;
-      }
-      return errorMsg;
+      return `❌ Gagal koneksi ke Gemini:\n${error.message}\n\nCek koneksi internet atau API Key.`;
     }
   }
   
-  // Proses pengiriman pesan
   async function sendMessage() {
     if (isLoading) return;
     const question = userInput.value.trim();
     if (!question) return;
     
-    // disable input selama proses
     isLoading = true;
     sendBtn.disabled = true;
     userInput.disabled = true;
     
-    // 1. tampilkan pesan user
     addMessage('user', question);
     userInput.value = '';
     
-    // 2. tampilkan indikator mengetik AI
-    showTypingIndicator();
+    showTyping();
+    const answer = await askGemini(question);
+    hideTyping();
+    addMessage('bot', answer);
     
-    // 3. panggil API
-    const aiAnswer = await askDeepSeek(question);
-    
-    // 4. hapus indicator
-    removeTypingIndicator();
-    
-    // 5. tampilkan jawaban bot
-    addMessage('bot', aiAnswer);
-    
-    // re-enable
     isLoading = false;
     sendBtn.disabled = false;
     userInput.disabled = false;
     userInput.focus();
   }
   
-  // event handler
   sendBtn.addEventListener('click', sendMessage);
   userInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter' && !isLoading) {
@@ -501,54 +401,10 @@
     }
   });
   
-  // Optional: Hapus Chat (karena tidak ada tombol reset, tapi pengguna bisa refresh atau tambahan kecil)
-  // tambahkan fitur reset dengan double tap header?  biar clean. Di info-note bisa klik reset ringan
-  // Saya tambahkan reset ringan tanpa reload halaman (opsional)
-  const headerEl = document.querySelector('.ai-header');
-  let resetToast = false;
-  headerEl.addEventListener('dblclick', () => {
-    if (confirm('🗑️ Reset semua percakapan? (Chat akan dikosongkan)')){
-      // Hapus semua pesan kecuali pesan sambutan awal pertama
-      while(chatArea.children.length > 0) {
-        chatArea.removeChild(chatArea.firstChild);
-      }
-      // tambahkan pesan bot fresh
-      const welcomeMsg = document.createElement('div');
-      welcomeMsg.classList.add('message', 'bot-message');
-      welcomeMsg.innerHTML = `<div class="avatar">🌀</div><div class="bubble">Halo! Saya <strong>NANN META AI</strong>, berbasis DeepSeek. Tanyakan apa saja, dan aku akan menjawab sebaik mungkin. ✨</div>`;
-      chatArea.appendChild(welcomeMsg);
-      scrollToBottom();
-      // hapus indikator loading jika ada
-      removeTypingIndicator();
-      isLoading = false;
-      sendBtn.disabled = false;
-      userInput.disabled = false;
-    }
-  });
-  
-  // cegah error kirim saat loading selesai api key dummy
-  window.addEventListener('load', () => {
-    // jika API key masih dummy tampilkan peringatan di console dan catatan di chat? bisa tambahkan pesan hati2
-    if (DEEPSEEK_API_KEY === "sk-09e2ac1d87c1491896f8083a790bcf21") {
-      const warnMsg = document.createElement('div');
-      warnMsg.classList.add('message', 'bot-message');
-      warnMsg.innerHTML = `<div class="avatar">⚠️</div><div class="bubble" style="background:#2a1f1f; border-left-color:#ff9966;"><strong>Perhatian:</strong> API Key DeepSeek belum diganti! <br>📍 Ganti variabel <code style="background:#00000066; padding:2px 6px; border-radius:12px;">DEEPSEEK_API_KEY</code> dengan key asli dari platform.deepseek.com agar AI bisa menjawab dengan sempurna. 🔑</div>`;
-      chatArea.appendChild(warnMsg);
-      scrollToBottom();
-    }
-  });
-  
-  // Auto-focus dan atur tinggi area agar tetap nyaman di hp
-  userInput.focus();
-  // optional: menangani saat keyboard mobile, scroll ke bawah tetap aman
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      scrollToBottom();
-    }, 150);
-  });
+  // Pesan peringatan jika API Key masih default
+  if (GEMINI_API_KEY === "GANTI_DENGAN_API_KEY_GEMINI_ASLI") {
+    addMessage('bot', "🔑 **Pertama, kamu harus ganti API Key-nya!**\n\nLangkah:\n1. Buka aistudio.google.com\n2. Login pake email Google\n3. Klik 'Get API Key' → buat & copy\n4. Ganti text `GANTI_DENGAN_API_KEY_GEMINI_ASLI` dengan key asli kamu.\n\nSetelah itu refresh halaman ini dan chat bisa jalan! ✅");
+  }
 </script>
 </body>
 </html>
-```
