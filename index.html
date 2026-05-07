@@ -529,7 +529,7 @@
   // cegah error kirim saat loading selesai api key dummy
   window.addEventListener('load', () => {
     // jika API key masih dummy tampilkan peringatan di console dan catatan di chat? bisa tambahkan pesan hati2
-    if (DEEPSEEK_API_KEY === "sk-4e2a3f1c7d9b8a5e6f7c8b9a0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f") {
+    if (DEEPSEEK_API_KEY === "sk-09e2ac1d87c1491896f8083a790bcf21") {
       const warnMsg = document.createElement('div');
       warnMsg.classList.add('message', 'bot-message');
       warnMsg.innerHTML = `<div class="avatar">⚠️</div><div class="bubble" style="background:#2a1f1f; border-left-color:#ff9966;"><strong>Perhatian:</strong> API Key DeepSeek belum diganti! <br>📍 Ganti variabel <code style="background:#00000066; padding:2px 6px; border-radius:12px;">DEEPSEEK_API_KEY</code> dengan key asli dari platform.deepseek.com agar AI bisa menjawab dengan sempurna. 🔑</div>`;
