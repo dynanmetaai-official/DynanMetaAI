@@ -273,16 +273,15 @@
     </button>
   </div>
   <div class="info-note">
-    🔑 Gratis · Dapatkan API Key di aistudio.google.com
+    🔑 Gratis · API Key sudah siap!
   </div>
 </div>
 
 <script>
   // ========== GANTI DENGAN API KEY GEMINI KAMU ==========
-  // 🔻🔻🔻 AMBIL API KEY GRATIS DI aistudio.google.com 🔻🔻🔻
+  // 🔻🔻🔻 COPY PASTE API KEY ASLI DARI aistudio.google.com 🔻🔻🔻
   const GEMINI_API_KEY = "AIzaSyDGvOpXSyjdMIqQxCVAuMftFDnb9w-4www";
   
-  // Model Gemini gratis terbaru
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
   
   const chatArea = document.getElementById('chatArea');
@@ -335,10 +334,6 @@
   }
   
   async function askGemini(question) {
-    if (!GEMINI_API_KEY || GEMINI_API_KEY === "AIzaSyDGvOpXSyjdMIqQxCVAuMftFDnb9w-4www") {
-      return "⚠️ **API Key belum diisi!** ⚠️\n\nCara dapatkan:\n1. Buka aistudio.google.com\n2. Login pake Gmail\n3. Klik 'Get API Key'\n4. Copy & ganti di kode ini";
-    }
-    
     try {
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -357,7 +352,10 @@
       const data = await response.json();
       
       if (data.error) {
-        return `❌ Error API: ${data.error.message}\n\n💡 Solusi: Pastikan API KEY benar dan sudah diaktifkan di Google AI Studio.`;
+        if (data.error.message.includes("API key not valid")) {
+          return "❌ **API Key tidak valid!** ❌\n\nPastikan kamu sudah:\n1. Copy API Key dengan benar (tanpa spasi tambahan)\n2. API Key dari aistudio.google.com\n3. Refresh halaman setelah ganti key";
+        }
+        return `❌ Error API: ${data.error.message}`;
       }
       
       if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
@@ -366,7 +364,7 @@
       
       return "Maaf, NANN META AI tidak bisa menjawab saat ini. Coba lagi ya.";
     } catch (error) {
-      return `❌ Gagal koneksi ke Gemini:\n${error.message}\n\nCek koneksi internet atau API Key.`;
+      return `❌ Gagal koneksi ke Gemini:\n${error.message}\n\nCek koneksi internet.`;
     }
   }
   
@@ -401,10 +399,7 @@
     }
   });
   
-  // Pesan peringatan jika API Key masih default
-  if (GEMINI_API_KEY === "AIzaSyCVSLAUbqbhocLLeZ2t4DePQFO9V-8YMQM") {
-    addMessage('bot', "🔑 **Pertama, kamu harus ganti API Key-nya!**\n\nLangkah:\n1. Buka aistudio.google.com\n2. Login pake email Google\n3. Klik 'Get API Key' → buat & copy\n4. Ganti text `GANTI_DENGAN_API_KEY_GEMINI_ASLI` dengan key asli kamu.\n\nSetelah itu refresh halaman ini dan chat bisa jalan! ✅");
-  }
+  userInput.focus();
 </script>
 </body>
 </html>
