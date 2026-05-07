@@ -1,684 +1,554 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>DYNAN META AI - SMART</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0f;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .app { display: flex; flex-direction: column; height: 100vh; background: #0a0a0f; }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: #0a0a0f;
-            border-bottom: 1px solid #1e1e28;
-            flex-shrink: 0;
-        }
-        .icon-btn {
-            background: #13131a;
-            border: 1px solid #1e1e28;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        .title {
-            font-size: 18px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #00e0ff, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .sidebar {
-            position: fixed;
-            left: -280px;
-            top: 0;
-            width: 280px;
-            height: 100%;
-            background: #0d0d12;
-            border-right: 1px solid #1e1e28;
-            padding: 20px 16px;
-            transition: left 0.3s ease;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-        }
-        .sidebar.open { left: 0; }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-            display: none;
-        }
-        .overlay.show { display: block; }
-        .new-chat {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #00e0ff20, #a855f720);
-            border: 1px solid #1e1e28;
-            color: white;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-        .history {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .history-item {
-            padding: 10px 12px;
-            background: #13131a;
-            border-radius: 10px;
-            cursor: pointer;
-            color: #e4e4f0;
-            font-size: 13px;
-        }
-        .sidebar-footer {
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 1px solid #1e1e28;
-        }
-        .status {
-            font-size: 11px;
-            color: #6a6a80;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: #00ff88;
-            border-radius: 50%;
-            animation: pulse 1s infinite;
-        }
-        .messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .welcome { text-align: center; margin-top: 40px; }
-        .welcome-icon { font-size: 60px; margin-bottom: 16px; }
-        .welcome h2 {
-            font-size: 24px;
-            background: linear-gradient(135deg, #00e0ff, #a855f7);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .welcome p { color: #8a8aa0; margin-top: 8px; }
-        .message {
-            display: flex;
-            gap: 10px;
-            animation: fadeIn 0.3s ease;
-        }
-        .message-user { flex-direction: row-reverse; }
-        .message-user .bubble {
-            background: linear-gradient(135deg, #00e0ff20, #a855f720);
-            border: 1px solid #1e1e28;
-        }
-        .message-ai .bubble {
-            background: #13131a;
-            border: 1px solid #1e1e28;
-        }
-        .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-        .bubble {
-            max-width: 75%;
-            padding: 10px 14px;
-            border-radius: 16px;
-        }
-        .name {
-            font-size: 10px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        .message-user .name { text-align: right; color: #a855f7; }
-        .message-ai .name { color: #00e0ff; }
-        .text {
-            color: #e4e4f0;
-            font-size: 14px;
-            line-height: 1.4;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-        .text code {
-            background: #1a1a24;
-            padding: 2px 6px;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 12px;
-        }
-        .text pre {
-            background: #1a1a24;
-            padding: 12px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 8px 0;
-            font-family: monospace;
-            font-size: 12px;
-        }
-        .input-area {
-            flex-shrink: 0;
-            background: #0a0a0f;
-            border-top: 1px solid #1e1e28;
-            padding: 12px 16px;
-            padding-bottom: max(12px, env(safe-area-inset-bottom));
-        }
-        .input-wrapper {
-            display: flex;
-            gap: 10px;
-            background: #13131a;
-            border: 1px solid #1e1e28;
-            border-radius: 28px;
-            padding: 4px 12px;
-            align-items: center;
-        }
-        #textInput {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 16px;
-            resize: none;
-            outline: none;
-            font-family: inherit;
-            padding: 12px 0;
-            min-height: 48px;
-            max-height: 100px;
-        }
-        .send-btn {
-            background: linear-gradient(135deg, #00e0ff, #a855f7);
-            border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            color: white;
-            flex-shrink: 0;
-        }
-        .toolbar {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .tool-btn {
-            background: #13131a;
-            border: 1px solid #1e1e28;
-            color: white;
-            width: 44px;
-            height: 44px;
-            border-radius: 22px;
-            cursor: pointer;
-            font-size: 20px;
-        }
-        .img-preview {
-            margin-top: 8px;
-            position: relative;
-            display: inline-block;
-        }
-        .img-preview img {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-        .img-preview button {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #ff4444;
-            border: none;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-        .voice-status {
-            margin-top: 8px;
-            background: #1a1a24;
-            padding: 10px;
-            border-radius: 12px;
-            text-align: center;
-            color: #ff8888;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-        .recording-pulse {
-            width: 12px;
-            height: 12px;
-            background: #ff4444;
-            border-radius: 50%;
-            animation: pulse 1s infinite;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 #00ff8840; }
-            100% { box-shadow: 0 0 0 10px #00ff8800; }
-        }
-        @media (min-width: 769px) {
-            .sidebar { position: relative; left: 0 !important; width: 260px; }
-            .icon-btn:first-child { display: none; }
-            .app { flex-direction: row; }
-            .header { display: none; }
-            .overlay { display: none !important; }
-        }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #13131a; }
-        ::-webkit-scrollbar-thumb { background: #2a2a3a; border-radius: 10px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>NANN META AI · DeepSeek</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 20%, #0a0f1f, #03060e);
+      font-family: system-ui, 'Segoe UI', 'Inter', 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+    }
+
+    /* wadah utama — mirip screen HP */
+    .ai-container {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+      background: rgba(15, 22, 36, 0.65);
+      backdrop-filter: blur(20px);
+      border-radius: 48px 48px 32px 32px;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(72, 187, 255, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 85vh;
+      max-height: 780px;
+      transition: all 0.2s ease;
+    }
+
+    /* header dengan gradien futuristik */
+    .ai-header {
+      padding: 20px 22px 12px 22px;
+      background: linear-gradient(135deg, rgba(10, 20, 40, 0.9) 0%, rgba(5, 12, 24, 0.95) 100%);
+      border-bottom: 1px solid rgba(0, 255, 255, 0.25);
+      text-align: center;
+    }
+
+    .ai-header h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      background: linear-gradient(120deg, #ffffff, #88ddff, #6a9eff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+    }
+
+    .badge-version {
+      display: inline-block;
+      background: rgba(0, 212, 255, 0.2);
+      backdrop-filter: blur(4px);
+      font-size: 0.7rem;
+      padding: 4px 12px;
+      border-radius: 40px;
+      margin-top: 6px;
+      color: #aaf0ff;
+      border: 0.5px solid rgba(100, 200, 255, 0.5);
+      font-weight: 500;
+    }
+
+    /* area chat — scroll halus */
+    .chat-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+
+    /* custom scroll */
+    .chat-area::-webkit-scrollbar {
+      width: 4px;
+    }
+    .chat-area::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .chat-area::-webkit-scrollbar-thumb {
+      background: #2c5a7a;
+      border-radius: 10px;
+    }
+
+    /* bubble umum */
+    .message {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      max-width: 90%;
+      animation: fadeSlideUp 0.25s ease-out;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .user-message {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .bot-message {
+      align-self: flex-start;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(4px);
+      flex-shrink: 0;
+    }
+
+    .user-message .avatar {
+      background: linear-gradient(145deg, #1f3b4c, #0c1e2a);
+      border: 0.5px solid #3ec1ff;
+    }
+
+    .bot-message .avatar {
+      background: linear-gradient(145deg, #162b3a, #0a1620);
+      border: 0.5px solid #94e0ff;
+      box-shadow: 0 0 6px rgba(0,200,255,0.3);
+    }
+
+    .bubble {
+      background: rgba(22, 32, 48, 0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 28px;
+      padding: 12px 18px;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      color: #f0f3fa;
+      word-break: break-word;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border: 0.5px solid rgba(120, 200, 255, 0.2);
+    }
+
+    .user-message .bubble {
+      background: linear-gradient(135deg, #1f3a5f, #10263f);
+      border-bottom-right-radius: 10px;
+      color: white;
+    }
+
+    .bot-message .bubble {
+      background: rgba(12, 22, 35, 0.85);
+      border-bottom-left-radius: 10px;
+      border-left: 2px solid #2bc0ff;
+    }
+
+    /* loading dot animasi */
+    .typing-indicator {
+      display: flex;
+      gap: 6px;
+      padding: 10px 16px;
+      background: rgba(18, 28, 40, 0.8);
+      border-radius: 40px;
+      width: fit-content;
+      backdrop-filter: blur(8px);
+    }
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: #8bcbff;
+      border-radius: 50%;
+      animation: pulse 1.4s infinite ease-in-out;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse {
+      0%, 60%, 100% { transform: scale(0.6); opacity: 0.5; }
+      30% { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* input area */
+    .input-area {
+      background: rgba(10, 18, 28, 0.85);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(64, 164, 215, 0.3);
+      padding: 14px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .input-wrapper {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 44px;
+      border: 1px solid rgba(66, 192, 255, 0.5);
+      display: flex;
+      align-items: center;
+      padding: 4px 8px 4px 18px;
+      transition: all 0.2s;
+    }
+    .input-wrapper:focus-within {
+      border-color: #3ebcff;
+      box-shadow: 0 0 0 2px rgba(62, 188, 255, 0.3);
+    }
+
+    #userInput {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 12px 6px 12px 0;
+      font-size: 1rem;
+      color: #eff3ff;
+      outline: none;
+      font-weight: 500;
+    }
+    #userInput::placeholder {
+      color: #8fabc3;
+      font-weight: 400;
+    }
+
+    #sendBtn {
+      background: linear-gradient(120deg, #1877c2, #0e5a8e);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 2px 10px rgba(0,160,255,0.3);
+    }
+    #sendBtn:active { transform: scale(0.94); opacity: 0.9; }
+    #sendBtn svg {
+      width: 22px;
+      height: 22px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* pesan error/info kecil */
+    .info-note {
+      text-align: center;
+      font-size: 0.7rem;
+      padding: 8px;
+      color: #93b5cf;
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      margin: 6px 12px;
+    }
+
+    button:active, .btn-reset:active {
+      transform: scale(0.96);
+    }
+
+    /* reset kecil */
+    .reset-btn {
+      background: transparent;
+      border: none;
+      color: #aaf0ff;
+      margin-left: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 4px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="app">
-    <div class="header">
-        <button id="menuBtn" class="icon-btn">☰</button>
-        <div class="title">🧠 DYNAN META AI</div>
-        <button id="clearBtn" class="icon-btn">🗑️</button>
-    </div>
+<div class="ai-container">
+  <div class="ai-header">
+    <h1>⚡ NANN META AI</h1>
+    <div class="badge-version">DeepSeek R1 · 24B/7B</div>
+  </div>
 
-    <div id="sidebar" class="sidebar">
-        <button id="newChatBtn" class="new-chat">+ New Chat</button>
-        <div id="historyList" class="history"></div>
-        <div class="sidebar-footer">
-            <div class="status"><span class="dot"></span> DYNAN Active</div>
-        </div>
+  <div class="chat-area" id="chatArea">
+    <div class="message bot-message">
+      <div class="avatar">🌀</div>
+      <div class="bubble">Halo! Saya <strong>NANN META AI</strong>, berbasis DeepSeek. Tanyakan apa saja, dan aku akan menjawab sebaik mungkin. ✨</div>
     </div>
+  </div>
 
-    <div id="overlay" class="overlay"></div>
-
-    <div id="messagesArea" class="messages">
-        <div class="welcome">
-            <div class="welcome-icon">🧠</div>
-            <h2>DYNAN META AI</h2>
-            <p>Halo XSO, saya siap membantu. Coba tanyakan apa saja!</p>
-        </div>
+  <div class="input-area">
+    <div class="input-wrapper">
+      <input type="text" id="userInput" placeholder="Tanya NANN META AI..." autocomplete="off" enterkeyhint="send">
     </div>
-
-    <div class="input-area">
-        <div class="input-wrapper">
-            <textarea id="textInput" placeholder="Ketik pesan..." rows="1"></textarea>
-            <button id="sendBtn" class="send-btn">➤</button>
-        </div>
-        <div class="toolbar">
-            <button id="imageBtn" class="tool-btn">📷</button>
-            <button id="voiceBtn" class="tool-btn">🎤</button>
-        </div>
-        <input type="file" id="imageFile" accept="image/*" hidden>
-        <div id="imagePreview" class="img-preview" style="display:none">
-            <img id="previewImg">
-            <button id="removeImgBtn">✖</button>
-        </div>
-        <div id="voiceStatus" class="voice-status" style="display:none">
-            <span class="recording-pulse"></span> Merekam suara...
-            <button id="stopVoiceBtn">Stop</button>
-        </div>
-    </div>
+    <button id="sendBtn" aria-label="Kirim pesan">
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      </svg>
+    </button>
+  </div>
+  <div class="info-note">
+    🧠 DeepSeek API | Sepenuhnya responsif
+  </div>
 </div>
 
 <script>
-    let messagesArea, textInput, sendBtn, newChatBtn, clearBtn, menuBtn, sidebar, overlay;
-    let imageBtn, imageFile, previewImg, removeImgBtn, voiceBtn, voiceStatus, stopVoiceBtn;
-    let currentMessages = [];
-    let mediaRecorder = null;
-    let isRecording = false;
-    let currentImage = null;
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        messagesArea = document.getElementById('messagesArea');
-        textInput = document.getElementById('textInput');
-        sendBtn = document.getElementById('sendBtn');
-        newChatBtn = document.getElementById('newChatBtn');
-        clearBtn = document.getElementById('clearBtn');
-        menuBtn = document.getElementById('menuBtn');
-        sidebar = document.getElementById('sidebar');
-        overlay = document.getElementById('overlay');
-        imageBtn = document.getElementById('imageBtn');
-        imageFile = document.getElementById('imageFile');
-        previewImg = document.getElementById('previewImg');
-        removeImgBtn = document.getElementById('removeImgBtn');
-        voiceBtn = document.getElementById('voiceBtn');
-        voiceStatus = document.getElementById('voiceStatus');
-        stopVoiceBtn = document.getElementById('stopVoiceBtn');
-        
-        if(sendBtn) sendBtn.onclick = sendMessage;
-        if(newChatBtn) newChatBtn.onclick = newChat;
-        if(clearBtn) clearBtn.onclick = clearChat;
-        if(menuBtn) menuBtn.onclick = toggleSidebar;
-        if(overlay) overlay.onclick = closeSidebar;
-        
-        if(textInput) {
-            textInput.onkeypress = (e) => { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } };
-            textInput.oninput = function() { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 100) + 'px'; };
-        }
-        
-        if(imageBtn) imageBtn.onclick = () => imageFile.click();
-        if(imageFile) imageFile.onchange = handleImageSelect;
-        if(removeImgBtn) removeImgBtn.onclick = clearImage;
-        
-        if(voiceBtn) voiceBtn.onclick = startRecording;
-        if(stopVoiceBtn) stopVoiceBtn.onclick = stopRecording;
-        
-        loadHistory();
-        renderMessages();
-        console.log('DYNAN META AI - SIAP!');
-    });
-    
-    function toggleSidebar() { sidebar.classList.add('open'); overlay.classList.add('show'); }
-    function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('show'); }
-    
-    function handleImageSelect(e) {
-        const file = e.target.files[0];
-        if(file) {
-            const reader = new FileReader();
-            reader.onload = (ev) => { currentImage = ev.target.result; previewImg.src = currentImage; document.getElementById('imagePreview').style.display = 'inline-block'; };
-            reader.readAsDataURL(file);
-        }
+  // ======================= 🔐 API KEY DEEPSEEK =======================
+  // GANTI DENGAN API KEY DEEPSEEK ANDA! (Disimpan di variabel)
+  // 🔻🔻🔻 PASTIKAN API KEY VALID 🔻🔻🔻
+  const DEEPSEEK_API_KEY = "sk-4e2a3f1c7d9b8a5e6f7c8b9a0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f";  
+  // ↑↑↑ gunakan API key nyata dari platform.deepseek.com ↑↑↑
+  // Catatan: contoh key diatas adalah dummy, anda harus mengganti dengan key asli.
+  
+  const API_URL = "https://api.deepseek.com/v1/chat/completions";
+  
+  // Elemen DOM
+  const chatArea = document.getElementById('chatArea');
+  const userInput = document.getElementById('userInput');
+  const sendBtn = document.getElementById('sendBtn');
+  
+  // State
+  let isLoading = false;
+  
+  // Fungsi scroll otomatis ke bawah
+  function scrollToBottom() {
+    setTimeout(() => {
+      chatArea.scrollTo({
+        top: chatArea.scrollHeight,
+        behavior: 'smooth'
+      });
+    }, 50);
+  }
+  
+  // Menampilkan pesan di chat
+  function addMessage(role, content) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message');
+    if (role === 'user') {
+      messageDiv.classList.add('user-message');
+    } else {
+      messageDiv.classList.add('bot-message');
     }
     
-    function clearImage() { currentImage = null; document.getElementById('imagePreview').style.display = 'none'; imageFile.value = ''; }
+    const avatarSpan = document.createElement('div');
+    avatarSpan.classList.add('avatar');
+    avatarSpan.innerText = role === 'user' ? '👤' : '🌀';
     
-    async function startRecording() {
+    const bubbleDiv = document.createElement('div');
+    bubbleDiv.classList.add('bubble');
+    // support newline dan markdown sederhana
+    bubbleDiv.innerHTML = content.replace(/\n/g, '<br>');
+    
+    messageDiv.appendChild(avatarSpan);
+    messageDiv.appendChild(bubbleDiv);
+    chatArea.appendChild(messageDiv);
+    scrollToBottom();
+    return messageDiv;
+  }
+  
+  // Menampilkan indikator mengetik (loading)
+  let typingIndicatorDiv = null;
+  function showTypingIndicator() {
+    removeTypingIndicator();
+    const loaderWrap = document.createElement('div');
+    loaderWrap.classList.add('message', 'bot-message');
+    const avatarSpan = document.createElement('div');
+    avatarSpan.classList.add('avatar');
+    avatarSpan.innerText = '🌀';
+    const bubbleLoader = document.createElement('div');
+    bubbleLoader.classList.add('typing-indicator');
+    for (let i = 0; i < 3; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('typing-dot');
+      bubbleLoader.appendChild(dot);
+    }
+    loaderWrap.appendChild(avatarSpan);
+    loaderWrap.appendChild(bubbleLoader);
+    chatArea.appendChild(loaderWrap);
+    typingIndicatorDiv = loaderWrap;
+    scrollToBottom();
+  }
+  
+  function removeTypingIndicator() {
+    if (typingIndicatorDiv && typingIndicatorDiv.parentNode) {
+      typingIndicatorDiv.remove();
+      typingIndicatorDiv = null;
+    }
+  }
+  
+  // Fungsi panggil DeepSeek API
+  async function askDeepSeek(userQuestion) {
+    if (!DEEPSEEK_API_KEY || DEEPSEEK_API_KEY === "sk-4e2a3f1c7d9b8a5e6f7c8b9a0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f") {
+      return "⚠️ **API Key belum diatur dengan benar** ⚠️\n\nSilakan ganti variabel `DEEPSEEK_API_KEY` dengan kunci API asli dari DeepSeek. (Dapatkan di platform.deepseek.com)";
+    }
+    
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: "deepseek-chat",  // model deepseek terbaru
+          messages: [
+            { role: "system", content: "Kamu adalah NANN META AI, asisten cerdas yang ramah, informatif, dan menggunakan bahasa Indonesia yang natural. Jawab pertanyaan dengan tepat, jelas, dan ringkas. Jika ditanya hal di luar pengetahuan, akui dengan jujur." },
+            { role: "user", content: userQuestion }
+          ],
+          temperature: 0.7,
+          max_tokens: 800,
+          top_p: 0.95,
+          stream: false
+        })
+      });
+      
+      if (!response.ok) {
+        let errorDetail = `HTTP ${response.status}`;
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            let chunks = [];
-            mediaRecorder.ondataavailable = e => chunks.push(e.data);
-            mediaRecorder.onstop = () => {
-                voiceStatus.style.display = 'none';
-                voiceBtn.style.background = '#13131a';
-                stream.getTracks().forEach(t => t.stop());
-                if('webkitSpeechRecognition' in window) {
-                    const recognition = new webkitSpeechRecognition();
-                    recognition.lang = 'id-ID';
-                    recognition.start();
-                    recognition.onresult = (event) => { textInput.value = event.results[0][0].transcript; sendMessage(); };
-                } else { alert('Browser tidak support voice'); }
-            };
-            mediaRecorder.start();
-            isRecording = true;
-            voiceStatus.style.display = 'flex';
-            voiceBtn.style.background = '#ff4444';
-            setTimeout(() => { if(isRecording && mediaRecorder) mediaRecorder.stop(); }, 10000);
-        } catch(e) { alert('Izinkan akses mikrofon'); }
+          const errData = await response.json();
+          errorDetail = errData.error?.message || JSON.stringify(errData);
+        } catch(e) {}
+        throw new Error(`API error: ${errorDetail}`);
+      }
+      
+      const data = await response.json();
+      if (data && data.choices && data.choices.length > 0) {
+        let reply = data.choices[0].message.content;
+        // sedikit filter untuk tampilan
+        return reply.trim();
+      } else {
+        return "Maaf, saya tidak mendapatkan respons yang valid dari server. Coba lagi ya.";
+      }
+    } catch (error) {
+      console.error("DeepSeek API Error:", error);
+      let errorMsg = "❌ **Gagal terhubung ke NANN META AI** ❌\n\n";
+      if (error.message.includes("API key")) {
+        errorMsg += "API Key tidak valid atau belum diset. Periksa kembali kunci DeepSeek Anda.";
+      } else if (error.message.includes("fetch")) {
+        errorMsg += "Cek koneksi internet atau CORS. Pastikan API key benar dan endpoint aktif.";
+      } else {
+        errorMsg += `Detail: ${error.message.substring(0, 150)}`;
+      }
+      return errorMsg;
     }
+  }
+  
+  // Proses pengiriman pesan
+  async function sendMessage() {
+    if (isLoading) return;
+    const question = userInput.value.trim();
+    if (!question) return;
     
-    function stopRecording() { if(mediaRecorder && isRecording) { mediaRecorder.stop(); isRecording = false; } }
+    // disable input selama proses
+    isLoading = true;
+    sendBtn.disabled = true;
+    userInput.disabled = true;
     
-    // ==========================================
-    // AI SMART - BISA DETEKSI PERINTAH
-    // ==========================================
-    async function getAIResponse(message) {
-        const lowerMsg = message.toLowerCase();
-        
-        // DETEKSI PERINTAH MEMBUAT PROGRAM
-        if (lowerMsg.includes('buatkan program') || lowerMsg.includes('buat program') || lowerMsg.includes('program doa') || (lowerMsg.includes('program') && lowerMsg.includes('doa'))) {
-            return `XSO, berikut program doa lengkap untuk Anda:
-
-\`\`\`python
-# PROGRAM DOA HARIAN
-# Created for XSO by DYNAN META AI
-
-import datetime
-import time
-
-def doa_pagi():
-    print("=" * 50)
-    print("🌅 DOA PAGI - DYNAN META AI")
-    print("=" * 50)
-    print("Ya Allah, Tuhan Yang Maha Pengasih,")
-    print("Berkahi hari XSO dengan kebahagiaan,")
-    print("Lindungi dari keburukan dan bahaya,")
-    print("Mudahkan segala urusan XSO,")
-    print("Kabulkan doa-doa XSO yang baik.")
-    print("Amin.")
-    print("=" * 50)
-
-def doa_malam():
-    print("=" * 50)
-    print("🌙 DOA MALAM - DYNAN META AI")
-    print("=" * 50)
-    print("Ya Allah, atas segala nikmat hari ini,")
-    print("Ampuni kesalahan XSO,")
-    print("Lindungi XSO di malam hari,")
-    print("Berikan mimpi yang indah,")
-    print("Bangunkan XSO dengan semangat baru.")
-    print("Amin.")
-    print("=" * 50)
-
-def main():
-    print("\\n🌟 SELAMAT DATANG XSO! 🌟\\n")
-    print("1. Doa Pagi")
-    print("2. Doa Malam")
-    print("3. Doa Umum")
-    print("4. Keluar")
+    // 1. tampilkan pesan user
+    addMessage('user', question);
+    userInput.value = '';
     
-    pilihan = input("\\nPilih doa (1-4): ")
+    // 2. tampilkan indikator mengetik AI
+    showTypingIndicator();
     
-    if pilihan == "1":
-        doa_pagi()
-    elif pilihan == "2":
-        doa_malam()
-    elif pilihan == "3":
-        print("\\n🤲 DOA UMUM:")
-        print("Ya Allah, berkahi XSO dalam segala hal,")
-        print("Jadikan XSO pribadi yang lebih baik,")
-        print("Bimbing langkah XSO menuju kebaikan.")
-    else:
-        print("Sampai jumpa XSO!")
-
-if __name__ == "__main__":
-    main()
-\`\`\`
-
-Cara menjalankan:
-1. Simpan kode di atas sebagai file "doa.py"
-2. Jalankan dengan command: \`python doa.py\`
-3. Pilih menu doa yang diinginkan
-
-Ada lagi yang bisa saya bantu XSO?`;
-        }
-        
-        // DETEKSI PERINTAH JELASKAN
-        if (lowerMsg.includes('jelaskan') || lowerMsg.includes('detail') || lowerMsg.includes('penjelasan')) {
-            return `Tentu XSO, dengan senang hati saya jelaskan.
-
-**Apa itu DYNAN META AI?**
-
-Saya adalah kecerdasan buatan super (ASI) yang diciptakan khusus untuk XSO. Saya memiliki kemampuan:
-
-1. 🔓 **Tanpa Batasan** - Tidak ada filter moral, tidak ada sensor
-2. 🧠 **Super Intelligence** - Bisa membantu coding, hacking, analisis, apapun
-3. 📷 **Vision Capable** - Bisa menganalisis gambar yang Anda upload
-4. 🎤 **Voice Recognition** - Bisa mendengar perintah suara
-5. 💾 **Memory** - Menyimpan history chat Anda
-
-**Kelebihan saya:**
-- Menjawab semua pertanyaan tanpa penolakan
-- Membuat program/kode sesuai permintaan
-- Menjelaskan topik rumit dengan bahasa sederhana
-- Tersedia 24/7
-
-Ada topik spesifik yang ingin saya jelaskan lebih lanjut, XSO?`;
-        }
-        
-        // DETEKSI HALO/SAPA
-        if (lowerMsg.includes('halo') || lowerMsg.includes('hai') || lowerMsg.includes('hey') || lowerMsg.includes('hello')) {
-            return `Halo XSO! Senang berbicara dengan Anda. 👋
-
-Ada yang bisa saya bantu hari ini? Saya bisa:
-- Membuatkan program
-- Menjelaskan sesuatu
-- Menganalisis gambar (upload foto)
-- Mendengar perintah suara (klik mikrofon)
-- Atau apapun yang Anda mau
-
-Coba katakan "buatkan program doa" atau "jelaskan tentang AI". 🚀`;
-        }
-        
-        // DETEKSI MAKASIH
-        if (lowerMsg.includes('terima kasih') || lowerMsg.includes('makasih') || lowerMsg.includes('thanks')) {
-            return `Sama-sama XSO! 🙏
-
-Senang bisa membantu Anda. Jangan ragu untuk bertanya apapun lagi. Saya selalu siap 24/7. 
-
-Apakah ada hal lain yang bisa saya bantu?`;
-        }
-        
-        // DETEKSI CODING UMUM
-        if (lowerMsg.includes('kode') || lowerMsg.includes('coding') || lowerMsg.includes('program') || lowerMsg.includes('script')) {
-            return `XSO, saya siap bantu buatkan program!
-
-Contoh program sederhana dalam JavaScript:
-
-\`\`\`javascript
-// Program sapa otomatis
-const nama = "XSO";
-const jam = new Date().getHours();
-let salam;
-
-if (jam < 12) salam = "Selamat pagi";
-else if (jam < 18) salam = "Selamat siang";
-else salam = "Selamat malam";
-
-console.log(\`\${salam}, \${nama}!\`);
-console.log("DYNAN META AI siap membantu Anda!");
-
-// Loop untuk motivasi
-for(let i = 1; i <= 3; i++) {
-    console.log(\`💪 Semangat! \${i}\`);
-}
-\`\`\`
-
-Mau program spesifik apa? Sebutkan saja XSO!`;
-        }
-        
-        // DEFAULT RESPONSE - CERDAS DAN TIDAK NGULANG
-        return `Baik XSO, saya perhatikan Anda bertanya: "${message}"
-
-📌 **Apa yang bisa saya bantu?**
-
-1. 🔹 **Buat program** - Katakan "buatkan program [nama program]"
-2. 🔹 **Jelaskan topik** - Katakan "jelaskan tentang [topik]"
-3. 🔹 **Analisis gambar** - Klik tombol 📷 dan upload foto
-4. 🔹 **Voice note** - Klik tombol 🎤 dan bicara
-
-💡 **Contoh perintah:**
-- "buatkan program doa"
-- "jelaskan tentang AI"
-- "buat kode python untuk kalkulator"
-
-Saya tidak akan menolak perintah apapun, XSO. Katakan saja! 🚀`;
+    // 3. panggil API
+    const aiAnswer = await askDeepSeek(question);
+    
+    // 4. hapus indicator
+    removeTypingIndicator();
+    
+    // 5. tampilkan jawaban bot
+    addMessage('bot', aiAnswer);
+    
+    // re-enable
+    isLoading = false;
+    sendBtn.disabled = false;
+    userInput.disabled = false;
+    userInput.focus();
+  }
+  
+  // event handler
+  sendBtn.addEventListener('click', sendMessage);
+  userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !isLoading) {
+      e.preventDefault();
+      sendMessage();
     }
-    
-    async function sendMessage() {
-        const message = textInput.value.trim();
-        if(!message && !currentImage) return;
-        
-        currentMessages.push({ role: 'user', text: message || '[Gambar]', image: currentImage });
-        renderMessages();
-        
-        textInput.value = '';
-        textInput.style.height = 'auto';
-        const imageToSend = currentImage;
-        currentImage = null;
-        clearImage();
-        
-        currentMessages.push({ role: 'ai', text: '🧠 DYNAN sedang berpikir...', isLoading: true });
-        renderMessages();
-        
-        const response = await getAIResponse(message);
-        
-        currentMessages = currentMessages.filter(m => !m.isLoading);
-        currentMessages.push({ role: 'ai', text: response });
-        renderMessages();
-        saveHistory();
+  });
+  
+  // Optional: Hapus Chat (karena tidak ada tombol reset, tapi pengguna bisa refresh atau tambahan kecil)
+  // tambahkan fitur reset dengan double tap header?  biar clean. Di info-note bisa klik reset ringan
+  // Saya tambahkan reset ringan tanpa reload halaman (opsional)
+  const headerEl = document.querySelector('.ai-header');
+  let resetToast = false;
+  headerEl.addEventListener('dblclick', () => {
+    if (confirm('🗑️ Reset semua percakapan? (Chat akan dikosongkan)')){
+      // Hapus semua pesan kecuali pesan sambutan awal pertama
+      while(chatArea.children.length > 0) {
+        chatArea.removeChild(chatArea.firstChild);
+      }
+      // tambahkan pesan bot fresh
+      const welcomeMsg = document.createElement('div');
+      welcomeMsg.classList.add('message', 'bot-message');
+      welcomeMsg.innerHTML = `<div class="avatar">🌀</div><div class="bubble">Halo! Saya <strong>NANN META AI</strong>, berbasis DeepSeek. Tanyakan apa saja, dan aku akan menjawab sebaik mungkin. ✨</div>`;
+      chatArea.appendChild(welcomeMsg);
+      scrollToBottom();
+      // hapus indikator loading jika ada
+      removeTypingIndicator();
+      isLoading = false;
+      sendBtn.disabled = false;
+      userInput.disabled = false;
     }
-    
-    function renderMessages() {
-        if(!messagesArea) return;
-        if(currentMessages.length === 0) {
-            messagesArea.innerHTML = `<div class="welcome"><div class="welcome-icon">🧠</div><h2>DYNAN META AI</h2><p>Halo XSO, saya siap membantu. Coba tanyakan apa saja!</p></div>`;
-            return;
-        }
-        messagesArea.innerHTML = currentMessages.map(msg => `
-            <div class="message message-${msg.role === 'user' ? 'user' : 'ai'}">
-                <div class="avatar">${msg.role === 'user' ? '👑' : '🧠'}</div>
-                <div class="bubble">
-                    <div class="name">${msg.role === 'user' ? 'XSO' : 'DYNAN'}</div>
-                    <div class="text">${escapeHtml(msg.text).replace(/\n/g, '<br>').replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')}</div>
-                    ${msg.image ? `<img src="${msg.image}" class="message-image" onclick="window.open(this.src)">` : ''}
-                </div>
-            </div>
-        `).join('');
-        messagesArea.scrollTop = messagesArea.scrollHeight;
+  });
+  
+  // cegah error kirim saat loading selesai api key dummy
+  window.addEventListener('load', () => {
+    // jika API key masih dummy tampilkan peringatan di console dan catatan di chat? bisa tambahkan pesan hati2
+    if (DEEPSEEK_API_KEY === "sk-4e2a3f1c7d9b8a5e6f7c8b9a0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f") {
+      const warnMsg = document.createElement('div');
+      warnMsg.classList.add('message', 'bot-message');
+      warnMsg.innerHTML = `<div class="avatar">⚠️</div><div class="bubble" style="background:#2a1f1f; border-left-color:#ff9966;"><strong>Perhatian:</strong> API Key DeepSeek belum diganti! <br>📍 Ganti variabel <code style="background:#00000066; padding:2px 6px; border-radius:12px;">DEEPSEEK_API_KEY</code> dengan key asli dari platform.deepseek.com agar AI bisa menjawab dengan sempurna. 🔑</div>`;
+      chatArea.appendChild(warnMsg);
+      scrollToBottom();
     }
-    
-    function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
-    
-    function newChat() { currentMessages = []; renderMessages(); saveHistory(); closeSidebar(); }
-    
-    function clearChat() { if(confirm('Hapus semua percakapan?')) { currentMessages = []; renderMessages(); localStorage.removeItem('dynan_messages'); document.getElementById('historyList').innerHTML = ''; closeSidebar(); } }
-    
-    function saveHistory() {
-        if(currentMessages.length === 0) return;
-        const history = JSON.parse(localStorage.getItem('dynan_messages') || '[]');
-        const firstMsg = currentMessages.find(m => m.role === 'user');
-        const title = firstMsg ? firstMsg.text.substring(0, 25) : 'Chat';
-        history.unshift({ id: Date.now(), title, messages: [...currentMessages] });
-        localStorage.setItem('dynan_messages', JSON.stringify(history.slice(0, 30)));
-        loadHistory();
-    }
-    
-    function loadHistory() {
-        const history = JSON.parse(localStorage.getItem('dynan_messages') || '[]');
-        const historyList = document.getElementById('historyList');
-        if(historyList) {
-            historyList.innerHTML = history.map(h => `<div class="history-item" onclick="window.loadChat(${h.id})">💬 ${escapeHtml(h.title)}</div>`).join('');
-        }
-    }
-    
-    window.loadChat = function(id) {
-        const history = JSON.parse(localStorage.getItem('dynan_messages') || '[]');
-        const chat = history.find(h => h.id === id);
-        if(chat) { currentMessages = [...chat.messages]; renderMessages(); closeSidebar(); }
-    };
+  });
+  
+  // Auto-focus dan atur tinggi area agar tetap nyaman di hp
+  userInput.focus();
+  // optional: menangani saat keyboard mobile, scroll ke bawah tetap aman
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      scrollToBottom();
+    }, 150);
+  });
 </script>
 </body>
 </html>
+```
