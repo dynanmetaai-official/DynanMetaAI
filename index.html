@@ -14,7 +14,36 @@
             transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
-        /* ========== DEFAULT: TEMA GELAP (ANGKASA) ========== */
+        /* LOADING SCREEN */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0f2a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        .loading-screen.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #8B5CF6;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         body {
             font-family: 'Poppins', 'Inter', sans-serif;
             min-height: 100vh;
@@ -32,50 +61,41 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 0;
-            opacity: 0;
-            animation: starGlow 3s infinite alternate;
+            animation: starTwinkle 3s infinite alternate;
         }
-        @keyframes starGlow {
-            0% { opacity: 0.2; transform: scale(0.8); box-shadow: 0 0 2px white; }
-            100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px #ffe6b3; }
+        @keyframes starTwinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.9; }
         }
 
         /* Nebula */
         .nebula {
             position: fixed;
-            background: radial-gradient(circle, rgba(120, 80, 200, 0.4), transparent 70%);
+            background: radial-gradient(circle, rgba(120, 80, 200, 0.2), transparent 70%);
             border-radius: 50%;
-            filter: blur(60px);
+            filter: blur(40px);
             pointer-events: none;
             z-index: 0;
-            width: 400px;
-            height: 400px;
-            animation: floatNebula 20s infinite alternate;
-        }
-        @keyframes floatNebula {
-            0% { transform: translate(0%, 0%) scale(1); opacity: 0.4; }
-            100% { transform: translate(5%, 8%) scale(1.3); opacity: 0.7; }
         }
 
         /* Meteor */
         .shooting-star {
             position: fixed;
             width: 2px;
-            height: 80px;
-            background: linear-gradient(white, rgba(255, 255, 255, 0));
-            top: -80px;
-            left: 20%;
+            height: 60px;
+            background: linear-gradient(white, rgba(255,255,255,0));
+            top: -60px;
             transform: rotate(25deg);
-            animation: shoot 5s linear infinite;
             opacity: 0;
             z-index: 0;
+            pointer-events: none;
         }
         @keyframes shoot {
-            0% { top: -80px; left: 20%; opacity: 1; }
-            100% { top: 110%; left: 80%; opacity: 0; }
+            0% { top: -60px; left: 10%; opacity: 1; }
+            100% { top: 110%; left: 90%; opacity: 0; }
         }
 
-        /* ========== TEMA TERANG (MATAHARI) ========== */
+        /* TEMA TERANG MATAHARI */
         body.light-mode {
             background: linear-gradient(135deg, #FFD700 0%, #FF8C00 50%, #FF4500 100%);
             color: #2c1e0f;
@@ -83,27 +103,14 @@
         body.light-mode .star,
         body.light-mode .nebula,
         body.light-mode .shooting-star {
-            opacity: 0 !important;
             display: none;
-        }
-        body.light-mode::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 20%, rgba(255, 215, 0, 0.3), transparent 70%);
-            pointer-events: none;
-            z-index: 0;
         }
         body.light-mode .product-card,
         body.light-mode .modal-content {
             background: rgba(255, 250, 210, 0.95);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(8px);
             color: #3b2a1f;
             border: 2px solid #ffb347;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
         }
         body.light-mode .btn-buy {
             background: #ff8c00;
@@ -115,12 +122,9 @@
         body.light-mode .benefits-list {
             background: rgba(255, 200, 100, 0.3);
         }
-        body.light-mode .qty-btn {
-            background: #ffb347;
-            color: #2c1e0f;
-        }
+        body.light-mode .qty-btn,
         body.light-mode .pay-btn {
-            background: #ffa500;
+            background: #ffb347;
             color: #2c1e0f;
         }
         body.light-mode .theme-btn {
@@ -145,8 +149,22 @@
             background: #ffd699;
             color: #2c1e0f;
         }
+        body.light-mode .countdown-timer {
+            background: rgba(255, 100, 0, 0.2);
+            color: #5a3e1b;
+        }
+        body.light-mode .testimonial-card {
+            background: rgba(255, 200, 100, 0.5);
+        }
+        body.light-mode .stat-card {
+            background: rgba(255, 200, 100, 0.5);
+        }
+        body.light-mode .back-to-top {
+            background: #ff8c00;
+            color: #2c1e0f;
+        }
 
-        /* ========== STYLE UMUM ========== */
+        /* STYLE UMUM */
         .container {
             max-width: 1300px;
             margin: 0 auto;
@@ -160,11 +178,11 @@
             margin-bottom: 1rem;
         }
         .theme-btn {
-            background: rgba(255, 255, 240, 0.15);
-            backdrop-filter: blur(12px);
+            background: rgba(255,255,240,0.15);
+            backdrop-filter: blur(8px);
             padding: 10px 22px;
             border-radius: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255,255,255,0.3);
             font-weight: 600;
             cursor: pointer;
             font-size: 0.9rem;
@@ -172,11 +190,11 @@
         }
         .hero {
             text-align: center;
-            margin: 2rem 0 2rem;
-            animation: fadeRise 1s ease-out;
+            margin: 2rem 0 1rem;
+            animation: fadeRise 0.6s ease-out;
         }
         @keyframes fadeRise {
-            from { opacity: 0; transform: translateY(40px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .hero h1 {
@@ -190,265 +208,316 @@
         .btn-lihat {
             background: linear-gradient(95deg, #8B5CF6, #3B82F6);
             border: none;
-            padding: 16px 40px;
+            padding: 14px 36px;
             border-radius: 60px;
             font-weight: 700;
-            font-size: 1.2rem;
-            margin-top: 28px;
+            font-size: 1.1rem;
+            margin-top: 20px;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
             color: white;
         }
         .btn-lihat:hover {
             transform: scale(1.02);
-            box-shadow: 0 12px 28px rgba(59, 130, 246, 0.6);
         }
         .wa-badge {
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0,0,0,0.4);
             backdrop-filter: blur(6px);
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            padding: 8px 24px;
+            padding: 6px 20px;
             border-radius: 60px;
             margin-top: 20px;
-            font-size: 1rem;
-            font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.9rem;
         }
         .wa-badge i {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #25D366;
         }
-        .products-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-            margin: 50px 0;
-        }
-        .product-card {
-            background: rgba(15, 20, 40, 0.7);
-            backdrop-filter: blur(20px);
-            border-radius: 56px;
-            padding: 2rem 1.8rem;
-            width: 100%;
-            max-width: 550px;
-            border: 1px solid rgba(255, 255, 245, 0.25);
+
+        /* COUNTDOWN TIMER */
+        .countdown-section {
             text-align: center;
-            box-shadow: 0 25px 40px -12px black;
-            flex: 1;
-            min-width: 280px;
-        }
-        .badge-jasa {
-            background: #f59e0b;
-            display: inline-block;
-            padding: 6px 20px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-        .badge-premium {
-            background: #8b5cf6;
-            display: inline-block;
-            padding: 6px 20px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-        .badge-panel {
-            background: #06b6d4;
-            display: inline-block;
-            padding: 6px 20px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.8rem;
-        }
-        .price-tag {
-            font-size: 2rem;
-            font-weight: 800;
-            margin: 10px 0;
-            color: #FCD34D;
-        }
-        .benefits-list {
-            text-align: left;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 18px;
-            border-radius: 32px;
-            line-height: 1.8;
-            margin: 15px 0;
-        }
-        .benefits-list ul {
-            list-style: none;
-        }
-        .benefits-list li {
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .benefits-list i {
-            width: 24px;
-            color: #4ade80;
-        }
-        .select-group {
-            margin: 15px 0;
-            text-align: left;
-        }
-        .select-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-        select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 40px;
-            background: #1e293b;
-            color: white;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        .qty-control {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
             margin: 20px 0;
         }
-        .qty-btn {
-            background: #1e293b;
-            border: none;
-            width: 45px;
-            height: 45px;
-            font-size: 1.8rem;
-            font-weight: bold;
+        .countdown-timer {
+            display: inline-flex;
+            gap: 15px;
+            background: rgba(0,0,0,0.4);
+            padding: 10px 25px;
             border-radius: 60px;
-            cursor: pointer;
-            color: white;
+            backdrop-filter: blur(8px);
         }
-        .qty-btn:hover {
-            background: #334155;
+        .countdown-item {
+            text-align: center;
         }
-        .qty-num {
-            font-size: 1.8rem;
-            font-weight: 700;
-            min-width: 50px;
-        }
-        .btn-buy {
-            background: #E11D48;
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 60px;
+        .countdown-number {
+            font-size: 1.5rem;
             font-weight: 800;
-            font-size: 1.2rem;
-            margin-top: 15px;
-            cursor: pointer;
-            color: white;
+            background: #E11D48;
+            padding: 5px 12px;
+            border-radius: 20px;
+            min-width: 60px;
+        }
+        .countdown-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        /* STATISTIK */
+        .stats-section {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 30px 0;
         }
-        .btn-buy:hover {
-            transform: scale(1.01);
+        .stat-card {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+            padding: 15px 25px;
+            border-radius: 30px;
+            text-align: center;
+            min-width: 120px;
         }
-        .modal {
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #FCD34D;
+        }
+        .stat-label {
+            font-size: 0.8rem;
+        }
+
+        /* TESTIMONI */
+        .testimoni-section {
+            margin: 40px 0;
+        }
+        .testimoni-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        .testimoni-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            scroll-snap-type: x mandatory;
+            padding: 10px 0;
+        }
+        .testimonial-card {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 30px;
+            padding: 20px;
+            min-width: 280px;
+            scroll-snap-align: start;
+        }
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        .testimonial-name {
+            font-weight: 700;
+            color: #FCD34D;
+        }
+        .testimonial-rating {
+            color: #FFD700;
+            margin-top: 8px;
+        }
+
+        /* WISHLIST BUTTON */
+        .wishlist-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #ff6b6b;
+            margin-top: 10px;
+        }
+        .wishlist-btn.active {
+            color: #ff2a2a;
+            text-shadow: 0 0 5px red;
+        }
+
+        /* BACK TO TOP */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #8B5CF6;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* FLOAT CHAT */
+        .float-chat {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #25D366;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .float-chat i {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        /* PRODUCT CARD HOVER 3D */
+        .product-card {
+            background: rgba(15,20,40,0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid rgba(255,255,245,0.2);
+            text-align: center;
+            flex: 1;
+            min-width: 280px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+        }
+
+        /* TOOLTIP */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.7rem;
+        }
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+        }
+
+        /* MODAL KONFIRMASI */
+        .confirm-modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(18px);
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 1100;
         }
-        .modal-content {
+        .confirm-modal-content {
             background: #0f111e;
-            border-radius: 48px;
-            max-width: 500px;
+            border-radius: 40px;
+            max-width: 350px;
             width: 90%;
-            padding: 28px 24px;
+            padding: 24px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 200, 0.2);
         }
-        .payment-options {
+        .confirm-buttons {
             display: flex;
+            gap: 15px;
             justify-content: center;
-            gap: 24px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-        .pay-btn {
-            background: #2d3a5e;
-            padding: 12px 28px;
-            border-radius: 60px;
-            font-weight: bold;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        .pay-btn:hover {
-            background: #3b4a72;
-        }
-        .qris-image {
-            max-width: 220px;
-            margin: 15px auto;
-            border-radius: 28px;
-            background: white;
-            padding: 8px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-        .btn-wa-confirm {
-            background: #075E54;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 24px;
-            border-radius: 60px;
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
             margin-top: 20px;
+        }
+        .confirm-yes {
+            background: #E11D48;
+            padding: 8px 25px;
+            border-radius: 30px;
             border: none;
+            color: white;
             cursor: pointer;
         }
-        .btn-wa-confirm:hover {
-            background: #054a42;
+        .confirm-no {
+            background: #4b5563;
+            padding: 8px 25px;
+            border-radius: 30px;
+            border: none;
+            color: white;
+            cursor: pointer;
         }
-        hr {
-            margin: 20px 0;
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        footer {
-            text-align: center;
-            margin-top: 70px;
-            margin-bottom: 20px;
-            opacity: 0.8;
-            font-size: 0.8rem;
-        }
-        @media (max-width: 768px) {
-            .products-grid {
-                flex-direction: column;
-                align-items: center;
-            }
-            .product-card {
-                max-width: 100%;
-            }
-        }
+
+        .badge-jasa { background: #f59e0b; display: inline-block; padding: 4px 16px; border-radius: 60px; font-size: 0.75rem; font-weight: 700; }
+        .badge-premium { background: #8b5cf6; display: inline-block; padding: 4px 16px; border-radius: 60px; font-size: 0.75rem; font-weight: 700; }
+        .badge-panel { background: #06b6d4; display: inline-block; padding: 4px 16px; border-radius: 60px; font-size: 0.75rem; font-weight: 700; }
+        .price-tag { font-size: 1.8rem; font-weight: 800; margin: 10px 0; color: #FCD34D; }
+        .benefits-list { text-align: left; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 28px; line-height: 1.6; margin: 12px 0; font-size: 0.85rem; }
+        .benefits-list ul { list-style: none; }
+        .benefits-list li { margin: 6px 0; display: flex; align-items: center; gap: 10px; }
+        .benefits-list i { width: 20px; color: #4ade80; font-size: 0.85rem; }
+        .select-group { margin: 12px 0; text-align: left; }
+        .select-group label { display: block; margin-bottom: 4px; font-weight: 600; font-size: 0.85rem; }
+        select { width: 100%; padding: 10px; border-radius: 40px; background: #1e293b; color: white; border: none; font-size: 0.9rem; cursor: pointer; }
+        .qty-control { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 15px 0; }
+        .qty-btn { background: #1e293b; border: none; width: 40px; height: 40px; font-size: 1.5rem; font-weight: bold; border-radius: 40px; cursor: pointer; color: white; }
+        .qty-num { font-size: 1.5rem; font-weight: 700; min-width: 45px; }
+        .btn-buy { background: #E11D48; width: 100%; padding: 12px; border: none; border-radius: 60px; font-weight: 700; font-size: 1rem; margin-top: 12px; cursor: pointer; color: white; display: flex; justify-content: center; gap: 8px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: #0f111e; border-radius: 40px; max-width: 450px; width: 90%; padding: 24px; text-align: center; }
+        .payment-options { display: flex; justify-content: center; gap: 20px; margin: 20px 0; flex-wrap: wrap; }
+        .pay-btn { background: #2d3a5e; padding: 10px 24px; border-radius: 50px; font-weight: bold; border: none; display: flex; align-items: center; gap: 10px; font-size: 1rem; cursor: pointer; }
+        .qris-image { max-width: 180px; margin: 10px auto; border-radius: 20px; background: white; padding: 6px; }
+        .btn-wa-confirm { background: #075E54; display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; border-radius: 50px; text-decoration: none; color: white; font-weight: bold; margin-top: 15px; border: none; cursor: pointer; }
+        hr { margin: 15px 0; }
+        footer { text-align: center; margin-top: 50px; margin-bottom: 20px; opacity: 0.7; font-size: 0.7rem; }
+        .products-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin: 40px 0; }
+        @media (max-width: 768px) { .products-grid { flex-direction: column; align-items: center; } .product-card { padding: 1.2rem; } }
     </style>
 </head>
 <body>
+    <!-- LOADING SCREEN -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+    </div>
+
     <div id="starsField"></div>
     <div id="dynamicNebula"></div>
-    <div class="shooting-star"></div>
+    <div id="shootingStar" class="shooting-star"></div>
+
+    <!-- FLOAT CHAT & BACK TO TOP -->
+    <div class="float-chat" id="floatChatBtn">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
 
     <div class="container">
         <div class="theme-toggle">
@@ -459,8 +528,25 @@
             <h1>✨ MARKETPLACE NANN OFFICIAL ✨</h1>
             <button class="btn-lihat" id="lihatProdukBtn"><i class="fas fa-eye"></i> LIAT PRODUK NANN</button>
             <div class="wa-badge">
-                <i class="fab fa-whatsapp"></i> WhatsApp Official: <strong>082381531460</strong>
+                <i class="fab fa-whatsapp"></i> WhatsApp: <strong>082381531460</strong>
             </div>
+        </div>
+
+        <!-- COUNTDOWN FLASH SALE -->
+        <div class="countdown-section">
+            <div class="countdown-timer">
+                <div class="countdown-item"><div class="countdown-number" id="cdDays">00</div><div class="countdown-label">Hari</div></div>
+                <div class="countdown-item"><div class="countdown-number" id="cdHours">00</div><div class="countdown-label">Jam</div></div>
+                <div class="countdown-item"><div class="countdown-number" id="cdMinutes">00</div><div class="countdown-label">Menit</div></div>
+                <div class="countdown-item"><div class="countdown-number" id="cdSeconds">00</div><div class="countdown-label">Detik</div></div>
+            </div>
+        </div>
+
+        <!-- STATISTIK PENJUALAN -->
+        <div class="stats-section">
+            <div class="stat-card"><div class="stat-number" id="statCustomer">1.234</div><div class="stat-label">Pelanggan</div></div>
+            <div class="stat-card"><div class="stat-number" id="statProduct">3</div><div class="stat-label">Produk</div></div>
+            <div class="stat-card"><div class="stat-number" id="statSold">856</div><div class="stat-label">Terjual</div></div>
         </div>
 
         <div id="produkContainer" style="display: none;">
@@ -468,7 +554,7 @@
                 <!-- PRODUK 1: JASA BOT WHATSAPP -->
                 <div class="product-card">
                     <span class="badge-jasa"><i class="fas fa-robot"></i> PREMIUM BOT</span>
-                    <h2 style="margin: 10px 0">🤖 JASA JADI BOT WHATSAPP</h2>
+                    <h2 style="margin:8px 0; font-size:1.3rem;">🤖 JASA JADI BOT WHATSAPP</h2>
                     <div class="price-tag">Rp 1.000</div>
                     <div class="benefits-list">
                         <ul>
@@ -486,12 +572,14 @@
                     </div>
                     <div><strong>Total: <span id="total1">Rp 1.000</span></strong></div>
                     <button class="btn-buy" data-produk="1" data-nama="JASA JADI BOT WHATSAPP" data-harga="1000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
+                    <button class="wishlist-btn" data-wishlist="1"><i class="far fa-heart"></i></button>
+                    <div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Garansi 30 hari</span></div>
                 </div>
 
                 <!-- PRODUK 2: ALIGHT MOTION PREMIUM -->
                 <div class="product-card">
                     <span class="badge-premium"><i class="fas fa-video"></i> ALIGHT MOTION</span>
-                    <h2 style="margin: 10px 0">🎬 ALIGHT MOTION PREMIUM</h2>
+                    <h2 style="margin:8px 0; font-size:1.3rem;">🎬 ALIGHT MOTION PREMIUM</h2>
                     <div class="price-tag">Rp 5.000</div>
                     <div class="benefits-list">
                         <ul>
@@ -509,47 +597,60 @@
                     </div>
                     <div><strong>Total: <span id="total2">Rp 5.000</span></strong></div>
                     <button class="btn-buy" data-produk="2" data-nama="ALIGHT MOTION PREMIUM (Akun Private 1 Thn)" data-harga="5000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
+                    <button class="wishlist-btn" data-wishlist="2"><i class="far fa-heart"></i></button>
+                    <div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Update seumur hidup</span></div>
                 </div>
 
                 <!-- PRODUK 3: PANEL LEGAL BY DYNAN -->
                 <div class="product-card">
                     <span class="badge-panel"><i class="fas fa-server"></i> PTERODACTYL PANEL</span>
-                    <h2 style="margin: 10px 0">🔥 PANEL LEGAL BY DYNAN</h2>
+                    <h2 style="margin:8px 0; font-size:1.3rem;">🔥 PANEL LEGAL BY DYNAN</h2>
                     
                     <div class="select-group">
-                        <label>📌 Pilih Kapasitas Panel</label>
+                        <label>📌 Pilih Kapasitas Panel (1GB - 10GB)</label>
                         <select id="kapasitasPanel">
-                            <option value="1GB">1GB - Rp 1.000</option>
-                            <option value="10GB">10GB - Rp 10.000</option>
-                            <option value="UNLI">UNLI - Rp 12.000</option>
+                            <option value="1">1 GB - Rp 1.000</option><option value="2">2 GB - Rp 2.000</option><option value="3">3 GB - Rp 3.000</option>
+                            <option value="4">4 GB - Rp 4.000</option><option value="5">5 GB - Rp 5.000</option><option value="6">6 GB - Rp 6.000</option>
+                            <option value="7">7 GB - Rp 7.000</option><option value="8">8 GB - Rp 8.000</option><option value="9">9 GB - Rp 9.000</option>
+                            <option value="10">10 GB - Rp 10.000</option>
                         </select>
                     </div>
                     
                     <div class="select-group">
                         <label>👑 Pilih Role Panel</label>
                         <select id="rolePanel">
-                            <option value="Reseller">Reseller Panel - Rp 15.000</option>
-                            <option value="Admin">Admin Panel - Rp 20.000</option>
-                            <option value="PT">PT Panel - Rp 25.000</option>
-                            <option value="TK">TK Panel - Rp 30.000</option>
-                            <option value="CEO">CEO Panel - Rp 50.000</option>
+                            <option value="15000">Reseller Panel - Rp 15.000</option><option value="20000">Admin Panel - Rp 20.000</option>
+                            <option value="25000">PT Panel - Rp 25.000</option><option value="30000">TK Panel - Rp 30.000</option>
+                            <option value="50000">CEO Panel - Rp 50.000</option>
                         </select>
                     </div>
                     
                     <div id="panelBenefits" class="benefits-list">
-                        <ul>
-                            <li><i class="fas fa-check-circle"></i> BISA BUAT PANEL SEPUASNYA</li>
-                            <li><i class="fas fa-check-circle"></i> PANEL ANTI DELAY</li>
-                        </ul>
+                        <ul><li><i class="fas fa-check-circle"></i> BISA BUAT PANEL SEPUASNYA</li><li><i class="fas fa-check-circle"></i> PANEL ANTI DELAY</li></ul>
                     </div>
                     
                     <div class="price-tag" id="panelHarga">Rp 16.000</div>
                     <div><strong>Total: <span id="totalPanel">Rp 16.000</span></strong></div>
                     <button class="btn-buy" id="beliPanelBtn"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
+                    <button class="wishlist-btn" data-wishlist="3"><i class="far fa-heart"></i></button>
+                    <div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Support 24/7</span></div>
                 </div>
             </div>
         </div>
-        <footer>© NANN OFFICIAL • Bot WhatsApp + Alight Motion Premium + Panel DYNAN</footer>
+
+        <!-- TESTIMONI PELANGGAN -->
+        <div class="testimoni-section">
+            <h3 class="testimoni-title"><i class="fas fa-star"></i> Testimoni Pelanggan <i class="fas fa-star"></i></h3>
+            <div class="testimoni-slider" id="testimoniSlider">
+                <div class="testimonial-card"><div class="testimonial-text">"Mantap banget botnya, fast respon!"</div><div class="testimonial-name">- Andi</div><div class="testimonial-rating">★★★★★</div></div>
+                <div class="testimonial-card"><div class="testimonial-text">"Alight Motion premium works perfectly!"</div><div class="testimonial-name">- Siska</div><div class="testimonial-rating">★★★★★</div></div>
+                <div class="testimonial-card"><div class="testimonial-text">"Panel DYNAN stabil, recomended!"</div><div class="testimonial-name">- Budi</div><div class="testimonial-rating">★★★★★</div></div>
+                <div class="testimonial-card"><div class="testimonial-text">"Owner ramah dan fast response"</div><div class="testimonial-name">- Citra</div><div class="testimonial-rating">★★★★★</div></div>
+                <div class="testimonial-card"><div class="testimonial-text">"Harga bersahabat, kualitas juara"</div><div class="testimonial-name">- Rizki</div><div class="testimonial-rating">★★★★★</div></div>
+            </div>
+        </div>
+
+        <footer>© NANN OFFICIAL • Bot WhatsApp + Alight Motion Premium + Panel DYNAN • Trusted Since 2024</footer>
     </div>
 
     <!-- MODAL PEMBAYARAN -->
@@ -560,272 +661,280 @@
                 <button class="pay-btn" id="payDanaBtn"><i class="fas fa-wallet"></i> DANA</button>
                 <button class="pay-btn" id="payQrisBtn"><i class="fas fa-qrcode"></i> QRIS</button>
             </div>
-            <div id="paymentDetailArea" style="margin-top: 15px;"></div>
-            <hr>
-            <small>Setelah bayar, klik tombol "Sudah Bayar & Kirim Bukti"</small>
+            <div id="paymentDetailArea"></div><hr><small>Setelah bayar, klik tombol "Sudah Bayar & Kirim Bukti"</small>
             <div id="waButtonArea"></div>
-            <button id="closeModalBtn" style="margin-top: 20px; background: #4b5563; padding: 8px 20px; border-radius: 30px; border: none; color: white; cursor: pointer;">Tutup</button>
+            <button id="closeModalBtn" style="margin-top:20px; background:#4b5563; padding:8px 20px; border-radius:30px; border:none; color:white; cursor:pointer;">Tutup</button>
+        </div>
+    </div>
+
+    <!-- MODAL KONFIRMASI CHECKOUT -->
+    <div id="confirmModal" class="confirm-modal">
+        <div class="confirm-modal-content">
+            <h3>Konfirmasi Pembelian</h3>
+            <p id="confirmMessage">Apakah Anda yakin ingin membeli produk ini?</p>
+            <div class="confirm-buttons">
+                <button class="confirm-yes" id="confirmYes">Ya, Lanjutkan</button>
+                <button class="confirm-no" id="confirmNo">Batal</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // ========== BINTANG & NEBULA ==========
+        // LOADING SCREEN HIDE
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').classList.add('hide');
+            }, 800);
+        });
+
+        // COUNTDOWN TIMER (Flash Sale ending 7 hari lagi)
+        function startCountdown() {
+            const endDate = new Date();
+            endDate.setDate(endDate.getDate() + 7);
+            endDate.setHours(23, 59, 59, 999);
+            
+            function updateCountdown() {
+                const now = new Date();
+                const diff = endDate - now;
+                if (diff <= 0) {
+                    document.getElementById('cdDays').innerText = '00';
+                    document.getElementById('cdHours').innerText = '00';
+                    document.getElementById('cdMinutes').innerText = '00';
+                    document.getElementById('cdSeconds').innerText = '00';
+                    return;
+                }
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (86400000)) / 3600000);
+                const minutes = Math.floor((diff % 3600000) / 60000);
+                const seconds = Math.floor((diff % 60000) / 1000);
+                document.getElementById('cdDays').innerText = days.toString().padStart(2,'0');
+                document.getElementById('cdHours').innerText = hours.toString().padStart(2,'0');
+                document.getElementById('cdMinutes').innerText = minutes.toString().padStart(2,'0');
+                document.getElementById('cdSeconds').innerText = seconds.toString().padStart(2,'0');
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+        startCountdown();
+
+        // ANIMASI COUNTER STATISTIK
+        function animateCounter(element, target) {
+            let current = 0;
+            const step = Math.ceil(target / 50);
+            const timer = setInterval(function() {
+                current += step;
+                if (current >= target) {
+                    element.innerText = target.toLocaleString('id-ID');
+                    clearInterval(timer);
+                } else {
+                    element.innerText = current.toLocaleString('id-ID');
+                }
+            }, 30);
+        }
+        animateCounter(document.getElementById('statCustomer'), 1234);
+        animateCounter(document.getElementById('statSold'), 856);
+        document.getElementById('statProduct').innerText = '3';
+
+        // BACK TO TOP
+        window.addEventListener('scroll', function() {
+            const btn = document.getElementById('backToTop');
+            if (window.scrollY > 300) btn.classList.add('show');
+            else btn.classList.remove('show');
+        });
+        document.getElementById('backToTop').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // FLOAT CHAT WHATSAPP
+        document.getElementById('floatChatBtn').addEventListener('click', function() {
+            window.open('https://wa.me/6282381531460?text=Halo%20Nann%20Official%2C%20saya%20mau%20tanya%20produknya', '_blank');
+        });
+
+        // WISHLIST
+        document.querySelectorAll('.wishlist-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const icon = this.querySelector('i');
+                if (this.classList.contains('active')) {
+                    icon.className = 'fas fa-heart';
+                    this.style.color = '#ff2a2a';
+                } else {
+                    icon.className = 'far fa-heart';
+                    this.style.color = '#ff6b6b';
+                }
+            });
+        });
+
+        // BINTANG & NEBULA
         function createStars() {
             const starsContainer = document.getElementById('starsField');
-            for (let i = 0; i < 180; i++) {
+            for (let i = 0; i < 150; i++) {
                 let star = document.createElement('div');
                 star.classList.add('star');
-                let size = Math.random() * 3 + 1;
+                let size = Math.random() * 2.5 + 1;
                 star.style.width = size + 'px';
                 star.style.height = size + 'px';
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
                 star.style.animationDelay = Math.random() * 5 + 's';
-                star.style.animationDuration = Math.random() * 3 + 2 + 's';
                 starsContainer.appendChild(star);
             }
         }
-        
         function createNebula() {
             const nebDiv = document.getElementById('dynamicNebula');
             for (let i = 0; i < 3; i++) {
                 let neb = document.createElement('div');
                 neb.classList.add('nebula');
-                neb.style.left = Math.random() * 70 + '%';
-                neb.style.top = Math.random() * 80 + '%';
-                neb.style.width = Math.random() * 300 + 200 + 'px';
+                neb.style.left = (Math.random() * 70 + 10) + '%';
+                neb.style.top = (Math.random() * 70 + 10) + '%';
+                neb.style.width = (Math.random() * 200 + 150) + 'px';
                 neb.style.height = neb.style.width;
-                neb.style.animationDelay = Math.random() * 10 + 's';
                 nebDiv.appendChild(neb);
             }
         }
-        
         createStars();
         createNebula();
 
-        // ========== PRODUK 1 & 2 (QTY) ==========
-        let qty1 = 1;
-        let qty2 = 1;
-        const harga1 = 1000;
-        const harga2 = 5000;
-
+        // PRODUK 1 & 2 QTY
+        let qty1 = 1, qty2 = 1;
         function updateTotalProduk(produk) {
             if (produk === 1) {
-                const total = qty1 * harga1;
+                const total = qty1 * 1000;
                 document.getElementById('total1').innerText = 'Rp ' + total.toLocaleString('id-ID');
                 document.getElementById('qty1').innerText = qty1;
             } else if (produk === 2) {
-                const total = qty2 * harga2;
+                const total = qty2 * 5000;
                 document.getElementById('total2').innerText = 'Rp ' + total.toLocaleString('id-ID');
                 document.getElementById('qty2').innerText = qty2;
             }
         }
-
         document.querySelectorAll('.qty-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                const produk = parseInt(this.getAttribute('data-produk'));
-                const arah = this.getAttribute('data-arah');
+                const produk = parseInt(this.dataset.produk);
+                const arah = this.dataset.arah;
                 if (produk === 1) {
-                    if (arah === 'tambah') {
-                        qty1++;
-                    } else if (arah === 'kurang' && qty1 > 1) {
-                        qty1--;
-                    }
+                    if (arah === 'tambah') qty1++;
+                    else if (arah === 'kurang' && qty1 > 1) qty1--;
                     updateTotalProduk(1);
                 } else if (produk === 2) {
-                    if (arah === 'tambah') {
-                        qty2++;
-                    } else if (arah === 'kurang' && qty2 > 1) {
-                        qty2--;
-                    }
+                    if (arah === 'tambah') qty2++;
+                    else if (arah === 'kurang' && qty2 > 1) qty2--;
                     updateTotalProduk(2);
                 }
             });
         });
 
-        // ========== LIHAT PRODUK ==========
-        const lihatBtn = document.getElementById('lihatProdukBtn');
-        const produkContainer = document.getElementById('produkContainer');
-        lihatBtn.addEventListener('click', function() {
-            produkContainer.style.display = 'block';
-            produkContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // LIHAT PRODUK
+        document.getElementById('lihatProdukBtn').addEventListener('click', function() {
+            document.getElementById('produkContainer').style.display = 'block';
+            document.getElementById('produkContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
-        // ========== PRODUK 3 (PANEL DYNAN) ==========
-        const hargaKapasitas = {
-            '1GB': 1000,
-            '10GB': 10000,
-            'UNLI': 12000
-        };
-        
+        // PANEL DYNAN
         const hargaRole = {
-            'Reseller': 15000,
-            'Admin': 20000,
-            'PT': 25000,
-            'TK': 30000,
-            'CEO': 50000
+            '15000': { nama: 'Reseller', harga: 15000, benefits: ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY'] },
+            '20000': { nama: 'Admin', harga: 20000, benefits: ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN RESELLER PANEL'] },
+            '25000': { nama: 'PT', harga: 25000, benefits: ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN RESELLER PANEL', 'BISA BUAT ADMIN PANEL', 'PRIORITAS SUPPORT'] },
+            '30000': { nama: 'TK', harga: 30000, benefits: ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN RESELLER PANEL', 'BISA BUAT ADMIN PANEL', 'BISA BUAT PT PANEL', 'ACCESS ALL FEATURE', 'WHITELABEL READY'] },
+            '50000': { nama: 'CEO', harga: 50000, benefits: ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN SEMUA ROLE', 'FULL CONTROL', 'UNLIMITED RESOURCES', 'PRIORITAS VVIP', 'CUSTOM LOGO PANEL'] }
         };
-        
-        const benefitsRole = {
-            'Reseller': ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY'],
-            'Admin': ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN RESELLER PANEL'],
-            'PT': ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN RESELLER PANEL', 'BISA BUAT ADMIN PANEL', 'PRIORITAS SUPPORT'],
-            'TK': ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN RESELLER PANEL', 'BISA BUAT ADMIN PANEL', 'BISA BUAT PT PANEL', 'ACCESS ALL FEATURE', 'WHITELABEL READY'],
-            'CEO': ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN SEMUA ROLE', 'FULL CONTROL', 'UNLIMITED RESOURCES', 'PRIORITAS VVIP', 'CUSTOM LOGO PANEL']
-        };
-        
-        function updatePanelHargaDanBenefits() {
-            const kapasitas = document.getElementById('kapasitasPanel').value;
-            const role = document.getElementById('rolePanel').value;
-            const total = hargaKapasitas[kapasitas] + hargaRole[role];
-            
+        function updatePanel() {
+            const kap = parseInt(document.getElementById('kapasitasPanel').value);
+            const roleVal = document.getElementById('rolePanel').value;
+            const total = (kap * 1000) + hargaRole[roleVal].harga;
             document.getElementById('panelHarga').innerText = 'Rp ' + total.toLocaleString('id-ID');
             document.getElementById('totalPanel').innerText = 'Rp ' + total.toLocaleString('id-ID');
-            
-            const benefitsUl = document.getElementById('panelBenefits').querySelector('ul');
-            benefitsUl.innerHTML = '';
-            benefitsRole[role].forEach(benefit => {
-                const li = document.createElement('li');
-                li.innerHTML = '<i class="fas fa-check-circle"></i> ' + benefit;
-                benefitsUl.appendChild(li);
-            });
-            
-            return total;
+            const ul = document.getElementById('panelBenefits').querySelector('ul');
+            ul.innerHTML = '';
+            hargaRole[roleVal].benefits.forEach(b => { const li = document.createElement('li'); li.innerHTML = '<i class="fas fa-check-circle"></i> ' + b; ul.appendChild(li); });
         }
-        
-        document.getElementById('kapasitasPanel').addEventListener('change', updatePanelHargaDanBenefits);
-        document.getElementById('rolePanel').addEventListener('change', updatePanelHargaDanBenefits);
-        updatePanelHargaDanBenefits();
+        document.getElementById('kapasitasPanel').onchange = updatePanel;
+        document.getElementById('rolePanel').onchange = updatePanel;
+        updatePanel();
 
-        // ========== CHECKOUT & MODAL ==========
-        let checkoutData = {
-            namaProduk: '',
-            qty: 0,
-            total: 0,
-            detail: ''
-        };
-        
+        // CHECKOUT & MODAL KONFIRMASI
+        let checkoutData = { namaProduk: '', qty: 0, total: 0, detail: '' };
         const modal = document.getElementById('paymentModal');
+        const confirmModal = document.getElementById('confirmModal');
         const qrisLink = "https://files.catbox.moe/7jdrnl.jpeg";
         const adminNo = "6282381531460";
-        
-        // Event untuk produk 1 & 2
+        let pendingCheckout = null;
+
+        function showConfirm(callback) {
+            pendingCheckout = callback;
+            confirmModal.style.display = 'flex';
+        }
+        document.getElementById('confirmYes').onclick = function() {
+            confirmModal.style.display = 'none';
+            if (pendingCheckout) pendingCheckout();
+        };
+        document.getElementById('confirmNo').onclick = function() {
+            confirmModal.style.display = 'none';
+            pendingCheckout = null;
+        };
+
         document.querySelectorAll('.btn-buy').forEach(btn => {
             if (btn.id !== 'beliPanelBtn') {
-                btn.addEventListener('click', function() {
-                    const produkId = parseInt(this.getAttribute('data-produk'));
-                    const namaProduk = this.getAttribute('data-nama');
-                    const harga = parseInt(this.getAttribute('data-harga'));
+                btn.onclick = function() {
+                    const produkId = parseInt(this.dataset.produk);
+                    const nama = this.dataset.nama;
+                    const harga = parseInt(this.dataset.harga);
                     const qty = produkId === 1 ? qty1 : qty2;
                     const total = qty * harga;
-                    
-                    checkoutData = {
-                        namaProduk: namaProduk,
-                        qty: qty,
-                        total: total,
-                        detail: ''
-                    };
-                    
-                    modal.style.display = 'flex';
-                    document.getElementById('paymentDetailArea').innerHTML = '';
-                    document.getElementById('waButtonArea').innerHTML = '';
-                });
+                    checkoutData = { namaProduk: nama, qty: qty, total: total, detail: '' };
+                    showConfirm(() => { modal.style.display = 'flex'; document.getElementById('paymentDetailArea').innerHTML = ''; document.getElementById('waButtonArea').innerHTML = ''; });
+                };
             }
         });
-        
-        // Event untuk produk 3 (panel)
-        document.getElementById('beliPanelBtn').addEventListener('click', function() {
-            const kapasitas = document.getElementById('kapasitasPanel').value;
-            const role = document.getElementById('rolePanel').value;
-            const total = hargaKapasitas[kapasitas] + hargaRole[role];
-            
-            checkoutData = {
-                namaProduk: `PANEL DYNAN (${kapasitas} - ${role})`,
-                qty: 1,
-                total: total,
-                detail: `Kapasitas: ${kapasitas}, Role: ${role}`
-            };
-            
-            modal.style.display = 'flex';
-            document.getElementById('paymentDetailArea').innerHTML = '';
-            document.getElementById('waButtonArea').innerHTML = '';
-        });
-        
-        // ========== PEMBAYARAN ==========
+        document.getElementById('beliPanelBtn').onclick = function() {
+            const kap = parseInt(document.getElementById('kapasitasPanel').value);
+            const roleVal = document.getElementById('rolePanel').value;
+            const roleNama = hargaRole[roleVal].nama;
+            const total = (kap * 1000) + hargaRole[roleVal].harga;
+            checkoutData = { namaProduk: `PANEL DYNAN (${kap}GB - ${roleNama})`, qty: 1, total: total, detail: `Kapasitas: ${kap}GB, Role: ${roleNama}` };
+            showConfirm(() => { modal.style.display = 'flex'; document.getElementById('paymentDetailArea').innerHTML = ''; document.getElementById('waButtonArea').innerHTML = ''; });
+        };
+
         function sendToWA(method) {
-            let message = `Saya sudah melakukan pembayaran via ${method} untuk pembelian ${checkoutData.namaProduk} sebanyak ${checkoutData.qty} unit. Total Rp ${checkoutData.total.toLocaleString('id-ID')}. `;
-            if (checkoutData.detail) {
-                message += `${checkoutData.detail}. `;
-            }
-            message += `Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.`;
-            
-            window.open(`https://wa.me/${adminNo}?text=${encodeURIComponent(message)}`, '_blank');
+            let msg = `Saya sudah melakukan pembayaran via ${method} untuk pembelian ${checkoutData.namaProduk} sebanyak ${checkoutData.qty} unit. Total Rp ${checkoutData.total.toLocaleString('id-ID')}. `;
+            if (checkoutData.detail) msg += `${checkoutData.detail}. `;
+            msg += `Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.`;
+            window.open(`https://wa.me/${adminNo}?text=${encodeURIComponent(msg)}`, '_blank');
             modal.style.display = 'none';
         }
-        
-        document.getElementById('payDanaBtn').addEventListener('click', function() {
-            document.getElementById('paymentDetailArea').innerHTML = `
-                <div style="background: #1e293b; padding: 15px; border-radius: 32px;">
-                    <i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br>
-                    <small>Transfer sesuai total Rp ${checkoutData.total.toLocaleString('id-ID')}</small>
-                    <br><span style="color: #a5f3c3;">📌 Nomor admin SAMA dengan no DANA</span>
-                </div>
-            `;
+        document.getElementById('payDanaBtn').onclick = function() {
+            document.getElementById('paymentDetailArea').innerHTML = `<div style="background:#1e293b;padding:15px;border-radius:32px;"><i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br><small>Transfer Rp ${checkoutData.total.toLocaleString('id-ID')}</small><br><span style="color:#a5f3c3;">📌 Nomor admin SAMA</span></div>`;
             document.getElementById('waButtonArea').innerHTML = `<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;
-            document.getElementById('confirmPayBtn').addEventListener('click', function() { sendToWA('DANA'); });
-        });
-        
-        document.getElementById('payQrisBtn').addEventListener('click', function() {
-            document.getElementById('paymentDetailArea').innerHTML = `
-                <div>
-                    <img src="${qrisLink}" class="qris-image" alt="QRIS Nann Official">
-                    <p><i class="fas fa-camera"></i> Scan QRIS di atas<br>No DANA juga tersedia: 082381531460</p>
-                    <small>Total : Rp ${checkoutData.total.toLocaleString('id-ID')}</small>
-                </div>
-            `;
+            document.getElementById('confirmPayBtn').onclick = () => sendToWA('DANA');
+        };
+        document.getElementById('payQrisBtn').onclick = function() {
+            document.getElementById('paymentDetailArea').innerHTML = `<div><img src="${qrisLink}" class="qris-image"><p>Scan QRIS di atas<br>No DANA: 082381531460</p><small>Total: Rp ${checkoutData.total.toLocaleString('id-ID')}</small></div>`;
             document.getElementById('waButtonArea').innerHTML = `<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;
-            document.getElementById('confirmPayQrisBtn').addEventListener('click', function() { sendToWA('QRIS'); });
-        });
-        
-        document.getElementById('closeModalBtn').addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-        
-        // ========== TEMA GELAP / TERANG ==========
-        const themeBtn = document.getElementById('darkLightToggle');
-        let isDark = true;
-        themeBtn.addEventListener('click', function() {
+            document.getElementById('confirmPayQrisBtn').onclick = () => sendToWA('QRIS');
+        };
+        document.getElementById('closeModalBtn').onclick = () => modal.style.display = 'none';
+        window.onclick = e => { if (e.target === modal) modal.style.display = 'none'; if (e.target === confirmModal) confirmModal.style.display = 'none'; };
+
+        // TEMA
+        document.getElementById('darkLightToggle').onclick = function() {
             document.body.classList.toggle('light-mode');
-            isDark = !document.body.classList.contains('light-mode');
-            if (isDark) {
-                themeBtn.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Mode Gelap (Angkasa)</span>';
-            } else {
-                themeBtn.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Mode Terang (Matahari)</span>';
-            }
-        });
-        
-        // ========== INITIAL ==========
+            const isDark = !document.body.classList.contains('light-mode');
+            this.innerHTML = isDark ? '<i class="fas fa-moon"></i> <span>Mode Gelap (Angkasa)</span>' : '<i class="fas fa-sun"></i> <span>Mode Terang (Matahari)</span>';
+        };
         updateTotalProduk(1);
         updateTotalProduk(2);
-        
-        // Animasi meteor random
-        setInterval(function() {
+
+        // METEOR
+        setTimeout(function meteor() {
             if (!document.body.classList.contains('light-mode')) {
-                let shooting = document.querySelector('.shooting-star');
-                if (shooting) {
-                    shooting.style.left = Math.random() * 70 + 10 + '%';
-                    shooting.style.animation = 'none';
-                    shooting.offsetHeight;
-                    shooting.style.animation = 'shoot 4s linear infinite';
-                }
+                let shooting = document.getElementById('shootingStar');
+                shooting.style.animation = 'none';
+                shooting.offsetHeight;
+                shooting.style.left = Math.random() * 70 + 10 + '%';
+                shooting.style.animation = 'shoot 4s linear infinite';
             }
-        }, 6000);
+            setTimeout(meteor, 12000);
+        }, 3000);
     </script>
 </body>
 </html>
