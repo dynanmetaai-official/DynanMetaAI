@@ -13,6 +13,8 @@
             box-sizing: border-box;
             transition: all 0.2s cubic-bezier(0.2,0.9,0.4,1.1);
         }
+
+        /* ========== DEFAULT: TEMA GELAP (ANGKASA) ========== */
         body {
             font-family: 'Poppins', 'Inter', sans-serif;
             min-height: 100vh;
@@ -22,6 +24,8 @@
             position: relative;
             overflow-x: hidden;
         }
+
+        /* Bintang & Nebula (Gelap) */
         .star {
             position: fixed;
             background-color: #ffffff;
@@ -66,24 +70,77 @@
             0% { top: -80px; left: 20%; opacity: 1; }
             100% { top: 110%; left: 80%; opacity: 0; }
         }
+
+        /* ========== TEMA TERANG (MATAHARI) ========== */
         body.light-mode {
-            background: #f4f7fc;
-            color: #111827;
+            background: linear-gradient(135deg, #FFD700 0%, #FF8C00 50%, #FF4500 100%);
+            color: #2c1e0f;
         }
-        body.light-mode .star, body.light-mode .nebula, body.light-mode .shooting-star {
+        /* Hilangkan bintang & nebula di mode terang */
+        body.light-mode .star,
+        body.light-mode .nebula,
+        body.light-mode .shooting-star {
             opacity: 0 !important;
             display: none;
         }
-        body.light-mode .product-card, body.light-mode .modal-content {
-            background: rgba(255,255,245,0.92);
-            backdrop-filter: blur(16px);
-            color: #0f172a;
-            border: 1px solid #cbd5e1;
+        /* Tambahan efek sinar matahari */
+        body.light-mode::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 20%, rgba(255,215,0,0.3), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
         }
-        body.light-mode button:not(.theme-btn) {
-            background: #1f3a6b;
-            color: white;
+        body.light-mode .product-card,
+        body.light-mode .modal-content {
+            background: rgba(255,250,210,0.95);
+            backdrop-filter: blur(12px);
+            color: #3b2a1f;
+            border: 2px solid #ffb347;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
         }
+        body.light-mode .btn-buy {
+            background: #ff8c00;
+            color: #2c1e0f;
+        }
+        body.light-mode .btn-buy:hover {
+            background: #ffaa33;
+        }
+        body.light-mode .benefits-list {
+            background: rgba(255,200,100,0.3);
+        }
+        body.light-mode .qty-btn {
+            background: #ffb347;
+            color: #2c1e0f;
+        }
+        body.light-mode .pay-btn {
+            background: #ffa500;
+            color: #2c1e0f;
+        }
+        body.light-mode .theme-btn {
+            background: #ff8c00;
+            color: #2c1e0f;
+            border: none;
+        }
+        body.light-mode .wa-badge {
+            background: rgba(255,200,100,0.7);
+            color: #2c1e0f;
+        }
+        body.light-mode .btn-lihat {
+            background: linear-gradient(95deg, #ff8c00, #ff5500);
+        }
+        body.light-mode .hero h1 {
+            background: linear-gradient(135deg, #5a3e1b, #ffaa33);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* ========== STYLE UMUM (GELAP & TERANG) ========== */
         .container {
             max-width: 1300px;
             margin: 0 auto;
@@ -97,7 +154,7 @@
             margin-bottom: 1rem;
         }
         .theme-btn {
-            background: rgba(255,255,240,0.12);
+            background: rgba(255,255,240,0.15);
             backdrop-filter: blur(12px);
             padding: 10px 22px;
             border-radius: 60px;
@@ -261,7 +318,6 @@
             gap: 10px;
         }
         .btn-buy:hover {
-            background: #be123c;
             transform: scale(1.01);
         }
         .modal {
@@ -362,7 +418,7 @@
 
     <div class="container">
         <div class="theme-toggle">
-            <button class="theme-btn" id="darkLightToggle"><i class="fas fa-moon"></i> <span id="themeText">Mode Gelap/Terang</span></button>
+            <button class="theme-btn" id="darkLightToggle"><i class="fas fa-sun"></i> <span id="themeText">Mode Terang (Matahari)</span></button>
         </div>
 
         <div class="hero">
@@ -379,7 +435,7 @@
                 <div class="product-card">
                     <span class="badge-jasa"><i class="fas fa-robot"></i> PREMIUM BOT</span>
                     <h2 style="margin:10px 0">🤖 JASA JADI BOT WHATSAPP</h2>
-                    <div class="price-tag" id="hargaSatuan1">Rp 1.000</div>
+                    <div class="price-tag">Rp 1.000</div>
                     <div class="benefits-list">
                         <ul>
                             <li><i class="fas fa-check-circle"></i> JADI OWNER BOT</li>
@@ -402,7 +458,7 @@
                 <div class="product-card">
                     <span class="badge-premium"><i class="fas fa-video"></i> ALIGHT MOTION</span>
                     <h2 style="margin:10px 0">🎬 ALIGHT MOTION PREMIUM</h2>
-                    <div class="price-tag" id="hargaSatuan2">Rp 5.000</div>
+                    <div class="price-tag">Rp 5.000</div>
                     <div class="benefits-list">
                         <ul>
                             <li><i class="fas fa-check-circle"></i> AKUN PRIVATE</li>
@@ -418,11 +474,11 @@
                         <button class="qty-btn" data-produk="2" data-arah="tambah">+</button>
                     </div>
                     <div><strong>Total: <span id="total2">Rp 5.000</span></strong></div>
-                    <button class="btn-buy" data-produk="2" data-nama="ALIGHT MOTION PREMIUM (Akun Private 1 Thn)" data-harga="5000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
+                    <button class="btn-buy" data-produk="2" data-nama="ALIGHT MOTION PREMIUM (Akun Private 1 Tahun)" data-harga="5000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
                 </div>
             </div>
         </div>
-        <footer>© NANN OFFICIAL MARKET </footer>
+        <footer>© NANN OFFICIAL • Bot WhatsApp + Alight Motion Premium</footer>
     </div>
 
     <div id="paymentModal" class="modal">
@@ -441,6 +497,7 @@
     </div>
 
     <script>
+        // Bintang & Nebula hanya untuk mode gelap
         function createStars() {
             const starsContainer = document.getElementById('starsField');
             for (let i = 0; i < 180; i++) {
@@ -472,153 +529,97 @@
         createStars();
         createNebula();
 
-        // State produk: qty
-        let qty1 = 1;
-        let qty2 = 1;
-        const harga1 = 1000;
-        const harga2 = 5000;
+        // State qty
+        let qty1 = 1, qty2 = 1;
+        const harga1 = 1000, harga2 = 5000;
 
-        function updateTotalProduk(produk) {
+        function updateTotal(produk) {
             if (produk === 1) {
                 const total = qty1 * harga1;
                 document.getElementById('total1').innerText = 'Rp ' + total.toLocaleString('id-ID');
                 document.getElementById('qty1').innerText = qty1;
-            } else if (produk === 2) {
+            } else {
                 const total = qty2 * harga2;
                 document.getElementById('total2').innerText = 'Rp ' + total.toLocaleString('id-ID');
                 document.getElementById('qty2').innerText = qty2;
             }
         }
 
-        // Event listener untuk semua tombol qty
         document.querySelectorAll('.qty-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                const produk = parseInt(this.getAttribute('data-produk'));
-                const arah = this.getAttribute('data-arah');
+                const produk = parseInt(this.dataset.produk);
+                const arah = this.dataset.arah;
                 if (produk === 1) {
-                    if (arah === 'tambah') {
-                        qty1++;
-                    } else if (arah === 'kurang' && qty1 > 1) {
-                        qty1--;
-                    }
-                    updateTotalProduk(1);
-                } else if (produk === 2) {
-                    if (arah === 'tambah') {
-                        qty2++;
-                    } else if (arah === 'kurang' && qty2 > 1) {
-                        qty2--;
-                    }
-                    updateTotalProduk(2);
+                    if (arah === 'tambah') qty1++;
+                    else if (arah === 'kurang' && qty1 > 1) qty1--;
+                    updateTotal(1);
+                } else {
+                    if (arah === 'tambah') qty2++;
+                    else if (arah === 'kurang' && qty2 > 1) qty2--;
+                    updateTotal(2);
                 }
             });
         });
 
-        const lihatBtn = document.getElementById('lihatProdukBtn');
-        const produkContainer = document.getElementById('produkContainer');
-        if (lihatBtn) {
-            lihatBtn.addEventListener('click', function() {
-                produkContainer.style.display = 'block';
-                produkContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        }
+        document.getElementById('lihatProdukBtn').addEventListener('click', () => {
+            document.getElementById('produkContainer').style.display = 'block';
+            document.getElementById('produkContainer').scrollIntoView({ behavior: 'smooth' });
+        });
 
-        // Variabel untuk checkout
-        let checkoutData = {
-            namaProduk: '',
-            qty: 0,
-            total: 0
-        };
+        let checkoutData = { namaProduk: '', qty: 0, total: 0 };
+        const modal = document.getElementById('paymentModal');
+        const qrisLink = "https://files.catbox.moe/7jdrnl.jpeg";
 
-        const paymentModal = document.getElementById('paymentModal');
-        const qrisImageLink = "https://files.catbox.moe/7jdrnl.jpeg";
-
-        // Event listener untuk semua tombol BELI SEKARANG
         document.querySelectorAll('.btn-buy').forEach(btn => {
             btn.addEventListener('click', function() {
-                const produkId = parseInt(this.getAttribute('data-produk'));
-                const namaProduk = this.getAttribute('data-nama');
-                const harga = parseInt(this.getAttribute('data-harga'));
-                let qty = 0;
-                if (produkId === 1) {
-                    qty = qty1;
-                } else {
-                    qty = qty2;
-                }
-                const total = qty * harga;
+                const produkId = parseInt(this.dataset.produk);
+                const nama = this.dataset.nama;
+                const harga = parseInt(this.dataset.harga);
+                const qty = produkId === 1 ? qty1 : qty2;
                 checkoutData = {
-                    namaProduk: namaProduk,
+                    namaProduk: nama,
                     qty: qty,
-                    total: total
+                    total: qty * harga
                 };
-                paymentModal.style.display = 'flex';
+                modal.style.display = 'flex';
                 document.getElementById('paymentDetailArea').innerHTML = '';
                 document.getElementById('waButtonArea').innerHTML = '';
             });
         });
 
-        const payDana = document.getElementById('payDanaBtn');
-        const payQris = document.getElementById('payQrisBtn');
-        const detailArea = document.getElementById('paymentDetailArea');
-        const waArea = document.getElementById('waButtonArea');
-
         function sendToWA(method) {
             const adminNo = '6282381531460';
-            const buktiText = "Saya sudah melakukan pembayaran via " + method + " untuk pembelian " + checkoutData.namaProduk + " sebanyak " + checkoutData.qty + " unit. Total Rp " + checkoutData.total.toLocaleString('id-ID') + ". Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.";
-            window.open('https://wa.me/' + adminNo + '?text=' + encodeURIComponent(buktiText), '_blank');
-            paymentModal.style.display = 'none';
+            const msg = `Saya sudah melakukan pembayaran via ${method} untuk pembelian ${checkoutData.namaProduk} sebanyak ${checkoutData.qty} unit. Total Rp ${checkoutData.total.toLocaleString('id-ID')}. Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.`;
+            window.open(`https://wa.me/${adminNo}?text=${encodeURIComponent(msg)}`, '_blank');
+            modal.style.display = 'none';
         }
 
-        if (payDana) {
-            payDana.addEventListener('click', function() {
-                detailArea.innerHTML = '<div style="background: #1e293b; padding: 15px; border-radius: 32px;"><i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br><small>Transfer sesuai total Rp ' + checkoutData.total.toLocaleString('id-ID') + '</small><br><span style="color:#a5f3c3;">📌 Nomor admin SAMA dengan no DANA</span></div>';
-                waArea.innerHTML = '<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>';
-                const confirmBtn = document.getElementById('confirmPayBtn');
-                if (confirmBtn) {
-                    confirmBtn.addEventListener('click', function() { sendToWA('DANA'); });
-                }
-            });
-        }
+        document.getElementById('payDanaBtn').onclick = () => {
+            document.getElementById('paymentDetailArea').innerHTML = `<div style="background:#1e293b;padding:15px;border-radius:32px;"><i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br><small>Transfer sesuai total Rp ${checkoutData.total.toLocaleString('id-ID')}</small><br><span style="color:#a5f3c3;">📌 Nomor admin SAMA dengan no DANA</span></div>`;
+            document.getElementById('waButtonArea').innerHTML = `<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;
+            document.getElementById('confirmPayBtn').onclick = () => sendToWA('DANA');
+        };
+        document.getElementById('payQrisBtn').onclick = () => {
+            document.getElementById('paymentDetailArea').innerHTML = `<div><img src="${qrisLink}" class="qris-image" alt="QRIS"><p><i class="fas fa-camera"></i> Scan QRIS di atas<br>No DANA juga tersedia: 082381531460</p><small>Total : Rp ${checkoutData.total.toLocaleString('id-ID')}</small></div>`;
+            document.getElementById('waButtonArea').innerHTML = `<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;
+            document.getElementById('confirmPayQrisBtn').onclick = () => sendToWA('QRIS');
+        };
+        document.getElementById('closeModalBtn').onclick = () => modal.style.display = 'none';
+        window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
 
-        if (payQris) {
-            payQris.addEventListener('click', function() {
-                detailArea.innerHTML = '<div><img src="' + qrisImageLink + '" class="qris-image" alt="QRIS Nann Official"><p><i class="fas fa-camera"></i> Scan QRIS di atas<br>No DANA juga tersedia: 082381531460</p><small>Total : Rp ' + checkoutData.total.toLocaleString('id-ID') + '</small></div>';
-                waArea.innerHTML = '<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI (QRIS/DANA)</button>';
-                const confirmQris = document.getElementById('confirmPayQrisBtn');
-                if (confirmQris) {
-                    confirmQris.addEventListener('click', function() { sendToWA('QRIS'); });
-                }
-            });
-        }
-
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', function() {
-                paymentModal.style.display = 'none';
-            });
-        }
-        
-        window.addEventListener('click', function(e) {
-            if (e.target === paymentModal) {
-                paymentModal.style.display = 'none';
-            }
-        });
-
+        // Toggle tema
         const themeBtn = document.getElementById('darkLightToggle');
-        if (themeBtn) {
-            themeBtn.addEventListener('click', function() {
-                document.body.classList.toggle('light-mode');
-                const isLight = document.body.classList.contains('light-mode');
-                const themeText = document.getElementById('themeText');
-                if (themeText) {
-                    themeText.innerHTML = isLight ? '☀️ Mode Terang' : '🌙 Mode Gelap';
-                }
-            });
-        }
-        
-        updateTotalProduk(1);
-        updateTotalProduk(2);
+        let isDark = true;
+        themeBtn.onclick = () => {
+            document.body.classList.toggle('light-mode');
+            isDark = !document.body.classList.contains('light-mode');
+            themeBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang (Matahari)' : '<i class="fas fa-moon"></i> Mode Gelap (Angkasa)';
+        };
 
-        setInterval(function() {
+        updateTotal(1);
+        updateTotal(2);
+
+        setInterval(() => {
             if (!document.body.classList.contains('light-mode')) {
                 let shooting = document.querySelector('.shooting-star');
                 if (shooting) {
