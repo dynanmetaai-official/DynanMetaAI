@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Nann Official · Jasa Bot WhatsApp</title>
+    <title>Nann Official · Bot WhatsApp + Alight Motion</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -157,9 +157,11 @@
             font-size: 1.4rem;
             color: #25D366;
         }
-        .product-section {
+        .products-grid {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
+            gap: 2rem;
             margin: 50px 0;
         }
         .product-card {
@@ -168,10 +170,12 @@
             border-radius: 56px;
             padding: 2rem 1.8rem;
             width: 100%;
-            max-width: 550px;
+            max-width: 500px;
             border: 1px solid rgba(255,255,245,0.25);
             text-align: center;
             box-shadow: 0 25px 40px -12px black;
+            flex: 1;
+            min-width: 280px;
         }
         .badge-jasa {
             background: #f59e0b;
@@ -181,8 +185,16 @@
             font-weight: 700;
             font-size: 0.8rem;
         }
+        .badge-premium {
+            background: #8b5cf6;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
         .price-tag {
-            font-size: 2.7rem;
+            font-size: 2.5rem;
             font-weight: 800;
             margin: 15px 0;
             color: #FCD34D;
@@ -217,9 +229,9 @@
         .qty-btn {
             background: #1e293b;
             border: none;
-            width: 50px;
-            height: 50px;
-            font-size: 2rem;
+            width: 45px;
+            height: 45px;
+            font-size: 1.8rem;
             font-weight: bold;
             border-radius: 60px;
             cursor: pointer;
@@ -229,18 +241,18 @@
             background: #334155;
         }
         .qty-num {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            min-width: 60px;
+            min-width: 50px;
         }
         .btn-buy {
             background: #E11D48;
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             border: none;
             border-radius: 60px;
             font-weight: 800;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-top: 15px;
             cursor: pointer;
             color: white;
@@ -332,18 +344,13 @@
             opacity: 0.8;
             font-size: 0.8rem;
         }
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            .products-grid {
+                flex-direction: column;
+                align-items: center;
+            }
             .product-card {
-                padding: 1.5rem;
-            }
-            .qty-btn {
-                width: 44px;
-                height: 44px;
-                font-size: 1.6rem;
-            }
-            .pay-btn {
-                padding: 10px 20px;
-                font-size: 1rem;
+                max-width: 100%;
             }
         }
     </style>
@@ -367,11 +374,12 @@
         </div>
 
         <div id="produkContainer" style="display: none;">
-            <div class="product-section">
+            <div class="products-grid">
+                <!-- PRODUK 1: JASA BOT WHATSAPP -->
                 <div class="product-card">
                     <span class="badge-jasa"><i class="fas fa-robot"></i> PREMIUM BOT</span>
                     <h2 style="margin:10px 0">🤖 JASA JADI BOT WHATSAPP</h2>
-                    <div class="price-tag" id="hargaSatuan">Rp 1.000</div>
+                    <div class="price-tag" id="hargaSatuan1">Rp 1.000</div>
                     <div class="benefits-list">
                         <ul>
                             <li><i class="fas fa-check-circle"></i> JADI OWNER BOT</li>
@@ -382,16 +390,39 @@
                         </ul>
                     </div>
                     <div class="qty-control">
-                        <button class="qty-btn" id="kurangBtn">-</button>
-                        <span class="qty-num" id="jumlahQty">1</span>
-                        <button class="qty-btn" id="tambahBtn">+</button>
+                        <button class="qty-btn" data-produk="1" data-arah="kurang">-</button>
+                        <span class="qty-num" id="qty1">1</span>
+                        <button class="qty-btn" data-produk="1" data-arah="tambah">+</button>
                     </div>
-                    <div><strong>Total: <span id="totalHarga">Rp 1.000</span></strong></div>
-                    <button class="btn-buy" id="beliSekarangBtn"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
+                    <div><strong>Total: <span id="total1">Rp 1.000</span></strong></div>
+                    <button class="btn-buy" data-produk="1" data-nama="JASA JADI BOT WHATSAPP" data-harga="1000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
+                </div>
+
+                <!-- PRODUK 2: ALIGHT MOTION PREMIUM -->
+                <div class="product-card">
+                    <span class="badge-premium"><i class="fas fa-video"></i> ALIGHT MOTION</span>
+                    <h2 style="margin:10px 0">🎬 ALIGHT MOTION PREMIUM</h2>
+                    <div class="price-tag" id="hargaSatuan2">Rp 5.000</div>
+                    <div class="benefits-list">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> AKUN PRIVATE</li>
+                            <li><i class="fas fa-check-circle"></i> PREMIUM UNLIMITED</li>
+                            <li><i class="fas fa-check-circle"></i> DURASI 1 TAHUN</li>
+                            <li><i class="fas fa-check-circle"></i> NO EXPORT WATERMARK</li>
+                            <li><i class="fas fa-check-circle"></i> ALL FITUR PRO</li>
+                        </ul>
+                    </div>
+                    <div class="qty-control">
+                        <button class="qty-btn" data-produk="2" data-arah="kurang">-</button>
+                        <span class="qty-num" id="qty2">1</span>
+                        <button class="qty-btn" data-produk="2" data-arah="tambah">+</button>
+                    </div>
+                    <div><strong>Total: <span id="total2">Rp 5.000</span></strong></div>
+                    <button class="btn-buy" data-produk="2" data-nama="ALIGHT MOTION PREMIUM (Akun Private 1 Thn)" data-harga="5000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
                 </div>
             </div>
         </div>
-        <footer>© NANN OFFICIAL • Premium Bot WhatsApp</footer>
+        <footer>© NANN OFFICIAL • Bot WhatsApp + Alight Motion Premium</footer>
     </div>
 
     <div id="paymentModal" class="modal">
@@ -441,37 +472,49 @@
         createStars();
         createNebula();
 
-        const lihatBtn = document.getElementById('lihatProdukBtn');
-        const produkContainer = document.getElementById('produkContainer');
-        let jumlah = 1;
-        const jumlahSpan = document.getElementById('jumlahQty');
-        const totalSpan = document.getElementById('totalHarga');
-        const tambahBtn = document.getElementById('tambahBtn');
-        const kurangBtn = document.getElementById('kurangBtn');
-        const beliBtn = document.getElementById('beliSekarangBtn');
-        const paymentModal = document.getElementById('paymentModal');
-        
-        const hargaPerItem = 1000;
-        function updateTotal() {
-            let total = hargaPerItem * jumlah;
-            totalSpan.innerText = 'Rp ' + total.toLocaleString('id-ID');
-            jumlahSpan.innerText = jumlah;
+        // State produk: qty
+        let qty1 = 1;
+        let qty2 = 1;
+        const harga1 = 1000;
+        const harga2 = 5000;
+
+        function updateTotalProduk(produk) {
+            if (produk === 1) {
+                const total = qty1 * harga1;
+                document.getElementById('total1').innerText = 'Rp ' + total.toLocaleString('id-ID');
+                document.getElementById('qty1').innerText = qty1;
+            } else if (produk === 2) {
+                const total = qty2 * harga2;
+                document.getElementById('total2').innerText = 'Rp ' + total.toLocaleString('id-ID');
+                document.getElementById('qty2').innerText = qty2;
+            }
         }
-        
-        if (tambahBtn) {
-            tambahBtn.addEventListener('click', function() {
-                jumlah++;
-                updateTotal();
-            });
-        }
-        if (kurangBtn) {
-            kurangBtn.addEventListener('click', function() {
-                if (jumlah > 1) {
-                    jumlah--;
-                    updateTotal();
+
+        // Event listener untuk semua tombol qty
+        document.querySelectorAll('.qty-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const produk = parseInt(this.getAttribute('data-produk'));
+                const arah = this.getAttribute('data-arah');
+                if (produk === 1) {
+                    if (arah === 'tambah') {
+                        qty1++;
+                    } else if (arah === 'kurang' && qty1 > 1) {
+                        qty1--;
+                    }
+                    updateTotalProduk(1);
+                } else if (produk === 2) {
+                    if (arah === 'tambah') {
+                        qty2++;
+                    } else if (arah === 'kurang' && qty2 > 1) {
+                        qty2--;
+                    }
+                    updateTotalProduk(2);
                 }
             });
-        }
+        });
+
+        const lihatBtn = document.getElementById('lihatProdukBtn');
+        const produkContainer = document.getElementById('produkContainer');
         if (lihatBtn) {
             lihatBtn.addEventListener('click', function() {
                 produkContainer.style.display = 'block';
@@ -479,20 +522,39 @@
             });
         }
 
-        let checkoutJumlah = 1;
-        let checkoutTotal = 1000;
-        
-        if (beliBtn) {
-            beliBtn.addEventListener('click', function() {
-                checkoutJumlah = jumlah;
-                checkoutTotal = hargaPerItem * jumlah;
+        // Variabel untuk checkout
+        let checkoutData = {
+            namaProduk: '',
+            qty: 0,
+            total: 0
+        };
+
+        const paymentModal = document.getElementById('paymentModal');
+        const qrisImageLink = "https://files.catbox.moe/7jdrnl.jpeg";
+
+        // Event listener untuk semua tombol BELI SEKARANG
+        document.querySelectorAll('.btn-buy').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const produkId = parseInt(this.getAttribute('data-produk'));
+                const namaProduk = this.getAttribute('data-nama');
+                const harga = parseInt(this.getAttribute('data-harga'));
+                let qty = 0;
+                if (produkId === 1) {
+                    qty = qty1;
+                } else {
+                    qty = qty2;
+                }
+                const total = qty * harga;
+                checkoutData = {
+                    namaProduk: namaProduk,
+                    qty: qty,
+                    total: total
+                };
                 paymentModal.style.display = 'flex';
                 document.getElementById('paymentDetailArea').innerHTML = '';
                 document.getElementById('waButtonArea').innerHTML = '';
             });
-        }
-
-        const qrisImageLink = "https://files.catbox.moe/7jdrnl.jpeg";
+        });
 
         const payDana = document.getElementById('payDanaBtn');
         const payQris = document.getElementById('payQrisBtn');
@@ -501,17 +563,14 @@
 
         function sendToWA(method) {
             const adminNo = '6282381531460';
-            const productName = "JASA JADI BOT WHATSAPP";
-            const qty = checkoutJumlah;
-            const totalRupiah = checkoutTotal;
-            const buktiText = "Saya sudah melakukan pembayaran via " + method + " untuk pembelian " + productName + " sebanyak " + qty + " unit. Total Rp " + totalRupiah.toLocaleString('id-ID') + ". Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.";
+            const buktiText = "Saya sudah melakukan pembayaran via " + method + " untuk pembelian " + checkoutData.namaProduk + " sebanyak " + checkoutData.qty + " unit. Total Rp " + checkoutData.total.toLocaleString('id-ID') + ". Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.";
             window.open('https://wa.me/' + adminNo + '?text=' + encodeURIComponent(buktiText), '_blank');
             paymentModal.style.display = 'none';
         }
 
         if (payDana) {
             payDana.addEventListener('click', function() {
-                detailArea.innerHTML = '<div style="background: #1e293b; padding: 15px; border-radius: 32px;"><i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br><small>Transfer sesuai total Rp ' + checkoutTotal.toLocaleString('id-ID') + '</small><br><span style="color:#a5f3c3;">📌 Nomor admin SAMA dengan no DANA</span></div>';
+                detailArea.innerHTML = '<div style="background: #1e293b; padding: 15px; border-radius: 32px;"><i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br><small>Transfer sesuai total Rp ' + checkoutData.total.toLocaleString('id-ID') + '</small><br><span style="color:#a5f3c3;">📌 Nomor admin SAMA dengan no DANA</span></div>';
                 waArea.innerHTML = '<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>';
                 const confirmBtn = document.getElementById('confirmPayBtn');
                 if (confirmBtn) {
@@ -522,7 +581,7 @@
 
         if (payQris) {
             payQris.addEventListener('click', function() {
-                detailArea.innerHTML = '<div><img src="' + qrisImageLink + '" class="qris-image" alt="QRIS Nann Official"><p><i class="fas fa-camera"></i> Scan QRIS di atas<br>No DANA juga tersedia: 082381531460</p><small>Total : Rp ' + checkoutTotal.toLocaleString('id-ID') + '</small></div>';
+                detailArea.innerHTML = '<div><img src="' + qrisImageLink + '" class="qris-image" alt="QRIS Nann Official"><p><i class="fas fa-camera"></i> Scan QRIS di atas<br>No DANA juga tersedia: 082381531460</p><small>Total : Rp ' + checkoutData.total.toLocaleString('id-ID') + '</small></div>';
                 waArea.innerHTML = '<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI (QRIS/DANA)</button>';
                 const confirmQris = document.getElementById('confirmPayQrisBtn');
                 if (confirmQris) {
@@ -556,7 +615,8 @@
             });
         }
         
-        updateTotal();
+        updateTotalProduk(1);
+        updateTotalProduk(2);
 
         setInterval(function() {
             if (!document.body.classList.contains('light-mode')) {
