@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Nann Official · Bot WhatsApp + Alight Motion</title>
+    <title>Nann Official · Bot WA + Alight Motion + Panel DYNAN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: all 0.2s cubic-bezier(0.2,0.9,0.4,1.1);
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
         /* ========== DEFAULT: TEMA GELAP (ANGKASA) ========== */
@@ -25,7 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* Bintang & Nebula (Gelap) */
+        /* Bintang */
         .star {
             position: fixed;
             background-color: #ffffff;
@@ -39,9 +39,11 @@
             0% { opacity: 0.2; transform: scale(0.8); box-shadow: 0 0 2px white; }
             100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px #ffe6b3; }
         }
+
+        /* Nebula */
         .nebula {
             position: fixed;
-            background: radial-gradient(circle, rgba(120,80,200,0.4), transparent 70%);
+            background: radial-gradient(circle, rgba(120, 80, 200, 0.4), transparent 70%);
             border-radius: 50%;
             filter: blur(60px);
             pointer-events: none;
@@ -51,14 +53,16 @@
             animation: floatNebula 20s infinite alternate;
         }
         @keyframes floatNebula {
-            0% { transform: translate(0%,0%) scale(1); opacity: 0.4; }
-            100% { transform: translate(5%,8%) scale(1.3); opacity: 0.7; }
+            0% { transform: translate(0%, 0%) scale(1); opacity: 0.4; }
+            100% { transform: translate(5%, 8%) scale(1.3); opacity: 0.7; }
         }
+
+        /* Meteor */
         .shooting-star {
             position: fixed;
             width: 2px;
             height: 80px;
-            background: linear-gradient(white, rgba(255,255,255,0));
+            background: linear-gradient(white, rgba(255, 255, 255, 0));
             top: -80px;
             left: 20%;
             transform: rotate(25deg);
@@ -76,14 +80,12 @@
             background: linear-gradient(135deg, #FFD700 0%, #FF8C00 50%, #FF4500 100%);
             color: #2c1e0f;
         }
-        /* Hilangkan bintang & nebula di mode terang */
         body.light-mode .star,
         body.light-mode .nebula,
         body.light-mode .shooting-star {
             opacity: 0 !important;
             display: none;
         }
-        /* Tambahan efek sinar matahari */
         body.light-mode::before {
             content: "";
             position: fixed;
@@ -91,17 +93,17 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 20%, rgba(255,215,0,0.3), transparent 70%);
+            background: radial-gradient(circle at 50% 20%, rgba(255, 215, 0, 0.3), transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
         body.light-mode .product-card,
         body.light-mode .modal-content {
-            background: rgba(255,250,210,0.95);
+            background: rgba(255, 250, 210, 0.95);
             backdrop-filter: blur(12px);
             color: #3b2a1f;
             border: 2px solid #ffb347;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
         }
         body.light-mode .btn-buy {
             background: #ff8c00;
@@ -111,7 +113,7 @@
             background: #ffaa33;
         }
         body.light-mode .benefits-list {
-            background: rgba(255,200,100,0.3);
+            background: rgba(255, 200, 100, 0.3);
         }
         body.light-mode .qty-btn {
             background: #ffb347;
@@ -127,7 +129,7 @@
             border: none;
         }
         body.light-mode .wa-badge {
-            background: rgba(255,200,100,0.7);
+            background: rgba(255, 200, 100, 0.7);
             color: #2c1e0f;
         }
         body.light-mode .btn-lihat {
@@ -139,8 +141,12 @@
             background-clip: text;
             color: transparent;
         }
+        body.light-mode select {
+            background: #ffd699;
+            color: #2c1e0f;
+        }
 
-        /* ========== STYLE UMUM (GELAP & TERANG) ========== */
+        /* ========== STYLE UMUM ========== */
         .container {
             max-width: 1300px;
             margin: 0 auto;
@@ -154,11 +160,11 @@
             margin-bottom: 1rem;
         }
         .theme-btn {
-            background: rgba(255,255,240,0.15);
+            background: rgba(255, 255, 240, 0.15);
             backdrop-filter: blur(12px);
             padding: 10px 22px;
             border-radius: 60px;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             font-weight: 600;
             cursor: pointer;
             font-size: 0.9rem;
@@ -190,15 +196,15 @@
             font-size: 1.2rem;
             margin-top: 28px;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(59,130,246,0.4);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
             color: white;
         }
         .btn-lihat:hover {
             transform: scale(1.02);
-            box-shadow: 0 12px 28px rgba(59,130,246,0.6);
+            box-shadow: 0 12px 28px rgba(59, 130, 246, 0.6);
         }
         .wa-badge {
-            background: rgba(0,0,0,0.4);
+            background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(6px);
             display: inline-flex;
             align-items: center;
@@ -208,7 +214,7 @@
             margin-top: 20px;
             font-size: 1rem;
             font-weight: 500;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .wa-badge i {
             font-size: 1.4rem;
@@ -222,13 +228,13 @@
             margin: 50px 0;
         }
         .product-card {
-            background: rgba(15,20,40,0.7);
+            background: rgba(15, 20, 40, 0.7);
             backdrop-filter: blur(20px);
             border-radius: 56px;
             padding: 2rem 1.8rem;
             width: 100%;
-            max-width: 500px;
-            border: 1px solid rgba(255,255,245,0.25);
+            max-width: 550px;
+            border: 1px solid rgba(255, 255, 245, 0.25);
             text-align: center;
             box-shadow: 0 25px 40px -12px black;
             flex: 1;
@@ -250,18 +256,27 @@
             font-weight: 700;
             font-size: 0.8rem;
         }
+        .badge-panel {
+            background: #06b6d4;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
         .price-tag {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
-            margin: 15px 0;
+            margin: 10px 0;
             color: #FCD34D;
         }
         .benefits-list {
             text-align: left;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
             padding: 18px;
             border-radius: 32px;
             line-height: 1.8;
+            margin: 15px 0;
         }
         .benefits-list ul {
             list-style: none;
@@ -275,6 +290,25 @@
         .benefits-list i {
             width: 24px;
             color: #4ade80;
+        }
+        .select-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+        .select-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 40px;
+            background: #1e293b;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
         }
         .qty-control {
             display: flex;
@@ -327,7 +361,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(18px);
             justify-content: center;
             align-items: center;
@@ -340,7 +374,7 @@
             width: 90%;
             padding: 28px 24px;
             text-align: center;
-            border: 1px solid rgba(255,255,200,0.2);
+            border: 1px solid rgba(255, 255, 200, 0.2);
         }
         .payment-options {
             display: flex;
@@ -370,7 +404,7 @@
             border-radius: 28px;
             background: white;
             padding: 8px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
         .btn-wa-confirm {
             background: #075E54;
@@ -391,7 +425,7 @@
         }
         hr {
             margin: 20px 0;
-            border-color: rgba(255,255,255,0.2);
+            border-color: rgba(255, 255, 255, 0.2);
         }
         footer {
             text-align: center;
@@ -418,7 +452,7 @@
 
     <div class="container">
         <div class="theme-toggle">
-            <button class="theme-btn" id="darkLightToggle"><i class="fas fa-sun"></i> <span id="themeText">Mode Terang (Matahari)</span></button>
+            <button class="theme-btn" id="darkLightToggle"><i class="fas fa-moon"></i> <span id="themeText">Mode Gelap (Angkasa)</span></button>
         </div>
 
         <div class="hero">
@@ -434,7 +468,7 @@
                 <!-- PRODUK 1: JASA BOT WHATSAPP -->
                 <div class="product-card">
                     <span class="badge-jasa"><i class="fas fa-robot"></i> PREMIUM BOT</span>
-                    <h2 style="margin:10px 0">🤖 JASA JADI BOT WHATSAPP</h2>
+                    <h2 style="margin: 10px 0">🤖 JASA JADI BOT WHATSAPP</h2>
                     <div class="price-tag">Rp 1.000</div>
                     <div class="benefits-list">
                         <ul>
@@ -457,7 +491,7 @@
                 <!-- PRODUK 2: ALIGHT MOTION PREMIUM -->
                 <div class="product-card">
                     <span class="badge-premium"><i class="fas fa-video"></i> ALIGHT MOTION</span>
-                    <h2 style="margin:10px 0">🎬 ALIGHT MOTION PREMIUM</h2>
+                    <h2 style="margin: 10px 0">🎬 ALIGHT MOTION PREMIUM</h2>
                     <div class="price-tag">Rp 5.000</div>
                     <div class="benefits-list">
                         <ul>
@@ -474,13 +508,51 @@
                         <button class="qty-btn" data-produk="2" data-arah="tambah">+</button>
                     </div>
                     <div><strong>Total: <span id="total2">Rp 5.000</span></strong></div>
-                    <button class="btn-buy" data-produk="2" data-nama="ALIGHT MOTION PREMIUM (Akun Private 1 Tahun)" data-harga="5000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
+                    <button class="btn-buy" data-produk="2" data-nama="ALIGHT MOTION PREMIUM (Akun Private 1 Thn)" data-harga="5000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
+                </div>
+
+                <!-- PRODUK 3: PANEL LEGAL BY DYNAN -->
+                <div class="product-card">
+                    <span class="badge-panel"><i class="fas fa-server"></i> PTERODACTYL PANEL</span>
+                    <h2 style="margin: 10px 0">🔥 PANEL LEGAL BY DYNAN</h2>
+                    
+                    <div class="select-group">
+                        <label>📌 Pilih Kapasitas Panel</label>
+                        <select id="kapasitasPanel">
+                            <option value="1GB">1GB - Rp 1.000</option>
+                            <option value="10GB">10GB - Rp 10.000</option>
+                            <option value="UNLI">UNLI - Rp 12.000</option>
+                        </select>
+                    </div>
+                    
+                    <div class="select-group">
+                        <label>👑 Pilih Role Panel</label>
+                        <select id="rolePanel">
+                            <option value="Reseller">Reseller Panel - Rp 15.000</option>
+                            <option value="Admin">Admin Panel - Rp 20.000</option>
+                            <option value="PT">PT Panel - Rp 25.000</option>
+                            <option value="TK">TK Panel - Rp 30.000</option>
+                            <option value="CEO">CEO Panel - Rp 50.000</option>
+                        </select>
+                    </div>
+                    
+                    <div id="panelBenefits" class="benefits-list">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> BISA BUAT PANEL SEPUASNYA</li>
+                            <li><i class="fas fa-check-circle"></i> PANEL ANTI DELAY</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="price-tag" id="panelHarga">Rp 16.000</div>
+                    <div><strong>Total: <span id="totalPanel">Rp 16.000</span></strong></div>
+                    <button class="btn-buy" id="beliPanelBtn"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
                 </div>
             </div>
         </div>
-        <footer>© NANN OFFICIAL • Bot WhatsApp + Alight Motion Premium</footer>
+        <footer>© NANN OFFICIAL • Bot WhatsApp + Alight Motion Premium + Panel DYNAN</footer>
     </div>
 
+    <!-- MODAL PEMBAYARAN -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <h2><i class="fas fa-credit-card"></i> Pilih Metode Pembayaran</h2>
@@ -492,12 +564,12 @@
             <hr>
             <small>Setelah bayar, klik tombol "Sudah Bayar & Kirim Bukti"</small>
             <div id="waButtonArea"></div>
-            <button id="closeModalBtn" style="margin-top: 20px; background:#4b5563; padding:8px 20px; border-radius:30px; border:none; color:white; cursor:pointer;">Tutup</button>
+            <button id="closeModalBtn" style="margin-top: 20px; background: #4b5563; padding: 8px 20px; border-radius: 30px; border: none; color: white; cursor: pointer;">Tutup</button>
         </div>
     </div>
 
     <script>
-        // Bintang & Nebula hanya untuk mode gelap
+        // ========== BINTANG & NEBULA ==========
         function createStars() {
             const starsContainer = document.getElementById('starsField');
             for (let i = 0; i < 180; i++) {
@@ -513,6 +585,7 @@
                 starsContainer.appendChild(star);
             }
         }
+        
         function createNebula() {
             const nebDiv = document.getElementById('dynamicNebula');
             for (let i = 0; i < 3; i++) {
@@ -526,19 +599,22 @@
                 nebDiv.appendChild(neb);
             }
         }
+        
         createStars();
         createNebula();
 
-        // State qty
-        let qty1 = 1, qty2 = 1;
-        const harga1 = 1000, harga2 = 5000;
+        // ========== PRODUK 1 & 2 (QTY) ==========
+        let qty1 = 1;
+        let qty2 = 1;
+        const harga1 = 1000;
+        const harga2 = 5000;
 
-        function updateTotal(produk) {
+        function updateTotalProduk(produk) {
             if (produk === 1) {
                 const total = qty1 * harga1;
                 document.getElementById('total1').innerText = 'Rp ' + total.toLocaleString('id-ID');
                 document.getElementById('qty1').innerText = qty1;
-            } else {
+            } else if (produk === 2) {
                 const total = qty2 * harga2;
                 document.getElementById('total2').innerText = 'Rp ' + total.toLocaleString('id-ID');
                 document.getElementById('qty2').innerText = qty2;
@@ -547,79 +623,199 @@
 
         document.querySelectorAll('.qty-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                const produk = parseInt(this.dataset.produk);
-                const arah = this.dataset.arah;
+                const produk = parseInt(this.getAttribute('data-produk'));
+                const arah = this.getAttribute('data-arah');
                 if (produk === 1) {
-                    if (arah === 'tambah') qty1++;
-                    else if (arah === 'kurang' && qty1 > 1) qty1--;
-                    updateTotal(1);
-                } else {
-                    if (arah === 'tambah') qty2++;
-                    else if (arah === 'kurang' && qty2 > 1) qty2--;
-                    updateTotal(2);
+                    if (arah === 'tambah') {
+                        qty1++;
+                    } else if (arah === 'kurang' && qty1 > 1) {
+                        qty1--;
+                    }
+                    updateTotalProduk(1);
+                } else if (produk === 2) {
+                    if (arah === 'tambah') {
+                        qty2++;
+                    } else if (arah === 'kurang' && qty2 > 1) {
+                        qty2--;
+                    }
+                    updateTotalProduk(2);
                 }
             });
         });
 
-        document.getElementById('lihatProdukBtn').addEventListener('click', () => {
-            document.getElementById('produkContainer').style.display = 'block';
-            document.getElementById('produkContainer').scrollIntoView({ behavior: 'smooth' });
+        // ========== LIHAT PRODUK ==========
+        const lihatBtn = document.getElementById('lihatProdukBtn');
+        const produkContainer = document.getElementById('produkContainer');
+        lihatBtn.addEventListener('click', function() {
+            produkContainer.style.display = 'block';
+            produkContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
-        let checkoutData = { namaProduk: '', qty: 0, total: 0 };
+        // ========== PRODUK 3 (PANEL DYNAN) ==========
+        const hargaKapasitas = {
+            '1GB': 1000,
+            '10GB': 10000,
+            'UNLI': 12000
+        };
+        
+        const hargaRole = {
+            'Reseller': 15000,
+            'Admin': 20000,
+            'PT': 25000,
+            'TK': 30000,
+            'CEO': 50000
+        };
+        
+        const benefitsRole = {
+            'Reseller': ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY'],
+            'Admin': ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN RESELLER PANEL'],
+            'PT': ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN RESELLER PANEL', 'BISA BUAT ADMIN PANEL', 'PRIORITAS SUPPORT'],
+            'TK': ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN RESELLER PANEL', 'BISA BUAT ADMIN PANEL', 'BISA BUAT PT PANEL', 'ACCESS ALL FEATURE', 'WHITELABEL READY'],
+            'CEO': ['BISA BUAT PANEL SEPUASNYA', 'PANEL ANTI DELAY', 'BISA OPEN SEMUA ROLE', 'FULL CONTROL', 'UNLIMITED RESOURCES', 'PRIORITAS VVIP', 'CUSTOM LOGO PANEL']
+        };
+        
+        function updatePanelHargaDanBenefits() {
+            const kapasitas = document.getElementById('kapasitasPanel').value;
+            const role = document.getElementById('rolePanel').value;
+            const total = hargaKapasitas[kapasitas] + hargaRole[role];
+            
+            document.getElementById('panelHarga').innerText = 'Rp ' + total.toLocaleString('id-ID');
+            document.getElementById('totalPanel').innerText = 'Rp ' + total.toLocaleString('id-ID');
+            
+            const benefitsUl = document.getElementById('panelBenefits').querySelector('ul');
+            benefitsUl.innerHTML = '';
+            benefitsRole[role].forEach(benefit => {
+                const li = document.createElement('li');
+                li.innerHTML = '<i class="fas fa-check-circle"></i> ' + benefit;
+                benefitsUl.appendChild(li);
+            });
+            
+            return total;
+        }
+        
+        document.getElementById('kapasitasPanel').addEventListener('change', updatePanelHargaDanBenefits);
+        document.getElementById('rolePanel').addEventListener('change', updatePanelHargaDanBenefits);
+        updatePanelHargaDanBenefits();
+
+        // ========== CHECKOUT & MODAL ==========
+        let checkoutData = {
+            namaProduk: '',
+            qty: 0,
+            total: 0,
+            detail: ''
+        };
+        
         const modal = document.getElementById('paymentModal');
         const qrisLink = "https://files.catbox.moe/7jdrnl.jpeg";
-
+        const adminNo = "6282381531460";
+        
+        // Event untuk produk 1 & 2
         document.querySelectorAll('.btn-buy').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const produkId = parseInt(this.dataset.produk);
-                const nama = this.dataset.nama;
-                const harga = parseInt(this.dataset.harga);
-                const qty = produkId === 1 ? qty1 : qty2;
-                checkoutData = {
-                    namaProduk: nama,
-                    qty: qty,
-                    total: qty * harga
-                };
-                modal.style.display = 'flex';
-                document.getElementById('paymentDetailArea').innerHTML = '';
-                document.getElementById('waButtonArea').innerHTML = '';
-            });
+            if (btn.id !== 'beliPanelBtn') {
+                btn.addEventListener('click', function() {
+                    const produkId = parseInt(this.getAttribute('data-produk'));
+                    const namaProduk = this.getAttribute('data-nama');
+                    const harga = parseInt(this.getAttribute('data-harga'));
+                    const qty = produkId === 1 ? qty1 : qty2;
+                    const total = qty * harga;
+                    
+                    checkoutData = {
+                        namaProduk: namaProduk,
+                        qty: qty,
+                        total: total,
+                        detail: ''
+                    };
+                    
+                    modal.style.display = 'flex';
+                    document.getElementById('paymentDetailArea').innerHTML = '';
+                    document.getElementById('waButtonArea').innerHTML = '';
+                });
+            }
         });
-
+        
+        // Event untuk produk 3 (panel)
+        document.getElementById('beliPanelBtn').addEventListener('click', function() {
+            const kapasitas = document.getElementById('kapasitasPanel').value;
+            const role = document.getElementById('rolePanel').value;
+            const total = hargaKapasitas[kapasitas] + hargaRole[role];
+            
+            checkoutData = {
+                namaProduk: `PANEL DYNAN (${kapasitas} - ${role})`,
+                qty: 1,
+                total: total,
+                detail: `Kapasitas: ${kapasitas}, Role: ${role}`
+            };
+            
+            modal.style.display = 'flex';
+            document.getElementById('paymentDetailArea').innerHTML = '';
+            document.getElementById('waButtonArea').innerHTML = '';
+        });
+        
+        // ========== PEMBAYARAN ==========
         function sendToWA(method) {
-            const adminNo = '6282381531460';
-            const msg = `Saya sudah melakukan pembayaran via ${method} untuk pembelian ${checkoutData.namaProduk} sebanyak ${checkoutData.qty} unit. Total Rp ${checkoutData.total.toLocaleString('id-ID')}. Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.`;
-            window.open(`https://wa.me/${adminNo}?text=${encodeURIComponent(msg)}`, '_blank');
+            let message = `Saya sudah melakukan pembayaran via ${method} untuk pembelian ${checkoutData.namaProduk} sebanyak ${checkoutData.qty} unit. Total Rp ${checkoutData.total.toLocaleString('id-ID')}. `;
+            if (checkoutData.detail) {
+                message += `${checkoutData.detail}. `;
+            }
+            message += `Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.`;
+            
+            window.open(`https://wa.me/${adminNo}?text=${encodeURIComponent(message)}`, '_blank');
             modal.style.display = 'none';
         }
-
-        document.getElementById('payDanaBtn').onclick = () => {
-            document.getElementById('paymentDetailArea').innerHTML = `<div style="background:#1e293b;padding:15px;border-radius:32px;"><i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br><small>Transfer sesuai total Rp ${checkoutData.total.toLocaleString('id-ID')}</small><br><span style="color:#a5f3c3;">📌 Nomor admin SAMA dengan no DANA</span></div>`;
+        
+        document.getElementById('payDanaBtn').addEventListener('click', function() {
+            document.getElementById('paymentDetailArea').innerHTML = `
+                <div style="background: #1e293b; padding: 15px; border-radius: 32px;">
+                    <i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br>
+                    <small>Transfer sesuai total Rp ${checkoutData.total.toLocaleString('id-ID')}</small>
+                    <br><span style="color: #a5f3c3;">📌 Nomor admin SAMA dengan no DANA</span>
+                </div>
+            `;
             document.getElementById('waButtonArea').innerHTML = `<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;
-            document.getElementById('confirmPayBtn').onclick = () => sendToWA('DANA');
-        };
-        document.getElementById('payQrisBtn').onclick = () => {
-            document.getElementById('paymentDetailArea').innerHTML = `<div><img src="${qrisLink}" class="qris-image" alt="QRIS"><p><i class="fas fa-camera"></i> Scan QRIS di atas<br>No DANA juga tersedia: 082381531460</p><small>Total : Rp ${checkoutData.total.toLocaleString('id-ID')}</small></div>`;
+            document.getElementById('confirmPayBtn').addEventListener('click', function() { sendToWA('DANA'); });
+        });
+        
+        document.getElementById('payQrisBtn').addEventListener('click', function() {
+            document.getElementById('paymentDetailArea').innerHTML = `
+                <div>
+                    <img src="${qrisLink}" class="qris-image" alt="QRIS Nann Official">
+                    <p><i class="fas fa-camera"></i> Scan QRIS di atas<br>No DANA juga tersedia: 082381531460</p>
+                    <small>Total : Rp ${checkoutData.total.toLocaleString('id-ID')}</small>
+                </div>
+            `;
             document.getElementById('waButtonArea').innerHTML = `<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;
-            document.getElementById('confirmPayQrisBtn').onclick = () => sendToWA('QRIS');
-        };
-        document.getElementById('closeModalBtn').onclick = () => modal.style.display = 'none';
-        window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
-
-        // Toggle tema
+            document.getElementById('confirmPayQrisBtn').addEventListener('click', function() { sendToWA('QRIS'); });
+        });
+        
+        document.getElementById('closeModalBtn').addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // ========== TEMA GELAP / TERANG ==========
         const themeBtn = document.getElementById('darkLightToggle');
         let isDark = true;
-        themeBtn.onclick = () => {
+        themeBtn.addEventListener('click', function() {
             document.body.classList.toggle('light-mode');
             isDark = !document.body.classList.contains('light-mode');
-            themeBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang (Matahari)' : '<i class="fas fa-moon"></i> Mode Gelap (Angkasa)';
-        };
-
-        updateTotal(1);
-        updateTotal(2);
-
-        setInterval(() => {
+            if (isDark) {
+                themeBtn.innerHTML = '<i class="fas fa-moon"></i> <span id="themeText">Mode Gelap (Angkasa)</span>';
+            } else {
+                themeBtn.innerHTML = '<i class="fas fa-sun"></i> <span id="themeText">Mode Terang (Matahari)</span>';
+            }
+        });
+        
+        // ========== INITIAL ==========
+        updateTotalProduk(1);
+        updateTotalProduk(2);
+        
+        // Animasi meteor random
+        setInterval(function() {
             if (!document.body.classList.contains('light-mode')) {
                 let shooting = document.querySelector('.shooting-star');
                 if (shooting) {
