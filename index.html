@@ -1,405 +1,602 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>NANN META AI · GEMINI</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Nann Official | Marketplace Bot WhatsApp</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Poppins & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
 
-    body {
-      background: radial-gradient(circle at 10% 20%, #0a0f1f, #03060e);
-      font-family: system-ui, 'Segoe UI', 'Inter', 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 12px;
-    }
+        body {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            min-height: 100vh;
+            background: radial-gradient(ellipse at 20% 30%, #0a0f2a, #020617);
+            color: #edf2ff;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    .ai-container {
-      max-width: 500px;
-      width: 100%;
-      margin: 0 auto;
-      background: rgba(15, 22, 36, 0.65);
-      backdrop-filter: blur(20px);
-      border-radius: 48px 48px 32px 32px;
-      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(72, 187, 255, 0.15);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      height: 85vh;
-      max-height: 780px;
-    }
+        /* ---------- ANIMASI ANGKASA GELAP (BINTANG & NEBULA) ---------- */
+        .star {
+            position: fixed;
+            background-color: #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            animation: starGlow 3s infinite alternate;
+        }
+        @keyframes starGlow {
+            0% { opacity: 0.2; transform: scale(0.8); box-shadow: 0 0 2px white; }
+            100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px #ffe6b3; }
+        }
+        .nebula {
+            position: fixed;
+            background: radial-gradient(circle, rgba(120, 80, 200, 0.4), transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: 0;
+            width: 400px;
+            height: 400px;
+            animation: floatNebula 20s infinite alternate;
+        }
+        @keyframes floatNebula {
+            0% { transform: translate(0%, 0%) scale(1); opacity: 0.4; }
+            100% { transform: translate(5%, 8%) scale(1.3); opacity: 0.7; }
+        }
+        .shooting-star {
+            position: fixed;
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(white, rgba(255,255,255,0));
+            top: -80px;
+            left: 20%;
+            transform: rotate(25deg);
+            animation: shoot 5s linear infinite;
+            opacity: 0;
+            z-index: 0;
+        }
+        @keyframes shoot {
+            0% { top: -80px; left: 20%; opacity: 1; }
+            100% { top: 110%; left: 80%; opacity: 0; }
+        }
 
-    .ai-header {
-      padding: 20px 22px 12px 22px;
-      background: linear-gradient(135deg, rgba(10, 20, 40, 0.9) 0%, rgba(5, 12, 24, 0.95) 100%);
-      border-bottom: 1px solid rgba(0, 255, 255, 0.25);
-      text-align: center;
-    }
+        /* Mode Terang (light) */
+        body.light-mode {
+            background: #f4f7fc;
+            color: #111827;
+        }
+        body.light-mode .star, body.light-mode .nebula, body.light-mode .shooting-star {
+            opacity: 0 !important;
+            display: none;
+        }
+        body.light-mode .card, 
+        body.light-mode .product-card, 
+        body.light-mode .modal-content,
+        body.light-mode .main-card {
+            background: rgba(255,255,245,0.92);
+            backdrop-filter: blur(16px);
+            color: #0f172a;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+        }
+        body.light-mode button:not(.theme-btn) {
+            background: #1f3a6b;
+            color: white;
+        }
+        body.light-mode .theme-btn {
+            background: #1e293b;
+            color: white;
+        }
 
-    .ai-header h1 {
-      font-size: 1.85rem;
-      font-weight: 700;
-      background: linear-gradient(120deg, #ffffff, #88ddff, #6a9eff);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
+        /* container utama */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 20;
+            padding: 0.8rem;
+        }
 
-    .badge-version {
-      display: inline-block;
-      background: rgba(0, 212, 255, 0.2);
-      backdrop-filter: blur(4px);
-      font-size: 0.7rem;
-      padding: 4px 12px;
-      border-radius: 40px;
-      margin-top: 6px;
-      color: #aaf0ff;
-      border: 0.5px solid rgba(100, 200, 255, 0.5);
-    }
+        /* header & theme */
+        .theme-toggle {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+        .theme-btn {
+            background: rgba(255,255,240,0.12);
+            backdrop-filter: blur(12px);
+            padding: 10px 22px;
+            border-radius: 60px;
+            border: 1px solid rgba(255,255,255,0.3);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #f0f0ff;
+        }
 
-    .chat-area {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      scroll-behavior: smooth;
-    }
+        /* Hero animated */
+        .hero {
+            text-align: center;
+            margin: 2rem 0 2rem;
+            animation: fadeRise 1s ease-out;
+        }
+        @keyframes fadeRise {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            background: linear-gradient(135deg, #FFE6B0, #B794F4, #6DD5FA);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+        .btn-lihat {
+            background: linear-gradient(95deg, #8B5CF6, #3B82F6);
+            border: none;
+            padding: 16px 40px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 28px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(59,130,246,0.4);
+            transition: 0.2s;
+            color: white;
+        }
+        .btn-lihat:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 28px rgba(59,130,246,0.6);
+        }
 
-    .chat-area::-webkit-scrollbar {
-      width: 4px;
-    }
-    .chat-area::-webkit-scrollbar-thumb {
-      background: #2c5a7a;
-      border-radius: 10px;
-    }
+        /* WA number widget */
+        .wa-badge {
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(6px);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 24px;
+            border-radius: 60px;
+            margin-top: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .wa-badge i {
+            font-size: 1.4rem;
+            color: #25D366;
+        }
 
-    .message {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      max-width: 90%;
-      animation: fadeSlideUp 0.25s ease-out;
-    }
+        /* produk utama */
+        .product-section {
+            display: flex;
+            justify-content: center;
+            margin: 50px 0;
+        }
+        .product-card {
+            background: rgba(15, 20, 40, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 56px;
+            padding: 2rem 1.8rem;
+            width: 100%;
+            max-width: 550px;
+            border: 1px solid rgba(255,255,245,0.25);
+            text-align: center;
+            box-shadow: 0 25px 40px -12px black;
+        }
+        .badge-jasa {
+            background: #f59e0b;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        .price-tag {
+            font-size: 2.7rem;
+            font-weight: 800;
+            margin: 15px 0;
+            color: #FCD34D;
+        }
+        .benefits-list {
+            text-align: left;
+            margin: 20px 0;
+            background: rgba(0,0,0,0.2);
+            padding: 18px;
+            border-radius: 32px;
+            line-height: 1.8;
+        }
+        .benefits-list li {
+            list-style: none;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .benefits-list i {
+            width: 24px;
+            color: #4ade80;
+        }
 
-    @keyframes fadeSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        /* qty control */
+        .qty-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            margin: 20px 0;
+        }
+        .qty-btn {
+            background: #1e293b;
+            border: none;
+            width: 50px;
+            height: 50px;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 60px;
+            cursor: pointer;
+            color: white;
+        }
+        .qty-num {
+            font-size: 2rem;
+            font-weight: 700;
+            min-width: 60px;
+        }
+        .btn-buy {
+            background: #E11D48;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
 
-    .user-message {
-      align-self: flex-end;
-      flex-direction: row-reverse;
-    }
-
-    .bot-message {
-      align-self: flex-start;
-    }
-
-    .avatar {
-      width: 34px;
-      height: 34px;
-      border-radius: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(4px);
-      flex-shrink: 0;
-    }
-
-    .user-message .avatar {
-      background: linear-gradient(145deg, #1f3b4c, #0c1e2a);
-      border: 0.5px solid #3ec1ff;
-    }
-
-    .bot-message .avatar {
-      background: linear-gradient(145deg, #162b3a, #0a1620);
-      border: 0.5px solid #94e0ff;
-    }
-
-    .bubble {
-      background: rgba(22, 32, 48, 0.8);
-      backdrop-filter: blur(8px);
-      border-radius: 28px;
-      padding: 12px 18px;
-      font-size: 0.95rem;
-      line-height: 1.45;
-      color: #f0f3fa;
-      word-break: break-word;
-      border: 0.5px solid rgba(120, 200, 255, 0.2);
-    }
-
-    .user-message .bubble {
-      background: linear-gradient(135deg, #1f3a5f, #10263f);
-      border-bottom-right-radius: 10px;
-    }
-
-    .bot-message .bubble {
-      background: rgba(12, 22, 35, 0.85);
-      border-bottom-left-radius: 10px;
-      border-left: 2px solid #2bc0ff;
-    }
-
-    .typing-indicator {
-      display: flex;
-      gap: 6px;
-      padding: 10px 16px;
-      background: rgba(18, 28, 40, 0.8);
-      border-radius: 40px;
-      width: fit-content;
-    }
-    .typing-dot {
-      width: 8px;
-      height: 8px;
-      background: #8bcbff;
-      border-radius: 50%;
-      animation: pulse 1.4s infinite ease-in-out;
-    }
-    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes pulse {
-      0%, 60%, 100% { transform: scale(0.6); opacity: 0.5; }
-      30% { transform: scale(1.1); opacity: 1; }
-    }
-
-    .input-area {
-      background: rgba(10, 18, 28, 0.85);
-      backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(64, 164, 215, 0.3);
-      padding: 14px 18px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .input-wrapper {
-      flex: 1;
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 44px;
-      border: 1px solid rgba(66, 192, 255, 0.5);
-      display: flex;
-      align-items: center;
-      padding: 4px 8px 4px 18px;
-    }
-    .input-wrapper:focus-within {
-      border-color: #3ebcff;
-      box-shadow: 0 0 0 2px rgba(62, 188, 255, 0.3);
-    }
-
-    #userInput {
-      flex: 1;
-      background: transparent;
-      border: none;
-      padding: 12px 6px 12px 0;
-      font-size: 1rem;
-      color: #eff3ff;
-      outline: none;
-    }
-    #userInput::placeholder {
-      color: #8fabc3;
-    }
-
-    #sendBtn {
-      background: linear-gradient(120deg, #1877c2, #0e5a8e);
-      border: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    #sendBtn:active { transform: scale(0.94); }
-    #sendBtn svg {
-      width: 22px;
-      height: 22px;
-      stroke: white;
-      stroke-width: 2;
-      fill: none;
-    }
-
-    .info-note {
-      text-align: center;
-      font-size: 0.7rem;
-      padding: 8px;
-      color: #93b5cf;
-      background: rgba(0,0,0,0.3);
-    }
-  </style>
+        /* modal style */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(18px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #0f111e;
+            border-radius: 48px;
+            max-width: 500px;
+            width: 90%;
+            padding: 28px 24px;
+            text-align: center;
+            border: 1px solid rgba(255,255,200,0.2);
+        }
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .pay-btn {
+            background: #2d3a5e;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: bold;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+        }
+        .qris-image {
+            max-width: 200px;
+            margin: 15px auto;
+            border-radius: 28px;
+            background: white;
+            padding: 8px;
+        }
+        .btn-wa-confirm {
+            background: #075E54;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            border-radius: 60px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        hr {
+            margin: 20px 0;
+            border-color: rgba(255,255,255,0.2);
+        }
+        footer {
+            text-align: center;
+            margin-top: 70px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+            font-size: 0.8rem;
+        }
+        @media (max-width: 600px) {
+            .product-card { padding: 1.5rem; }
+            .qty-btn { width: 44px; height: 44px; font-size: 1.6rem; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="ai-container">
-  <div class="ai-header">
-    <h1>🌀 NANN META AI</h1>
-    <div class="badge-version">Gemini 2.0 Flash · Gratis</div>
-  </div>
+    <!-- Background Langit & Nebula dinamis JS -->
+    <div id="starsField"></div>
+    <div id="dynamicNebula"></div>
+    <div class="shooting-star"></div>
 
-  <div class="chat-area" id="chatArea">
-    <div class="message bot-message">
-      <div class="avatar">🌀</div>
-      <div class="bubble">Halo! Saya NANN META AI. Saya pakai Google Gemini (gratis). Tanya apa aja ya! ✨</div>
+    <div class="container">
+        <div class="theme-toggle">
+            <button class="theme-btn" id="darkLightToggle"><i class="fas fa-moon"></i> <span id="themeText">Mode Gelap/Terang</span></button>
+        </div>
+
+        <!-- Hero Animasi -->
+        <div class="hero">
+            <h1>✨ MARKETPLACE NANN OFFICIAL ✨</h1>
+            <button class="btn-lihat" id="lihatProdukBtn"><i class="fas fa-eye"></i> LIAT PRODUK NANN</button>
+            <div class="wa-badge">
+                <i class="fab fa-whatsapp"></i> WhatsApp Official: <strong>082381531460</strong>
+            </div>
+        </div>
+
+        <!-- Bagian Produk (yang akan tampil setelah klik tombol Lihat Produk) -->
+        <div id="produkContainer" style="display: none;">
+            <div class="product-section">
+                <div class="product-card">
+                    <span class="badge-jasa"><i class="fas fa-robot"></i> PREMIUM BOT</span>
+                    <h2 style="margin:10px 0">🤖 JASA JADI BOT WHATSAPP</h2>
+                    <div class="price-tag" id="hargaSatuan">Rp 1.000</div>
+                    <div class="benefits-list">
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> JADI OWNER BOT</li>
+                            <li><i class="fas fa-check-circle"></i> BISA OPEN JASA SEWA BOT</li>
+                            <li><i class="fas fa-check-circle"></i> PAKE BOT SEPUASNYA</li>
+                            <li><i class="fas fa-check-circle"></i> FITUR 1500+</li>
+                            <li><i class="fas fa-check-circle"></i> ANTI DELAY & FAST RESPON</li>
+                        </ul>
+                    </div>
+
+                    <!-- Quantity -->
+                    <div class="qty-control">
+                        <button class="qty-btn" id="kurangBtn">-</button>
+                        <span class="qty-num" id="jumlahQty">1</span>
+                        <button class="qty-btn" id="tambahBtn">+</button>
+                    </div>
+                    <div><strong>Total: <span id="totalHarga">Rp 1.000</span></strong></div>
+                    <button class="btn-buy" id="beliSekarangBtn"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button>
+                </div>
+            </div>
+        </div>
+        <footer>© NANN OFFICIAL • Premium Bot WhatsApp</footer>
     </div>
-  </div>
 
-  <div class="input-area">
-    <div class="input-wrapper">
-      <input type="text" id="userInput" placeholder="Ketik pertanyaan di sini..." autocomplete="off">
+    <!-- Modal Pembayaran -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-credit-card"></i> Pilih Metode Pembayaran</h2>
+            <div class="payment-options">
+                <button class="pay-btn" id="payDanaBtn"><i class="fas fa-wallet"></i> DANA</button>
+                <button class="pay-btn" id="payQrisBtn"><i class="fas fa-qrcode"></i> QRIS</button>
+            </div>
+            <div id="paymentDetailArea" style="margin-top: 15px;"></div>
+            <hr>
+            <small>Setelah bayar, klik tombol "Sudah Bayar & Kirim Bukti"</small>
+            <div id="waButtonArea"></div>
+            <button id="closeModalBtn" style="margin-top: 20px; background:#4b5563; padding:8px 20px; border-radius:30px; border:none; color:white;">Tutup</button>
+        </div>
     </div>
-    <button id="sendBtn">
-      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="22" y1="2" x2="11" y2="13"></line>
-        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-      </svg>
-    </button>
-  </div>
-  <div class="info-note">
-    🔑 Gratis · API Key sudah siap!
-  </div>
-</div>
 
-<script>
-  // ========== GANTI DENGAN API KEY GEMINI KAMU ==========
-  // 🔻🔻🔻 COPY PASTE API KEY ASLI DARI aistudio.google.com 🔻🔻🔻
-  const GEMINI_API_KEY = "AIzaSyDGvOpXSyjdMIqQxCVAuMftFDnb9w-4www";
-  
-  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
-  
-  const chatArea = document.getElementById('chatArea');
-  const userInput = document.getElementById('userInput');
-  const sendBtn = document.getElementById('sendBtn');
-  
-  let isLoading = false;
-  
-  function scrollToBottom() {
-    setTimeout(() => {
-      chatArea.scrollTop = chatArea.scrollHeight;
-    }, 50);
-  }
-  
-  function addMessage(role, content) {
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message');
-    messageDiv.classList.add(role === 'user' ? 'user-message' : 'bot-message');
-    
-    const avatarSpan = document.createElement('div');
-    avatarSpan.classList.add('avatar');
-    avatarSpan.innerText = role === 'user' ? '👤' : '🌀';
-    
-    const bubbleDiv = document.createElement('div');
-    bubbleDiv.classList.add('bubble');
-    bubbleDiv.innerHTML = content.replace(/\n/g, '<br>');
-    
-    messageDiv.appendChild(avatarSpan);
-    messageDiv.appendChild(bubbleDiv);
-    chatArea.appendChild(messageDiv);
-    scrollToBottom();
-  }
-  
-  let typingDiv = null;
-  function showTyping() {
-    if (typingDiv) typingDiv.remove();
-    const loader = document.createElement('div');
-    loader.classList.add('message', 'bot-message');
-    loader.innerHTML = `<div class="avatar">🌀</div><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
-    chatArea.appendChild(loader);
-    typingDiv = loader;
-    scrollToBottom();
-  }
-  
-  function hideTyping() {
-    if (typingDiv) {
-      typingDiv.remove();
-      typingDiv = null;
-    }
-  }
-  
-  async function askGemini(question) {
-    try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{ text: `Kamu adalah NANN META AI, asisten AI yang ramah dan membantu. Gunakan bahasa Indonesia. Jawab pertanyaan berikut: ${question}` }]
-          }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 800,
-          }
-        })
-      });
-      
-      const data = await response.json();
-      
-      if (data.error) {
-        if (data.error.message.includes("API key not valid")) {
-          return "❌ **API Key tidak valid!** ❌\n\nPastikan kamu sudah:\n1. Copy API Key dengan benar (tanpa spasi tambahan)\n2. API Key dari aistudio.google.com\n3. Refresh halaman setelah ganti key";
+    <script>
+        // ---------- BINTANG & NEBULA (Animasi gelap) ----------
+        function createStars() {
+            const starsContainer = document.getElementById('starsField');
+            for (let i = 0; i < 180; i++) {
+                let star = document.createElement('div');
+                star.classList.add('star');
+                let size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.animationDuration = Math.random() * 3 + 2 + 's';
+                starsContainer.appendChild(star);
+            }
         }
-        return `❌ Error API: ${data.error.message}`;
-      }
-      
-      if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-        return data.candidates[0].content.parts[0].text;
-      }
-      
-      return "Maaf, NANN META AI tidak bisa menjawab saat ini. Coba lagi ya.";
-    } catch (error) {
-      return `❌ Gagal koneksi ke Gemini:\n${error.message}\n\nCek koneksi internet.`;
-    }
-  }
-  
-  async function sendMessage() {
-    if (isLoading) return;
-    const question = userInput.value.trim();
-    if (!question) return;
-    
-    isLoading = true;
-    sendBtn.disabled = true;
-    userInput.disabled = true;
-    
-    addMessage('user', question);
-    userInput.value = '';
-    
-    showTyping();
-    const answer = await askGemini(question);
-    hideTyping();
-    addMessage('bot', answer);
-    
-    isLoading = false;
-    sendBtn.disabled = false;
-    userInput.disabled = false;
-    userInput.focus();
-  }
-  
-  sendBtn.addEventListener('click', sendMessage);
-  userInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter' && !isLoading) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-  
-  userInput.focus();
-</script>
+        function createNebula() {
+            const nebDiv = document.getElementById('dynamicNebula');
+            for (let i=0;i<3;i++) {
+                let neb = document.createElement('div');
+                neb.classList.add('nebula');
+                neb.style.left = Math.random() * 70 + '%';
+                neb.style.top = Math.random() * 80 + '%';
+                neb.style.width = Math.random() * 300 + 200 + 'px';
+                neb.style.height = neb.style.width;
+                neb.style.animationDelay = Math.random() * 10 + 's';
+                nebDiv.appendChild(neb);
+            }
+        }
+        createStars();
+        createNebula();
+
+        // DOM elements
+        const lihatBtn = document.getElementById('lihatProdukBtn');
+        const produkContainer = document.getElementById('produkContainer');
+        let jumlah = 1;
+        const jumlahSpan = document.getElementById('jumlahQty');
+        const totalSpan = document.getElementById('totalHarga');
+        const tambahBtn = document.getElementById('tambahBtn');
+        const kurangBtn = document.getElementById('kurangBtn');
+        const beliBtn = document.getElementById('beliSekarangBtn');
+        const paymentModal = document.getElementById('paymentModal');
+        let selectedPayment = null;
+        let qtySaatIni = 1;
+
+        // harga dasar
+        const hargaPerItem = 1000; // Rp 1000
+
+        function updateTotal() {
+            let total = hargaPerItem * jumlah;
+            totalSpan.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            jumlahSpan.innerText = jumlah;
+        }
+
+        tambahBtn?.addEventListener('click', () => {
+            jumlah++;
+            updateTotal();
+        });
+        kurangBtn?.addEventListener('click', () => {
+            if (jumlah > 1) {
+                jumlah--;
+                updateTotal();
+            }
+        });
+
+        // Tampilkan produk setelah klik "LIAT PRODUK NANN"
+        lihatBtn.addEventListener('click', () => {
+            produkContainer.style.display = 'block';
+            produkContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        // Variabel untuk menyimpan total saat checkout
+        let checkoutJumlah = 1;
+        let checkoutTotal = 1000;
+
+        beliBtn.addEventListener('click', () => {
+            checkoutJumlah = jumlah;
+            checkoutTotal = hargaPerItem * jumlah;
+            // Buka modal pembayaran
+            paymentModal.style.display = 'flex';
+            document.getElementById('paymentDetailArea').innerHTML = '';
+            document.getElementById('waButtonArea').innerHTML = '';
+            selectedPayment = null;
+        });
+
+        // Tombol PEMBAYARAN DANA
+        const payDana = document.getElementById('payDanaBtn');
+        const payQris = document.getElementById('payQrisBtn');
+        const detailArea = document.getElementById('paymentDetailArea');
+        const waArea = document.getElementById('waButtonArea');
+
+        payDana.addEventListener('click', () => {
+            selectedPayment = 'DANA';
+            detailArea.innerHTML = `
+                <div style="background: #1e293b; padding: 15px; border-radius: 32px;">
+                    <i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br>
+                    <small>Transfer sesuai total Rp ${checkoutTotal.toLocaleString('id-ID')}</small>
+                    <br><span style="color:#a5f3c3;">📌 Nomor admin SAMA dengan no DANA</span>
+                </div>
+            `;
+            waArea.innerHTML = `<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;
+            const confirmBtn = document.getElementById('confirmPayBtn');
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', () => {
+                    sendToWA('DANA');
+                });
+            }
+        });
+
+        payQris.addEventListener('click', () => {
+            selectedPayment = 'QRIS';
+            // QRIS menggunakan link foto (gambar placeholder base64 QRIS dummy aesthetic, tapi kita pakai gambar placeholder dari API dummy QR yang aman)
+            // Tapi sesuai permintaan 'QRIS PAKE LINK FOTO', kita gunakan placeholder qris image (gambar QR contoh)
+            const qrisImageUrl = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=082381531460%20NANN%20OFFICIAL%20QRIS";
+            detailArea.innerHTML = `
+                <div>
+                    <img src="${qrisImageUrl}" class="qris-image" alt="QRIS Code">
+                    <p><i class="fas fa-camera"></i> Scan QRIS di atas atau <br> No DANA juga tersedia: 082381531460</p>
+                    <small>Total : Rp ${checkoutTotal.toLocaleString('id-ID')}</small>
+                </div>
+            `;
+            waArea.innerHTML = `<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI (QRIS/DANA)</button>`;
+            const confirmQris = document.getElementById('confirmPayQrisBtn');
+            if (confirmQris) {
+                confirmQris.addEventListener('click', () => {
+                    sendToWA('QRIS');
+                });
+            }
+        });
+
+        function sendToWA(method) {
+            // Nomor admin SAMA dengan nomor DANA: 082381531460
+            const adminNo = '6282381531460'; // format internasional tanpa '+'
+            const productName = "JASA JADI BOT WHATSAPP";
+            const qty = checkoutJumlah;
+            const totalRupiah = checkoutTotal;
+            const buktiText = `Saya sudah melakukan pembayaran via ${method} untuk pembelian ${productName} sebanyak ${qty} unit. Total Rp ${totalRupiah.toLocaleString('id-ID')}. Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.`;
+            const waLink = `https://wa.me/${adminNo}?text=${encodeURIComponent(buktiText)}`;
+            window.open(waLink, '_blank');
+            // setelah kirim, modal boleh ditutup atau tidak
+            paymentModal.style.display = 'none';
+        }
+
+        document.getElementById('closeModalBtn').addEventListener('click', () => {
+            paymentModal.style.display = 'none';
+        });
+        // klik luar modal juga nutup
+        window.addEventListener('click', (e) => {
+            if (e.target === paymentModal) paymentModal.style.display = 'none';
+        });
+
+        // Dark / Light Mode dengan animasi background tetap oke
+        const themeBtn = document.getElementById('darkLightToggle');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            if (isLight) {
+                document.getElementById('themeText').innerHTML = '☀️ Mode Terang';
+            } else {
+                document.getElementById('themeText').innerHTML = '🌙 Mode Gelap';
+            }
+        });
+
+        // inisialisasi default
+        updateTotal();
+
+        // tambahan efek dinamis supaya shooting star random
+        setInterval(() => {
+            if (!document.body.classList.contains('light-mode')) {
+                let shooting = document.querySelector('.shooting-star');
+                if(shooting) {
+                    shooting.style.left = Math.random() * 70 + 10 + '%';
+                    shooting.style.animation = 'none';
+                    shooting.offsetHeight;
+                    shooting.style.animation = 'shoot 4s linear infinite';
+                }
+            }
+        }, 6000);
+    </script>
 </body>
 </html>
