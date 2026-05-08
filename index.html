@@ -3,19 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Nann Official | Marketplace Bot WhatsApp</title>
-    <!-- Font Awesome 6 (free) -->
+    <title>Nann Official · Jasa Bot WhatsApp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Poppins & Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: all 0.2s cubic-bezier(0.2,0.9,0.4,1.1);
         }
-
         body {
             font-family: 'Poppins', 'Inter', sans-serif;
             min-height: 100vh;
@@ -25,8 +22,6 @@
             position: relative;
             overflow-x: hidden;
         }
-
-        /* ---------- ANIMASI ANGKASA GELAP (BINTANG & NEBULA) ---------- */
         .star {
             position: fixed;
             background-color: #ffffff;
@@ -42,7 +37,7 @@
         }
         .nebula {
             position: fixed;
-            background: radial-gradient(circle, rgba(120, 80, 200, 0.4), transparent 70%);
+            background: radial-gradient(circle, rgba(120,80,200,0.4), transparent 70%);
             border-radius: 50%;
             filter: blur(60px);
             pointer-events: none;
@@ -52,8 +47,8 @@
             animation: floatNebula 20s infinite alternate;
         }
         @keyframes floatNebula {
-            0% { transform: translate(0%, 0%) scale(1); opacity: 0.4; }
-            100% { transform: translate(5%, 8%) scale(1.3); opacity: 0.7; }
+            0% { transform: translate(0%,0%) scale(1); opacity: 0.4; }
+            100% { transform: translate(5%,8%) scale(1.3); opacity: 0.7; }
         }
         .shooting-star {
             position: fixed;
@@ -71,8 +66,6 @@
             0% { top: -80px; left: 20%; opacity: 1; }
             100% { top: 110%; left: 80%; opacity: 0; }
         }
-
-        /* Mode Terang (light) */
         body.light-mode {
             background: #f4f7fc;
             color: #111827;
@@ -81,26 +74,16 @@
             opacity: 0 !important;
             display: none;
         }
-        body.light-mode .card, 
-        body.light-mode .product-card, 
-        body.light-mode .modal-content,
-        body.light-mode .main-card {
+        body.light-mode .product-card, body.light-mode .modal-content {
             background: rgba(255,255,245,0.92);
             backdrop-filter: blur(16px);
             color: #0f172a;
             border: 1px solid #cbd5e1;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
         }
         body.light-mode button:not(.theme-btn) {
             background: #1f3a6b;
             color: white;
         }
-        body.light-mode .theme-btn {
-            background: #1e293b;
-            color: white;
-        }
-
-        /* container utama */
         .container {
             max-width: 1300px;
             margin: 0 auto;
@@ -108,8 +91,6 @@
             z-index: 20;
             padding: 0.8rem;
         }
-
-        /* header & theme */
         .theme-toggle {
             display: flex;
             justify-content: flex-end;
@@ -126,8 +107,6 @@
             font-size: 0.9rem;
             color: #f0f0ff;
         }
-
-        /* Hero animated */
         .hero {
             text-align: center;
             margin: 2rem 0 2rem;
@@ -144,7 +123,6 @@
             background-clip: text;
             color: transparent;
             letter-spacing: 2px;
-            text-shadow: 0 0 15px rgba(0,0,0,0.3);
         }
         .btn-lihat {
             background: linear-gradient(95deg, #8B5CF6, #3B82F6);
@@ -156,15 +134,12 @@
             margin-top: 28px;
             cursor: pointer;
             box-shadow: 0 8px 20px rgba(59,130,246,0.4);
-            transition: 0.2s;
             color: white;
         }
         .btn-lihat:hover {
             transform: scale(1.02);
             box-shadow: 0 12px 28px rgba(59,130,246,0.6);
         }
-
-        /* WA number widget */
         .wa-badge {
             background: rgba(0,0,0,0.4);
             backdrop-filter: blur(6px);
@@ -182,15 +157,13 @@
             font-size: 1.4rem;
             color: #25D366;
         }
-
-        /* produk utama */
         .product-section {
             display: flex;
             justify-content: center;
             margin: 50px 0;
         }
         .product-card {
-            background: rgba(15, 20, 40, 0.7);
+            background: rgba(15,20,40,0.7);
             backdrop-filter: blur(20px);
             border-radius: 56px;
             padding: 2rem 1.8rem;
@@ -216,14 +189,15 @@
         }
         .benefits-list {
             text-align: left;
-            margin: 20px 0;
             background: rgba(0,0,0,0.2);
             padding: 18px;
             border-radius: 32px;
             line-height: 1.8;
         }
-        .benefits-list li {
+        .benefits-list ul {
             list-style: none;
+        }
+        .benefits-list li {
             margin: 8px 0;
             display: flex;
             align-items: center;
@@ -233,8 +207,6 @@
             width: 24px;
             color: #4ade80;
         }
-
-        /* qty control */
         .qty-control {
             display: flex;
             align-items: center;
@@ -253,6 +225,9 @@
             cursor: pointer;
             color: white;
         }
+        .qty-btn:hover {
+            background: #334155;
+        }
         .qty-num {
             font-size: 2rem;
             font-weight: 700;
@@ -268,19 +243,22 @@
             font-size: 1.3rem;
             margin-top: 15px;
             cursor: pointer;
-            transition: 0.2s;
             color: white;
             display: flex;
             justify-content: center;
             gap: 10px;
         }
-
-        /* modal style */
+        .btn-buy:hover {
+            background: #be123c;
+            transform: scale(1.01);
+        }
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.85);
             backdrop-filter: blur(18px);
             justify-content: center;
@@ -313,13 +291,18 @@
             align-items: center;
             gap: 12px;
             font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .pay-btn:hover {
+            background: #3b4a72;
         }
         .qris-image {
-            max-width: 200px;
+            max-width: 220px;
             margin: 15px auto;
             border-radius: 28px;
             background: white;
             padding: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
         .btn-wa-confirm {
             background: #075E54;
@@ -332,6 +315,11 @@
             color: white;
             font-weight: bold;
             margin-top: 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-wa-confirm:hover {
+            background: #054a42;
         }
         hr {
             margin: 20px 0;
@@ -345,14 +333,22 @@
             font-size: 0.8rem;
         }
         @media (max-width: 600px) {
-            .product-card { padding: 1.5rem; }
-            .qty-btn { width: 44px; height: 44px; font-size: 1.6rem; }
+            .product-card {
+                padding: 1.5rem;
+            }
+            .qty-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 1.6rem;
+            }
+            .pay-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-
-    <!-- Background Langit & Nebula dinamis JS -->
     <div id="starsField"></div>
     <div id="dynamicNebula"></div>
     <div class="shooting-star"></div>
@@ -362,7 +358,6 @@
             <button class="theme-btn" id="darkLightToggle"><i class="fas fa-moon"></i> <span id="themeText">Mode Gelap/Terang</span></button>
         </div>
 
-        <!-- Hero Animasi -->
         <div class="hero">
             <h1>✨ MARKETPLACE NANN OFFICIAL ✨</h1>
             <button class="btn-lihat" id="lihatProdukBtn"><i class="fas fa-eye"></i> LIAT PRODUK NANN</button>
@@ -371,7 +366,6 @@
             </div>
         </div>
 
-        <!-- Bagian Produk (yang akan tampil setelah klik tombol Lihat Produk) -->
         <div id="produkContainer" style="display: none;">
             <div class="product-section">
                 <div class="product-card">
@@ -387,8 +381,6 @@
                             <li><i class="fas fa-check-circle"></i> ANTI DELAY & FAST RESPON</li>
                         </ul>
                     </div>
-
-                    <!-- Quantity -->
                     <div class="qty-control">
                         <button class="qty-btn" id="kurangBtn">-</button>
                         <span class="qty-num" id="jumlahQty">1</span>
@@ -402,7 +394,6 @@
         <footer>© NANN OFFICIAL • Premium Bot WhatsApp</footer>
     </div>
 
-    <!-- Modal Pembayaran -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <h2><i class="fas fa-credit-card"></i> Pilih Metode Pembayaran</h2>
@@ -414,12 +405,11 @@
             <hr>
             <small>Setelah bayar, klik tombol "Sudah Bayar & Kirim Bukti"</small>
             <div id="waButtonArea"></div>
-            <button id="closeModalBtn" style="margin-top: 20px; background:#4b5563; padding:8px 20px; border-radius:30px; border:none; color:white;">Tutup</button>
+            <button id="closeModalBtn" style="margin-top: 20px; background:#4b5563; padding:8px 20px; border-radius:30px; border:none; color:white; cursor:pointer;">Tutup</button>
         </div>
     </div>
 
     <script>
-        // ---------- BINTANG & NEBULA (Animasi gelap) ----------
         function createStars() {
             const starsContainer = document.getElementById('starsField');
             for (let i = 0; i < 180; i++) {
@@ -437,7 +427,7 @@
         }
         function createNebula() {
             const nebDiv = document.getElementById('dynamicNebula');
-            for (let i=0;i<3;i++) {
+            for (let i = 0; i < 3; i++) {
                 let neb = document.createElement('div');
                 neb.classList.add('nebula');
                 neb.style.left = Math.random() * 70 + '%';
@@ -451,7 +441,6 @@
         createStars();
         createNebula();
 
-        // DOM elements
         const lihatBtn = document.getElementById('lihatProdukBtn');
         const produkContainer = document.getElementById('produkContainer');
         let jumlah = 1;
@@ -461,135 +450,118 @@
         const kurangBtn = document.getElementById('kurangBtn');
         const beliBtn = document.getElementById('beliSekarangBtn');
         const paymentModal = document.getElementById('paymentModal');
-        let selectedPayment = null;
-        let qtySaatIni = 1;
-
-        // harga dasar
-        const hargaPerItem = 1000; // Rp 1000
-
+        
+        const hargaPerItem = 1000;
         function updateTotal() {
             let total = hargaPerItem * jumlah;
-            totalSpan.innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            totalSpan.innerText = 'Rp ' + total.toLocaleString('id-ID');
             jumlahSpan.innerText = jumlah;
         }
-
-        tambahBtn?.addEventListener('click', () => {
-            jumlah++;
-            updateTotal();
-        });
-        kurangBtn?.addEventListener('click', () => {
-            if (jumlah > 1) {
-                jumlah--;
+        
+        if (tambahBtn) {
+            tambahBtn.addEventListener('click', function() {
+                jumlah++;
                 updateTotal();
-            }
-        });
+            });
+        }
+        if (kurangBtn) {
+            kurangBtn.addEventListener('click', function() {
+                if (jumlah > 1) {
+                    jumlah--;
+                    updateTotal();
+                }
+            });
+        }
+        if (lihatBtn) {
+            lihatBtn.addEventListener('click', function() {
+                produkContainer.style.display = 'block';
+                produkContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
 
-        // Tampilkan produk setelah klik "LIAT PRODUK NANN"
-        lihatBtn.addEventListener('click', () => {
-            produkContainer.style.display = 'block';
-            produkContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-
-        // Variabel untuk menyimpan total saat checkout
         let checkoutJumlah = 1;
         let checkoutTotal = 1000;
+        
+        if (beliBtn) {
+            beliBtn.addEventListener('click', function() {
+                checkoutJumlah = jumlah;
+                checkoutTotal = hargaPerItem * jumlah;
+                paymentModal.style.display = 'flex';
+                document.getElementById('paymentDetailArea').innerHTML = '';
+                document.getElementById('waButtonArea').innerHTML = '';
+            });
+        }
 
-        beliBtn.addEventListener('click', () => {
-            checkoutJumlah = jumlah;
-            checkoutTotal = hargaPerItem * jumlah;
-            // Buka modal pembayaran
-            paymentModal.style.display = 'flex';
-            document.getElementById('paymentDetailArea').innerHTML = '';
-            document.getElementById('waButtonArea').innerHTML = '';
-            selectedPayment = null;
-        });
+        const qrisImageLink = "https://files.catbox.moe/7jdrnl.jpeg";
 
-        // Tombol PEMBAYARAN DANA
         const payDana = document.getElementById('payDanaBtn');
         const payQris = document.getElementById('payQrisBtn');
         const detailArea = document.getElementById('paymentDetailArea');
         const waArea = document.getElementById('waButtonArea');
 
-        payDana.addEventListener('click', () => {
-            selectedPayment = 'DANA';
-            detailArea.innerHTML = `
-                <div style="background: #1e293b; padding: 15px; border-radius: 32px;">
-                    <i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br>
-                    <small>Transfer sesuai total Rp ${checkoutTotal.toLocaleString('id-ID')}</small>
-                    <br><span style="color:#a5f3c3;">📌 Nomor admin SAMA dengan no DANA</span>
-                </div>
-            `;
-            waArea.innerHTML = `<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;
-            const confirmBtn = document.getElementById('confirmPayBtn');
-            if (confirmBtn) {
-                confirmBtn.addEventListener('click', () => {
-                    sendToWA('DANA');
-                });
-            }
-        });
-
-        payQris.addEventListener('click', () => {
-            selectedPayment = 'QRIS';
-            // QRIS menggunakan link foto (gambar placeholder base64 QRIS dummy aesthetic, tapi kita pakai gambar placeholder dari API dummy QR yang aman)
-            // Tapi sesuai permintaan 'QRIS PAKE LINK FOTO', kita gunakan placeholder qris image (gambar QR contoh)
-            const qrisImageUrl = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=082381531460%20NANN%20OFFICIAL%20QRIS";
-            detailArea.innerHTML = `
-                <div>
-                    <img src="${qrisImageUrl}" class="qris-image" alt="QRIS Code">
-                    <p><i class="fas fa-camera"></i> Scan QRIS di atas atau <br> No DANA juga tersedia: 082381531460</p>
-                    <small>Total : Rp ${checkoutTotal.toLocaleString('id-ID')}</small>
-                </div>
-            `;
-            waArea.innerHTML = `<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI (QRIS/DANA)</button>`;
-            const confirmQris = document.getElementById('confirmPayQrisBtn');
-            if (confirmQris) {
-                confirmQris.addEventListener('click', () => {
-                    sendToWA('QRIS');
-                });
-            }
-        });
-
         function sendToWA(method) {
-            // Nomor admin SAMA dengan nomor DANA: 082381531460
-            const adminNo = '6282381531460'; // format internasional tanpa '+'
+            const adminNo = '6282381531460';
             const productName = "JASA JADI BOT WHATSAPP";
             const qty = checkoutJumlah;
             const totalRupiah = checkoutTotal;
-            const buktiText = `Saya sudah melakukan pembayaran via ${method} untuk pembelian ${productName} sebanyak ${qty} unit. Total Rp ${totalRupiah.toLocaleString('id-ID')}. Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.`;
-            const waLink = `https://wa.me/${adminNo}?text=${encodeURIComponent(buktiText)}`;
-            window.open(waLink, '_blank');
-            // setelah kirim, modal boleh ditutup atau tidak
+            const buktiText = "Saya sudah melakukan pembayaran via " + method + " untuk pembelian " + productName + " sebanyak " + qty + " unit. Total Rp " + totalRupiah.toLocaleString('id-ID') + ". Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.";
+            window.open('https://wa.me/' + adminNo + '?text=' + encodeURIComponent(buktiText), '_blank');
             paymentModal.style.display = 'none';
         }
 
-        document.getElementById('closeModalBtn').addEventListener('click', () => {
-            paymentModal.style.display = 'none';
-        });
-        // klik luar modal juga nutup
-        window.addEventListener('click', (e) => {
-            if (e.target === paymentModal) paymentModal.style.display = 'none';
-        });
+        if (payDana) {
+            payDana.addEventListener('click', function() {
+                detailArea.innerHTML = '<div style="background: #1e293b; padding: 15px; border-radius: 32px;"><i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br><small>Transfer sesuai total Rp ' + checkoutTotal.toLocaleString('id-ID') + '</small><br><span style="color:#a5f3c3;">📌 Nomor admin SAMA dengan no DANA</span></div>';
+                waArea.innerHTML = '<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>';
+                const confirmBtn = document.getElementById('confirmPayBtn');
+                if (confirmBtn) {
+                    confirmBtn.addEventListener('click', function() { sendToWA('DANA'); });
+                }
+            });
+        }
 
-        // Dark / Light Mode dengan animasi background tetap oke
-        const themeBtn = document.getElementById('darkLightToggle');
-        themeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            const isLight = document.body.classList.contains('light-mode');
-            if (isLight) {
-                document.getElementById('themeText').innerHTML = '☀️ Mode Terang';
-            } else {
-                document.getElementById('themeText').innerHTML = '🌙 Mode Gelap';
+        if (payQris) {
+            payQris.addEventListener('click', function() {
+                detailArea.innerHTML = '<div><img src="' + qrisImageLink + '" class="qris-image" alt="QRIS Nann Official"><p><i class="fas fa-camera"></i> Scan QRIS di atas<br>No DANA juga tersedia: 082381531460</p><small>Total : Rp ' + checkoutTotal.toLocaleString('id-ID') + '</small></div>';
+                waArea.innerHTML = '<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI (QRIS/DANA)</button>';
+                const confirmQris = document.getElementById('confirmPayQrisBtn');
+                if (confirmQris) {
+                    confirmQris.addEventListener('click', function() { sendToWA('QRIS'); });
+                }
+            });
+        }
+
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', function() {
+                paymentModal.style.display = 'none';
+            });
+        }
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === paymentModal) {
+                paymentModal.style.display = 'none';
             }
         });
 
-        // inisialisasi default
+        const themeBtn = document.getElementById('darkLightToggle');
+        if (themeBtn) {
+            themeBtn.addEventListener('click', function() {
+                document.body.classList.toggle('light-mode');
+                const isLight = document.body.classList.contains('light-mode');
+                const themeText = document.getElementById('themeText');
+                if (themeText) {
+                    themeText.innerHTML = isLight ? '☀️ Mode Terang' : '🌙 Mode Gelap';
+                }
+            });
+        }
+        
         updateTotal();
 
-        // tambahan efek dinamis supaya shooting star random
-        setInterval(() => {
+        setInterval(function() {
             if (!document.body.classList.contains('light-mode')) {
                 let shooting = document.querySelector('.shooting-star');
-                if(shooting) {
+                if (shooting) {
                     shooting.style.left = Math.random() * 70 + 10 + '%';
                     shooting.style.animation = 'none';
                     shooting.offsetHeight;
