@@ -3,162 +3,604 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Nann Official · Bot WA + Alight Motion + Panel DYNAN (Kapasitas & Role Terpisah)</title>
+    <title>Nann Official · Luxury Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;transition:background .2s ease,color .2s ease}
-        body{font-family:'Poppins','Inter',sans-serif;min-height:100vh;background:radial-gradient(ellipse at 20% 30%,#0a0f2a,#020617);color:#edf2ff;padding:1rem;position:relative;overflow-x:hidden}
-        .star{position:fixed;background:#fff;border-radius:50%;pointer-events:none;z-index:0;animation:starTwinkle 3s infinite alternate}
-        @keyframes starTwinkle{0%{opacity:.2}100%{opacity:.9}}
-        .nebula{position:fixed;background:radial-gradient(circle,rgba(120,80,200,.2),transparent 70%);border-radius:50%;filter:blur(40px);pointer-events:none;z-index:0}
-        .shooting-star{position:fixed;width:2px;height:60px;background:linear-gradient(white,transparent);top:-60px;transform:rotate(25deg);opacity:0;z-index:0;pointer-events:none}
-        @keyframes shoot{0%{top:-60px;left:10%;opacity:1}100%{top:110%;left:90%;opacity:0}}
-        body.light-mode{background:linear-gradient(135deg,#FFD700,#FF8C00,#FF4500);color:#2c1e0f}
-        body.light-mode .star,body.light-mode .nebula,body.light-mode .shooting-star{display:none}
-        body.light-mode .product-card,body.light-mode .modal-content,body.light-mode .prayer-card{background:rgba(255,250,210,.95);backdrop-filter:blur(8px);color:#3b2a1f;border:2px solid #ffb347}
-        body.light-mode .btn-buy{background:#ff8c00;color:#2c1e0f}
-        body.light-mode .btn-buy:disabled{background:#ccc;color:#663}
-        body.light-mode .benefits-list{background:rgba(255,200,100,.3)}
-        body.light-mode .qty-btn,body.light-mode .pay-btn{background:#ffb347;color:#2c1e0f}
-        body.light-mode .theme-btn{background:#ff8c00;color:#2c1e0f;border:none}
-        body.light-mode .wa-badge{background:rgba(255,200,100,.7);color:#2c1e0f}
-        body.light-mode .btn-lihat{background:linear-gradient(95deg,#ff8c00,#ff5500)}
-        body.light-mode .hero h1{background:linear-gradient(135deg,#5a3e1b,#ffaa33);-webkit-background-clip:text;background-clip:text;color:transparent}
-        body.light-mode select{background:#ffd699;color:#2c1e0f}
-        body.light-mode .countdown-timer,body.light-mode .prayer-card{background:rgba(255,200,100,.5)}
-        body.light-mode .testimonial-card,body.light-mode .stat-card{background:rgba(255,200,100,.5)}
-        body.light-mode .back-to-top{background:#ff8c00;color:#2c1e0f}
-        .container{max-width:1300px;margin:0 auto;position:relative;z-index:20;padding:.8rem}
-        .theme-toggle{display:flex;justify-content:flex-end;margin-bottom:1rem}
-        .theme-btn{background:rgba(255,255,240,.15);backdrop-filter:blur(8px);padding:10px 22px;border-radius:60px;border:1px solid rgba(255,255,255,.3);font-weight:600;cursor:pointer;font-size:.9rem;color:#f0f0ff}
-        .hero{text-align:center;margin:2rem 0 1rem;animation:fadeRise .6s ease-out}
-        @keyframes fadeRise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-        .hero h1{font-size:clamp(2rem,8vw,4rem);background:linear-gradient(135deg,#FFE6B0,#B794F4,#6DD5FA);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:2px}
-        .btn-lihat{background:linear-gradient(95deg,#8B5CF6,#3B82F6);border:none;padding:14px 36px;border-radius:60px;font-weight:700;font-size:1.1rem;margin-top:20px;cursor:pointer;color:white}
-        .btn-lihat:hover{transform:scale(1.02)}
-        .wa-badge{background:rgba(0,0,0,.4);backdrop-filter:blur(6px);display:inline-flex;align-items:center;gap:12px;padding:6px 20px;border-radius:60px;margin-top:20px;font-size:.9rem}
-        .wa-badge i{font-size:1.2rem;color:#25D366}
-        .prayer-section{margin:20px 0}
-        .prayer-card{background:rgba(0,0,0,.3);backdrop-filter:blur(8px);border-radius:30px;padding:15px;text-align:center}
-        .prayer-title{font-size:1.2rem;font-weight:700;margin-bottom:10px}
-        .prayer-times{display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
-        .prayer-item{text-align:center;min-width:70px}
-        .prayer-name{font-size:.8rem;opacity:.8}
-        .prayer-time{font-size:1.1rem;font-weight:700;color:#FCD34D}
-        .prayer-note{font-size:.7rem;margin-top:8px;opacity:.7}
-        .countdown-section{text-align:center;margin:20px 0}
-        .countdown-timer{display:inline-flex;gap:15px;background:rgba(0,0,0,.4);padding:10px 25px;border-radius:60px;backdrop-filter:blur(8px)}
-        .countdown-item{text-align:center}
-        .countdown-number{font-size:1.5rem;font-weight:800;background:#E11D48;padding:5px 12px;border-radius:20px;min-width:60px}
-        .countdown-label{font-size:.7rem;text-transform:uppercase}
-        .stats-section{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin:30px 0}
-        .stat-card{background:rgba(0,0,0,.3);backdrop-filter:blur(8px);padding:15px 25px;border-radius:30px;text-align:center;min-width:120px}
-        .stat-number{font-size:2rem;font-weight:800;color:#FCD34D}
-        .stat-label{font-size:.8rem}
-        .testimoni-section{margin:40px 0}
-        .testimoni-title{text-align:center;margin-bottom:20px;font-size:1.5rem}
-        .testimoni-slider{display:flex;overflow-x:auto;gap:20px;scroll-snap-type:x mandatory;padding:10px 0}
-        .testimonial-card{background:rgba(0,0,0,.3);backdrop-filter:blur(8px);border-radius:30px;padding:20px;min-width:300px;scroll-snap-align:start}
-        .testimonial-text{font-style:italic;margin-bottom:10px}
-        .testimonial-name{font-weight:700;color:#FCD34D}
-        .testimonial-rating{color:#FFD700;margin-top:8px}
-        .wishlist-btn{background:none;border:none;font-size:1.3rem;cursor:pointer;color:#ff6b6b;margin-top:10px}
-        .wishlist-btn.active{color:#ff2a2a}
-        .back-to-top{position:fixed;bottom:20px;right:20px;background:#8B5CF6;color:white;width:45px;height:45px;border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;z-index:100;opacity:0;visibility:hidden;transition:all .3s}
-        .back-to-top.show{opacity:1;visibility:visible}
-        .float-chat{position:fixed;bottom:20px;left:20px;background:#25D366;width:50px;height:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.3)}
-        .float-chat i{font-size:1.8rem;color:white}
-        .product-card{background:rgba(15,20,40,.7);backdrop-filter:blur(12px);border-radius:40px;padding:1.5rem;width:100%;max-width:500px;border:1px solid rgba(255,255,245,.2);text-align:center;flex:1;min-width:280px;transition:transform .3s,box-shadow .3s}
-        .product-card:hover{transform:translateY(-8px);box-shadow:0 20px 35px -12px black}
-        .tooltip{position:relative;display:inline-block;cursor:help;margin-left:5px}
-        .tooltip .tooltip-text{visibility:hidden;background-color:#333;color:#fff;text-align:center;border-radius:6px;padding:5px 10px;position:absolute;z-index:1;bottom:125%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.7rem}
-        .tooltip:hover .tooltip-text{visibility:visible}
-        .badge-jasa{background:#f59e0b;display:inline-block;padding:4px 16px;border-radius:60px;font-size:.75rem;font-weight:700}
-        .badge-premium{background:#8b5cf6;display:inline-block;padding:4px 16px;border-radius:60px;font-size:.75rem;font-weight:700}
-        .badge-kapasitas{background:#06b6d4;display:inline-block;padding:4px 16px;border-radius:60px;font-size:.75rem;font-weight:700}
-        .badge-role{background:#ec489a;display:inline-block;padding:4px 16px;border-radius:60px;font-size:.75rem;font-weight:700}
-        .price-tag{font-size:1.8rem;font-weight:800;margin:10px 0;color:#FCD34D}
-        .benefits-list{text-align:left;background:rgba(0,0,0,.2);padding:14px;border-radius:28px;line-height:1.6;margin:12px 0;font-size:.85rem}
-        .benefits-list ul{list-style:none}
-        .benefits-list li{margin:6px 0;display:flex;align-items:center;gap:10px}
-        .benefits-list i{width:20px;color:#4ade80}
-        .select-group{margin:12px 0;text-align:left}
-        .select-group label{display:block;margin-bottom:4px;font-weight:600;font-size:.85rem}
-        select{width:100%;padding:10px;border-radius:40px;background:#1e293b;color:white;border:none;font-size:.9rem;cursor:pointer}
-        .qty-control{display:flex;align-items:center;justify-content:center;gap:20px;margin:15px 0}
-        .qty-btn{background:#1e293b;border:none;width:40px;height:40px;font-size:1.5rem;font-weight:bold;border-radius:40px;cursor:pointer;color:white}
-        .qty-num{font-size:1.5rem;font-weight:700;min-width:45px}
-        .btn-buy{background:#E11D48;width:100%;padding:12px;border:none;border-radius:60px;font-weight:700;font-size:1rem;margin-top:12px;cursor:pointer;color:white;display:flex;justify-content:center;gap:8px}
-        .btn-buy:hover:not(:disabled){transform:scale(1.01)}
-        .btn-buy:disabled{background:#555;cursor:not-allowed;opacity:.6}
-        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);justify-content:center;align-items:center;z-index:1000}
-        .modal-content{background:#0f111e;border-radius:40px;max-width:450px;width:90%;padding:24px;text-align:center}
-        .payment-options{display:flex;justify-content:center;gap:20px;margin:20px 0;flex-wrap:wrap}
-        .pay-btn{background:#2d3a5e;padding:10px 24px;border-radius:50px;font-weight:bold;border:none;display:flex;align-items:center;gap:10px;font-size:1rem;cursor:pointer}
-        .qris-image{max-width:180px;margin:10px auto;border-radius:20px;background:white;padding:6px}
-        .btn-wa-confirm{background:#075E54;display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:50px;text-decoration:none;color:white;font-weight:bold;margin-top:15px;border:none;cursor:pointer}
-        hr{margin:15px 0}
-        footer{text-align:center;margin-top:50px;margin-bottom:20px;opacity:.7;font-size:.7rem}
-        .products-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;margin:40px 0}
-        @media (max-width:768px){.products-grid{flex-direction:column;align-items:center}.product-card{padding:1.2rem}}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: radial-gradient(ellipse at 30% 20%, #0e0e1a, #050508);
+            color: #f0f0f5;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Bintang elegan */
+        .star {
+            position: fixed;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            will-change: opacity;
+        }
+        @keyframes starFade {
+            0% { opacity: 0.1; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Nebula mewah */
+        .nebula {
+            position: fixed;
+            background: radial-gradient(circle, rgba(212,175,55,0.12), rgba(138,43,226,0.08), transparent);
+            border-radius: 50%;
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* TEMA TERANG */
+        body.light-mode {
+            background: linear-gradient(135deg, #faf7f0, #f0ead8, #e8dfcc);
+            color: #2a2418;
+        }
+        body.light-mode .star { display: none; }
+        body.light-mode .nebula { display: none; }
+        body.light-mode .product-card,
+        body.light-mode .modal-content,
+        body.light-mode .prayer-card,
+        body.light-mode .stat-card,
+        body.light-mode .testimonial-card {
+            background: rgba(255, 252, 240, 0.95);
+            backdrop-filter: blur(12px);
+            color: #2a2418;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+        body.light-mode .product-card:hover {
+            border-color: #d4af37;
+            box-shadow: 0 20px 40px -12px rgba(212,175,55,0.3);
+        }
+        body.light-mode .btn-buy {
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            color: #1a1508;
+        }
+        body.light-mode .theme-btn {
+            background: rgba(212,175,55,0.2);
+            color: #2a2418;
+            border: 1px solid rgba(212,175,55,0.5);
+        }
+        body.light-mode .wa-badge {
+            background: rgba(212,175,55,0.15);
+            color: #2a2418;
+        }
+        body.light-mode .btn-lihat {
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            color: #1a1508;
+        }
+        body.light-mode .hero h1 {
+            background: linear-gradient(135deg, #8B7355, #d4af37, #8B7355);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        body.light-mode .price-tag {
+            color: #b8860b;
+        }
+        body.light-mode .prayer-time {
+            color: #b8860b;
+        }
+        body.light-mode .chat-wa-btn {
+            background: #25D366;
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 20;
+            padding: 0.5rem;
+        }
+
+        .theme-toggle {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+        .theme-btn {
+            background: rgba(255,255,245,0.08);
+            backdrop-filter: blur(8px);
+            padding: 10px 24px;
+            border-radius: 60px;
+            border: 1px solid rgba(212,175,55,0.4);
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: #f0e6d0;
+            transition: all 0.2s ease;
+        }
+        .theme-btn:hover {
+            border-color: #d4af37;
+            background: rgba(212,175,55,0.15);
+        }
+
+        .hero {
+            text-align: center;
+            margin: 1.5rem 0 1rem;
+            animation: fadeUp 0.7s ease-out;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 600;
+            background: linear-gradient(135deg, #e8d5b0, #f0e6c0, #d4af37, #e8d5b0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 3px;
+        }
+        .hero p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            letter-spacing: 1px;
+        }
+        .btn-lihat {
+            background: linear-gradient(135deg, rgba(212,175,55,0.9), rgba(184,150,12,0.9));
+            border: none;
+            padding: 14px 42px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 25px;
+            cursor: pointer;
+            color: #1a1508;
+            transition: transform 0.2s ease;
+        }
+        .btn-lihat:hover {
+            transform: scale(1.02);
+        }
+        .wa-badge {
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(6px);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 24px;
+            border-radius: 60px;
+            margin-top: 25px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .wa-badge i {
+            font-size: 1.2rem;
+            color: #25D366;
+        }
+
+        /* Prayer Card */
+        .prayer-section { margin: 25px 0; }
+        .prayer-card {
+            background: rgba(10,10,20,0.45);
+            backdrop-filter: blur(10px);
+            border-radius: 36px;
+            padding: 16px 20px;
+            text-align: center;
+            border: 1px solid rgba(212,175,55,0.25);
+        }
+        .prayer-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .prayer-times {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .prayer-item { text-align: center; min-width: 65px; }
+        .prayer-name { font-size: 0.7rem; opacity: 0.7; text-transform: uppercase; }
+        .prayer-time { font-size: 1rem; font-weight: 600; color: #d4af37; }
+        .prayer-note { font-size: 0.65rem; margin-top: 8px; opacity: 0.6; }
+
+        /* Countdown */
+        .countdown-section { text-align: center; margin: 20px 0; }
+        .countdown-timer {
+            display: inline-flex;
+            gap: 15px;
+            background: rgba(0,0,0,0.35);
+            padding: 10px 28px;
+            border-radius: 60px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .countdown-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: rgba(212,175,55,0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            min-width: 55px;
+            color: #d4af37;
+        }
+        .countdown-label { font-size: 0.6rem; text-transform: uppercase; }
+
+        /* Stats */
+        .stats-section {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            flex-wrap: wrap;
+            margin: 35px 0;
+        }
+        .stat-card {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+            padding: 15px 28px;
+            border-radius: 36px;
+            text-align: center;
+            min-width: 130px;
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4af37;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .stat-label { font-size: 0.75rem; letter-spacing: 1px; }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+            margin: 50px 0;
+        }
+        .product-card {
+            background: rgba(12,12,22,0.6);
+            backdrop-filter: blur(14px);
+            border-radius: 32px;
+            padding: 1.6rem;
+            border: 1px solid rgba(212,175,55,0.25);
+            transition: transform 0.25s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(212,175,55,0.7);
+        }
+
+        /* Badges */
+        .badge-jasa, .badge-premium, .badge-kapasitas, .badge-role, .badge-nokos {
+            display: inline-block;
+            padding: 5px 16px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .badge-jasa { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+        .badge-premium { background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: #fff; }
+        .badge-kapasitas { background: linear-gradient(135deg, #06b6d4, #0891b2); color: #fff; }
+        .badge-role { background: linear-gradient(135deg, #ec489a, #be185d); color: #fff; }
+        .badge-nokos { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+
+        .product-card h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 8px 0;
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .price-tag {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 12px 0;
+            color: #d4af37;
+        }
+        .benefits-list {
+            text-align: left;
+            background: rgba(0,0,0,0.2);
+            padding: 12px 14px;
+            border-radius: 24px;
+            line-height: 1.5;
+            margin: 12px 0;
+            font-size: 0.8rem;
+        }
+        .benefits-list ul { list-style: none; }
+        .benefits-list li { margin: 6px 0; display: flex; align-items: center; gap: 10px; }
+        .benefits-list i { width: 20px; color: #d4af37; }
+
+        .select-group { margin: 12px 0; text-align: left; }
+        .select-group label { display: block; margin-bottom: 5px; font-weight: 500; font-size: 0.8rem; opacity: 0.8; }
+        select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 40px;
+            background: rgba(20,20,35,0.8);
+            color: white;
+            border: 1px solid rgba(212,175,55,0.4);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        select:hover { border-color: #d4af37; }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        .qty-btn {
+            background: rgba(30,30,50,0.8);
+            border: 1px solid rgba(212,175,55,0.4);
+            width: 38px;
+            height: 38px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 40px;
+            cursor: pointer;
+            color: #d4af37;
+        }
+        .qty-btn:hover { background: rgba(212,175,55,0.3); }
+        .qty-num { font-size: 1.3rem; font-weight: 600; min-width: 45px; text-align: center; }
+
+        .btn-buy {
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 12px;
+            cursor: pointer;
+            color: #1a1508;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.15s;
+        }
+        .btn-buy:hover:not(:disabled) { transform: scale(1.01); }
+        .btn-buy:disabled { background: #5a4e32; color: #aaa; cursor: not-allowed; opacity: 0.6; }
+
+        .nokos-info {
+            background: rgba(212,175,55,0.15);
+            border-radius: 60px;
+            padding: 10px;
+            margin-top: 12px;
+            font-size: 0.75rem;
+            text-align: center;
+            border: 1px dashed rgba(212,175,55,0.4);
+        }
+        .chat-wa-btn {
+            background: #25D366;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 60px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            transition: transform 0.15s;
+        }
+        .chat-wa-btn:hover { transform: scale(1.02); background: #20b859; }
+
+        /* Testimoni */
+        .testimoni-section { margin: 50px 0; }
+        .testimoni-title {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+        .testimoni-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            scroll-snap-type: x mandatory;
+            padding: 10px 0;
+        }
+        .testimonial-card {
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 20px;
+            min-width: 300px;
+            scroll-snap-align: start;
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        .testimonial-text { font-style: italic; margin-bottom: 12px; font-size: 0.85rem; }
+        .testimonial-name { font-weight: 600; color: #d4af37; }
+        .testimonial-rating { color: #FFD700; margin-top: 8px; }
+
+        .wishlist-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #ff6b6b;
+            margin-top: 10px;
+        }
+        .wishlist-btn.active { color: #ff2a2a; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #0f111e;
+            border-radius: 48px;
+            max-width: 450px;
+            width: 90%;
+            padding: 28px 24px;
+            text-align: center;
+            border: 1px solid rgba(212,175,55,0.4);
+        }
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        .pay-btn {
+            background: #2d3a5e;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .pay-btn:hover { background: #3b4a72; }
+        .qris-image { max-width: 180px; margin: 12px auto; border-radius: 24px; background: white; padding: 6px; }
+        .btn-wa-confirm {
+            background: #25D366;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            margin-top: 15px;
+            border: none;
+            cursor: pointer;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #d4af37;
+            color: #1a1508;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+        }
+        .back-to-top.show { opacity: 1; visibility: visible; }
+        .float-chat {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #25D366;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+        }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-bottom: 20px;
+            opacity: 0.6;
+            font-size: 0.7rem;
+        }
+        @media (max-width: 768px) {
+            body { padding: 0.8rem; }
+            .products-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
     <div id="starsField"></div><div id="dynamicNebula"></div><div id="shootingStar" class="shooting-star"></div>
     <div class="float-chat" id="floatChatBtn"><i class="fab fa-whatsapp"></i></div>
     <div class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></div>
+
     <div class="container">
-        <div class="theme-toggle"><button class="theme-btn" id="darkLightToggle"><i class="fas fa-moon"></i> <span>Mode Gelap (Angkasa)</span></button></div>
-        <div class="hero"><h1>✨ MARKETPLACE NANN OFFICIAL ✨</h1><button class="btn-lihat" id="lihatProdukBtn"><i class="fas fa-eye"></i> LIAT PRODUK NANN</button><div class="wa-badge"><i class="fab fa-whatsapp"></i> WhatsApp: <strong>082381531460</strong></div></div>
+        <div class="theme-toggle"><button class="theme-btn" id="darkLightToggle"><i class="fas fa-moon"></i> <span>Mode Terang</span></button></div>
         
-        <div class="prayer-section"><div class="prayer-card"><div class="prayer-title"><i class="fas fa-mosque"></i> Jadwal Sholat Medan</div><div class="prayer-times"><div class="prayer-item"><div class="prayer-name">Imsak</div><div class="prayer-time" id="imsak">--:--</div></div><div class="prayer-item"><div class="prayer-name">Subuh</div><div class="prayer-time" id="subuh">--:--</div></div><div class="prayer-item"><div class="prayer-name">Dzuhur</div><div class="prayer-time" id="dzuhur">--:--</div></div><div class="prayer-item"><div class="prayer-name">Ashar</div><div class="prayer-time" id="ashar">--:--</div></div><div class="prayer-item"><div class="prayer-name">Maghrib</div><div class="prayer-time" id="maghrib">--:--</div></div><div class="prayer-item"><div class="prayer-name">Isya</div><div class="prayer-time" id="isya">--:--</div></div></div><div class="prayer-note" id="prayerNote">🕋 Berdasarkan waktu setempat</div></div></div>
+        <div class="hero"><h1>✨ NANN OFFICIAL ✨</h1><p>Luxury Digital Marketplace</p><button class="btn-lihat" id="lihatProdukBtn"><i class="fas fa-eye"></i> Eksplor Koleksi</button><div class="wa-badge"><i class="fab fa-whatsapp"></i> Admin: <strong>083180072584</strong> &nbsp;|&nbsp; <i class="fas fa-wallet"></i> DANA: <strong>082381531460</strong></div></div>
+
+        <div class="prayer-section"><div class="prayer-card"><div class="prayer-title"><i class="fas fa-mosque"></i> Jadwal Sholat Medan</div><div class="prayer-times"><div class="prayer-item"><div class="prayer-name">Imsak</div><div class="prayer-time" id="imsak">--:--</div></div><div class="prayer-item"><div class="prayer-name">Subuh</div><div class="prayer-time" id="subuh">--:--</div></div><div class="prayer-item"><div class="prayer-name">Dzuhur</div><div class="prayer-time" id="dzuhur">--:--</div></div><div class="prayer-item"><div class="prayer-name">Ashar</div><div class="prayer-time" id="ashar">--:--</div></div><div class="prayer-item"><div class="prayer-name">Maghrib</div><div class="prayer-time" id="maghrib">--:--</div></div><div class="prayer-item"><div class="prayer-name">Isya</div><div class="prayer-time" id="isya">--:--</div></div></div><div class="prayer-note" id="prayerNote">🕋 Berdasarkan kota Medan</div></div></div>
 
         <div class="countdown-section"><div class="countdown-timer"><div class="countdown-item"><div class="countdown-number" id="cdDays">00</div><div class="countdown-label">Hari</div></div><div class="countdown-item"><div class="countdown-number" id="cdHours">00</div><div class="countdown-label">Jam</div></div><div class="countdown-item"><div class="countdown-number" id="cdMinutes">00</div><div class="countdown-label">Menit</div></div><div class="countdown-item"><div class="countdown-number" id="cdSeconds">00</div><div class="countdown-label">Detik</div></div></div></div>
 
-        <div class="stats-section"><div class="stat-card"><div class="stat-number" id="statCustomer">1.527</div><div class="stat-label">Pelanggan</div></div><div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Produk</div></div><div class="stat-card"><div class="stat-number" id="statSold">2.143</div><div class="stat-label">Terjual</div></div></div>
+        <div class="stats-section"><div class="stat-card"><div class="stat-number" id="statCustomer">1.5K</div><div class="stat-label">Pelanggan</div></div><div class="stat-card"><div class="stat-number">6</div><div class="stat-label">Produk</div></div><div class="stat-card"><div class="stat-number" id="statSold">2.1K</div><div class="stat-label">Terjual</div></div></div>
 
         <div id="produkContainer" style="display:none"><div class="products-grid">
-            <!-- PRODUK 1: BOT WA -->
-            <div class="product-card"><span class="badge-jasa"><i class="fas fa-robot"></i> PREMIUM BOT</span><h2 style="margin:8px 0">🤖 JASA JADI BOT WHATSAPP</h2><div class="price-tag">Rp 1.000</div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> JADI OWNER BOT</li><li><i class="fas fa-check-circle"></i> BISA OPEN JASA SEWA BOT</li><li><i class="fas fa-check-circle"></i> PAKE BOT SEPUASNYA</li><li><i class="fas fa-check-circle"></i> FITUR 1500+</li><li><i class="fas fa-check-circle"></i> ANTI DELAY & FAST RESPON</li></ul></div><div class="qty-control"><button class="qty-btn" data-produk="1" data-arah="kurang">-</button><span class="qty-num" id="qty1">1</span><button class="qty-btn" data-produk="1" data-arah="tambah">+</button></div><div><strong>Total: <span id="total1">Rp 1.000</span></strong></div><button class="btn-buy" data-produk="1" data-nama="JASA JADI BOT WHATSAPP" data-harga="1000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button><button class="wishlist-btn" data-wishlist="1"><i class="far fa-heart"></i></button><div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Garansi 30 hari</span></div></div>
+            <div class="product-card"><span class="badge-jasa"><i class="fas fa-robot"></i> PREMIUM BOT</span><h2>🤖 JASA JADI BOT WHATSAPP</h2><div class="price-tag">Rp 1.000</div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> JADI OWNER BOT</li><li><i class="fas fa-check-circle"></i> BISA OPEN JASA SEWA BOT</li><li><i class="fas fa-check-circle"></i> PAKE BOT SEPUASNYA</li><li><i class="fas fa-check-circle"></i> FITUR 1500+</li><li><i class="fas fa-check-circle"></i> ANTI DELAY & FAST RESPON</li></ul></div><div class="qty-control"><button class="qty-btn" data-produk="1" data-arah="kurang">-</button><span class="qty-num" id="qty1">1</span><button class="qty-btn" data-produk="1" data-arah="tambah">+</button></div><div><strong>Total: <span id="total1">Rp 1.000</span></strong></div><button class="btn-buy" data-produk="1" data-nama="JASA JADI BOT WHATSAPP" data-harga="1000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button><button class="wishlist-btn" data-wishlist="1"><i class="far fa-heart"></i></button></div>
 
-            <!-- PRODUK 2: ALIGHT MOTION -->
-            <div class="product-card"><span class="badge-premium"><i class="fas fa-video"></i> ALIGHT MOTION</span><h2 style="margin:8px 0">🎬 ALIGHT MOTION PREMIUM</h2><div class="price-tag">Rp 5.000</div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> AKUN PRIVATE</li><li><i class="fas fa-check-circle"></i> PREMIUM UNLIMITED</li><li><i class="fas fa-check-circle"></i> DURASI 1 TAHUN</li><li><i class="fas fa-check-circle"></i> NO EXPORT WATERMARK</li><li><i class="fas fa-check-circle"></i> ALL FITUR PRO</li></ul></div><div class="qty-control"><button class="qty-btn" data-produk="2" data-arah="kurang">-</button><span class="qty-num" id="qty2">1</span><button class="qty-btn" data-produk="2" data-arah="tambah">+</button></div><div><strong>Total: <span id="total2">Rp 5.000</span></strong></div><button class="btn-buy" data-produk="2" data-nama="ALIGHT MOTION PREMIUM (Akun Private 1 Thn)" data-harga="5000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button><button class="wishlist-btn" data-wishlist="2"><i class="far fa-heart"></i></button><div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Update seumur hidup</span></div></div>
+            <div class="product-card"><span class="badge-premium"><i class="fas fa-video"></i> ALIGHT MOTION</span><h2>🎬 ALIGHT MOTION PREMIUM</h2><div class="price-tag">Rp 5.000</div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> AKUN PRIVATE</li><li><i class="fas fa-check-circle"></i> PREMIUM UNLIMITED</li><li><i class="fas fa-check-circle"></i> DURASI 1 TAHUN</li><li><i class="fas fa-check-circle"></i> NO EXPORT WATERMARK</li><li><i class="fas fa-check-circle"></i> ALL FITUR PRO</li></ul></div><div class="qty-control"><button class="qty-btn" data-produk="2" data-arah="kurang">-</button><span class="qty-num" id="qty2">1</span><button class="qty-btn" data-produk="2" data-arah="tambah">+</button></div><div><strong>Total: <span id="total2">Rp 5.000</span></strong></div><button class="btn-buy" data-produk="2" data-nama="ALIGHT MOTION PREMIUM" data-harga="5000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button><button class="wishlist-btn" data-wishlist="2"><i class="far fa-heart"></i></button></div>
 
-            <!-- PRODUK 3: KAPASITAS PANEL (TERPISAH) -->
-            <div class="product-card"><span class="badge-kapasitas"><i class="fas fa-database"></i> KAPASITAS PANEL</span><h2 style="margin:8px 0">💾 PANEL DYNAN - Kapasitas</h2><div class="select-group"><label>📌 Pilih Kapasitas (1GB - 10GB)</label><select id="kapasitasPanel"><option value="1">1 GB - Rp 1.000</option><option value="2">2 GB - Rp 2.000</option><option value="3">3 GB - Rp 3.000</option><option value="4">4 GB - Rp 4.000</option><option value="5">5 GB - Rp 5.000</option><option value="6">6 GB - Rp 6.000</option><option value="7">7 GB - Rp 7.000</option><option value="8">8 GB - Rp 8.000</option><option value="9">9 GB - Rp 9.000</option><option value="10">10 GB - Rp 10.000</option></select></div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> FREE INSTALL PANEL</li><li><i class="fas fa-check-circle"></i> ANTI DELAY</li><li><i class="fas fa-check-circle"></i> FULL SUPPORT</li></ul></div><div class="price-tag" id="hargaKapasitas">Rp 1.000</div><div class="qty-control"><button class="qty-btn" data-produk="3" data-arah="kurang">-</button><span class="qty-num" id="qty3">1</span><button class="qty-btn" data-produk="3" data-arah="tambah">+</button></div><div><strong>Total: <span id="total3">Rp 1.000</span></strong></div><button class="btn-buy" id="beliKapasitasBtn"><i class="fas fa-shopping-cart"></i> BELI KAPASITAS</button><button class="wishlist-btn" data-wishlist="3"><i class="far fa-heart"></i></button><div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Beli kapasitas panel saja</span></div></div>
+            <div class="product-card"><span class="badge-kapasitas"><i class="fas fa-database"></i> KAPASITAS PANEL</span><h2>💾 PANEL DYNAN - Kapasitas</h2><div class="select-group"><label>📌 Pilih Kapasitas (1GB - 10GB)</label><select id="kapasitasPanel"><option value="1">1 GB - Rp 1.000</option><option value="2">2 GB - Rp 2.000</option><option value="3">3 GB - Rp 3.000</option><option value="4">4 GB - Rp 4.000</option><option value="5">5 GB - Rp 5.000</option><option value="6">6 GB - Rp 6.000</option><option value="7">7 GB - Rp 7.000</option><option value="8">8 GB - Rp 8.000</option><option value="9">9 GB - Rp 9.000</option><option value="10">10 GB - Rp 10.000</option></select></div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> FREE INSTALL PANEL</li><li><i class="fas fa-check-circle"></i> ANTI DELAY</li></ul></div><div class="price-tag" id="hargaKapasitas">Rp 1.000</div><div class="qty-control"><button class="qty-btn" data-produk="3" data-arah="kurang">-</button><span class="qty-num" id="qty3">1</span><button class="qty-btn" data-produk="3" data-arah="tambah">+</button></div><div><strong>Total: <span id="total3">Rp 1.000</span></strong></div><button class="btn-buy" id="beliKapasitasBtn"><i class="fas fa-shopping-cart"></i> BELI KAPASITAS</button><button class="wishlist-btn" data-wishlist="3"><i class="far fa-heart"></i></button></div>
 
-            <!-- PRODUK 4: ROLE PANEL (TERPISAH) -->
-            <div class="product-card"><span class="badge-role"><i class="fas fa-crown"></i> ROLE PANEL</span><h2 style="margin:8px 0">👑 PANEL DYNAN - Role</h2><div class="select-group"><label>👑 Pilih Role Panel</label><select id="rolePanel"><option value="15000">Reseller Panel - Rp 15.000</option><option value="20000">Admin Panel - Rp 20.000</option><option value="25000">PT Panel - Rp 25.000</option><option value="30000">TK Panel - Rp 30.000</option><option value="50000">CEO Panel - Rp 50.000</option></select></div><div id="roleBenefits" class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> BISA BUAT PANEL SEPUASNYA</li><li><i class="fas fa-check-circle"></i> PANEL ANTI DELAY</li></ul></div><div class="price-tag" id="hargaRole">Rp 15.000</div><div class="qty-control"><button class="qty-btn" data-produk="4" data-arah="kurang">-</button><span class="qty-num" id="qty4">1</span><button class="qty-btn" data-produk="4" data-arah="tambah">+</button></div><div><strong>Total: <span id="total4">Rp 15.000</span></strong></div><button class="btn-buy" id="beliRoleBtn"><i class="fas fa-shopping-cart"></i> BELI ROLE</button><button class="wishlist-btn" data-wishlist="4"><i class="far fa-heart"></i></button><div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Beli role panel saja</span></div></div>
+            <div class="product-card"><span class="badge-role"><i class="fas fa-crown"></i> ROLE PANEL</span><h2>👑 PANEL DYNAN - Role</h2><div class="select-group"><label>👑 Pilih Role Panel</label><select id="rolePanel"><option value="15000">Reseller Panel - Rp 15.000</option><option value="20000">Admin Panel - Rp 20.000</option><option value="25000">PT Panel - Rp 25.000</option><option value="30000">TK Panel - Rp 30.000</option><option value="50000">CEO Panel - Rp 50.000</option></select></div><div id="roleBenefits" class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> BISA BUAT PANEL SEPUASNYA</li><li><i class="fas fa-check-circle"></i> PANEL ANTI DELAY</li></ul></div><div class="price-tag" id="hargaRole">Rp 15.000</div><div class="qty-control"><button class="qty-btn" data-produk="4" data-arah="kurang">-</button><span class="qty-num" id="qty4">1</span><button class="qty-btn" data-produk="4" data-arah="tambah">+</button></div><div><strong>Total: <span id="total4">Rp 15.000</span></strong></div><button class="btn-buy" id="beliRoleBtn"><i class="fas fa-shopping-cart"></i> BELI ROLE</button><button class="wishlist-btn" data-wishlist="4"><i class="far fa-heart"></i></button></div>
+
+            <div class="product-card"><span class="badge-nokos"><i class="fas fa-egg"></i> NOKOS INDON</span><h2>🥚 NOKOS INDON (OLD)</h2><div class="price-tag">Rp 10.000</div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> VERSI OLD LIMITED</li><li><i class="fas fa-check-circle"></i> PREMIUM ACCESS</li><li><i class="fas fa-check-circle"></i> STABLE VERSION</li></ul></div><div class="qty-control"><button class="qty-btn" data-produk="5" data-arah="kurang">-</button><span class="qty-num" id="qty5">1</span><button class="qty-btn" data-produk="5" data-arah="tambah">+</button></div><div><strong>Total: <span id="total5">Rp 10.000</span></strong></div><button class="btn-buy" id="beliNokosOldBtn"><i class="fas fa-shopping-cart"></i> BELI NOKOS OLD</button><button class="wishlist-btn" data-wishlist="5"><i class="far fa-heart"></i></button></div>
+
+            <div class="product-card"><span class="badge-nokos"><i class="fas fa-egg"></i> NOKOS INDON</span><h2>🥚 NOKOS INDON (FRESH)</h2><div class="price-tag">Rp 6.000</div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> VERSI FRESH UPDATE</li><li><i class="fas fa-check-circle"></i> PREMIUM ACCESS</li><li><i class="fas fa-check-circle"></i> FULL SUPPORT</li></ul></div><div class="qty-control"><button class="qty-btn" data-produk="6" data-arah="kurang">-</button><span class="qty-num" id="qty6">1</span><button class="qty-btn" data-produk="6" data-arah="tambah">+</button></div><div><strong>Total: <span id="total6">Rp 6.000</span></strong></div><button class="btn-buy" id="beliNokosFreshBtn"><i class="fas fa-shopping-cart"></i> BELI NOKOS FRESH</button><div class="nokos-info"><i class="fas fa-globe"></i> Mau Nokos negara lain? <button class="chat-wa-btn" id="chatNegaraLain"><i class="fab fa-whatsapp"></i> Chat WA Admin</button></div><button class="wishlist-btn" data-wishlist="6"><i class="far fa-heart"></i></button></div>
         </div></div>
 
-        <div class="testimoni-section"><h3 class="testimoni-title"><i class="fas fa-star"></i> Testimoni Pelanggan <span id="testimoniCount">101</span> <i class="fas fa-star"></i></h3><div class="testimoni-slider" id="testimoniSlider"></div></div>
-        <footer>© NANN OFFICIAL • Bot WhatsApp + Alight Motion Premium + Panel DYNAN (Kapasitas & Role Terpisah) • Trusted Since 2024</footer>
+        <div class="testimoni-section"><h3 class="testimoni-title"><i class="fas fa-star"></i> Testimoni Pelanggan <span id="testimoniCount">101+</span> <i class="fas fa-star"></i></h3><div class="testimoni-slider" id="testimoniSlider"></div></div>
+        <footer>© NANN OFFICIAL — Luxury Digital Marketplace — Trusted Since 2024</footer>
     </div>
 
     <div id="paymentModal" class="modal"><div class="modal-content"><h2><i class="fas fa-credit-card"></i> Pilih Metode Pembayaran</h2><div class="payment-options"><button class="pay-btn" id="payDanaBtn"><i class="fas fa-wallet"></i> DANA</button><button class="pay-btn" id="payQrisBtn"><i class="fas fa-qrcode"></i> QRIS</button></div><div id="paymentDetailArea"></div><hr><small>Setelah bayar, klik tombol "Sudah Bayar & Kirim Bukti"</small><div id="waButtonArea"></div><button id="closeModalBtn" style="margin-top:20px; background:#4b5563; padding:8px 20px; border-radius:30px; border:none; color:white; cursor:pointer;">Tutup</button></div></div>
 
     <script>
         // Bintang & Nebula
-        function createStars(){for(let i=0;i<200;i++){let s=document.createElement('div');s.classList.add('star');s.style.width=Math.random()*2.5+1+'px';s.style.height=s.style.width;s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*5+'s';document.getElementById('starsField').appendChild(s);}}
-        function createNebula(){for(let i=0;i<4;i++){let n=document.createElement('div');n.classList.add('nebula');n.style.left=Math.random()*80+10+'%';n.style.top=Math.random()*80+10+'%';n.style.width=Math.random()*250+150+'px';n.style.height=n.style.width;document.getElementById('dynamicNebula').appendChild(n);}}
+        function createStars(){for(let i=0;i<180;i++){let s=document.createElement('div');s.classList.add('star');s.style.width=Math.random()*2+1+'px';s.style.height=s.style.width;s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animation='starFade '+ (Math.random()*3+2)+'s infinite alternate';document.getElementById('starsField').appendChild(s);}}
+        function createNebula(){for(let i=0;i<4;i++){let n=document.createElement('div');n.classList.add('nebula');n.style.left=Math.random()*80+10+'%';n.style.top=Math.random()*70+15+'%';n.style.width=Math.random()*250+150+'px';n.style.height=n.style.width;document.getElementById('dynamicNebula').appendChild(n);}}
         createStars();createNebula();
 
-        // Jadwal Sholat Medan
-        async function fetchPrayerTimes(){try{let t=new Date(),y=t.getFullYear(),m=String(t.getMonth()+1).padStart(2,'0'),d=String(t.getDate()).padStart(2,'0');let r=await fetch(`https://api.aladhan.com/v1/timings/${d}-${m}-${y}?latitude=3.5952&longitude=98.6722&method=20&timezone=Asia/Jakarta`);let data=await r.json();if(data.code===200){let tim=data.data.timings;document.getElementById('imsak').innerText=tim.Imsak.substring(0,5);document.getElementById('subuh').innerText=tim.Fajr.substring(0,5);document.getElementById('dzuhur').innerText=tim.Dhuhr.substring(0,5);document.getElementById('ashar').innerText=tim.Asr.substring(0,5);document.getElementById('maghrib').innerText=tim.Maghrib.substring(0,5);document.getElementById('isya').innerText=tim.Isha.substring(0,5);document.getElementById('prayerNote').innerHTML=`🕋 ${t.toLocaleDateString('id-ID')} - Medan`;}else throw new Error();}catch(e){document.getElementById('imsak').innerText='04:45';document.getElementById('subuh').innerText='05:00';document.getElementById('dzuhur').innerText='12:30';document.getElementById('ashar').innerText='15:45';document.getElementById('maghrib').innerText='18:30';document.getElementById('isya').innerText='19:45';document.getElementById('prayerNote').innerHTML='🕋 Jadwal default Medan';}}
-        fetchPrayerTimes();setInterval(fetchPrayerTimes,3600000);
+        // Sholat Medan
+        async function fetchPrayer(){try{let t=new Date(),y=t.getFullYear(),m=String(t.getMonth()+1).padStart(2,'0'),d=String(t.getDate()).padStart(2,'0');let r=await fetch(`https://api.aladhan.com/v1/timings/${d}-${m}-${y}?latitude=3.5952&longitude=98.6722&method=20&timezone=Asia/Jakarta`);let data=await r.json();if(data.code===200){let tim=data.data.timings;document.getElementById('imsak').innerText=tim.Imsak.substring(0,5);document.getElementById('subuh').innerText=tim.Fajr.substring(0,5);document.getElementById('dzuhur').innerText=tim.Dhuhr.substring(0,5);document.getElementById('ashar').innerText=tim.Asr.substring(0,5);document.getElementById('maghrib').innerText=tim.Maghrib.substring(0,5);document.getElementById('isya').innerText=tim.Isha.substring(0,5);document.getElementById('prayerNote').innerHTML=`🕋 ${t.toLocaleDateString('id-ID')} - Medan`;}else throw new Error();}catch(e){document.getElementById('imsak').innerText='04:45';document.getElementById('subuh').innerText='05:00';document.getElementById('dzuhur').innerText='12:30';document.getElementById('ashar').innerText='15:45';document.getElementById('maghrib').innerText='18:30';document.getElementById('isya').innerText='19:45';document.getElementById('prayerNote').innerHTML='🕋 Jadwal default Medan';}}
+        fetchPrayer();setInterval(fetchPrayer,3600000);
 
         // Countdown
         function startCountdown(){let end=new Date();end.setDate(end.getDate()+7);end.setHours(23,59,59,999);function update(){let diff=end-new Date();if(diff<=0){document.getElementById('cdDays').innerText='00';document.getElementById('cdHours').innerText='00';document.getElementById('cdMinutes').innerText='00';document.getElementById('cdSeconds').innerText='00';return;}document.getElementById('cdDays').innerText=Math.floor(diff/86400000).toString().padStart(2,'0');document.getElementById('cdHours').innerText=Math.floor((diff%86400000)/3600000).toString().padStart(2,'0');document.getElementById('cdMinutes').innerText=Math.floor((diff%3600000)/60000).toString().padStart(2,'0');document.getElementById('cdSeconds').innerText=Math.floor((diff%60000)/1000).toString().padStart(2,'0');}update();setInterval(update,1000);}
         startCountdown();
 
-        // Statistik bertambah
+        // Statistik
         let pelanggan=1527,terjual=2143;
         function updateStats(){document.getElementById('statCustomer').innerText=pelanggan.toLocaleString('id-ID');document.getElementById('statSold').innerText=terjual.toLocaleString('id-ID');}
         setInterval(()=>{pelanggan+=Math.floor(Math.random()*2)+1;terjual+=Math.floor(Math.random()*4)+2;updateStats();},35000);
         updateStats();
 
-        // Testimoni (101 data)
+        // Testimoni
         const testimonialTexts=["Mantap banget botnya, fast respon!","Alight Motion premium works perfectly!","Panel DYNAN stabil, recomended!","Owner ramah dan fast response","Harga bersahabat, kualitas juara","Puas banget sama service Nann Official","Bot WA keren, fitur lengkap banget!","Panelnya anti delay, sangat recommended","Alight Motion langsung aktif, mudah digunakan","Terima kasih Nann Official, bisnis saya maju","Support responsif, masalah cepat diatasi","Best dealer panel dan bot sejauh ini","Murah meriah tapi kualitas premium, thanks!","Akan repeat order lagi, mantap!","Layanan terbaik, fast respon 24 jam","Gak nyesel beli di sini, recomended!","Bot WA paling lengkap se-Indonesia","Panel DYNAN paling murah dan stabil","Alight Motion anti error, recommended banget","Owner baik dan selalu membantu","Proses cepat, barang langsung dikirim","Fitur botnya update terus, keren!","Panel kenceng, no delay, gas terus","Udah repeat order 3x, selalu puas","Pelayanan ramah, produk berkualitas","Harga miring, kualitas juara","Top markotop, bakal balik lagi","Saya jadi reseller, untung besar!","Terbaik di kelasnya, gaskeun!","Recommended untuk yang mau cari panel murah","Bot WA-nya powerful, banyak fitur keren","Alight Motion premium akun private legit","Panel DYNAN cocok untuk pemula","Owner fast respon, masalah langsung beres","Gak ada tandingannya, mantap!","Fitur lengkap, harga murah, wajib coba","Saya udah langganan 6 bulan, puas terus","Terima kasih Nann Official, sukses selalu","Pelayanan tercepat yang pernah saya alami","Bot WA anti delay, koneksi stabil","Panel bisa buat reseller, untung berlipat","Alight Motion update berkala, aman","Harga bersaing, kualitas nomor satu","Recommended seller, bakal beli lagi","Proses transaksi mudah dan cepat","Admin ramah dan informatif","Produk sesuai deskripsi, tidak mengecewakan","Pengiriman instan, langsung bisa pakai","Garansi terpenuhi, claim mudah","Saya jadi langganan tetap di sini","Teman-teman juga ikut beli di sini","Makasih banyak, sukses terus buat Nann Official","Terbaik sepanjang masa!","Pokoknya mantul, gak pake lama","Sangat puas, bakal beli lagi","Bisa dipercaya, produk original","Pengiriman cepat, respon bagus","Recommended untuk reseller","Admin ramah dan fast respon","Fitur bot lengkap dan update terus","Panel stabil, jarang error","Alight motion work di semua device","Harga termurah se-Indonesia","Pelayanan sangat memuaskan","Barang bagus, recomended banget","Owner baik hati dan sabar","Proses mudah, tidak ribet","Garansi terpercaya, claime mudah","Udah repeat order 5x, selalu puas","The best seller ever!","Gak nyesel beli disini","Murah, cepat, berkualitas","Saya jadi reseller sukses berkat Nann","Panel anti lemot, gas pol","Bot WA 1500+ fitur, mantap","Alight Motion premium seumur hidup","Terima kasih, sukses selalu","Recommended untuk anak startup","Pelayanan terbaik di kelasnya","Cocok untuk pemula yang mau jualan","Bisa buat panel unlimited, mantap","Fitur bot super lengkap, keren","Alight Motion tanpa watermark, pro","Panel DYNAN legal, aman dipakai","Owner sigap, fast respon","Harga bersahabat, banyak bonus","Udah nyoba di tempat lain, ini terbaik","Bakal jadi langganan tetap","Support 24 jam, sangat membantu","Top markotop, gaskeun!","Gak ada kata-kata, pokoknya recomended"];
         while(testimonialTexts.length<101) testimonialTexts.push(...testimonialTexts.slice(0,10));
         const names=["Andi","Siska","Budi","Citra","Rizki","Dewi","Rian","Maya","Joko","Lina","Faisal","Nadia","Hendra","Fitri","Rizal","Tono","Vina","Gani","Umar","Siti","Agus","Rina","Doni","Eka","Yanto","Wati","Cahyo","Dewi","Irfan","Nisa","Robby","Linda","Ahmad","Sarah","Bayu","Diana","Eko","Rika","Hadi","Mega","Indra","Sari","Dodi","Nina","Rudi","Tia","Bambang","Yuni","Guntur","Lusi","Ricky","Nia","Andre","Mila","Caca","Fahmi","Niken","Rizal","Oka","Prita"];
@@ -167,13 +609,15 @@
         for(let i=0;i<12;i++) addTesti(); setInterval(addTesti,22000);
         document.getElementById('testimoniCount').innerText=testimonialTexts.length;
 
-        // QTY untuk produk 1,2,3,4 (Bot, Alight, Kapasitas, Role)
-        let qty1=1,qty2=1,qty3=1,qty4=1;
+        // QTY untuk 6 produk
+        let qty1=1,qty2=1,qty3=1,qty4=1,qty5=1,qty6=1;
         function updateTotalProduk(p){
             if(p===1){let t=qty1*1000;document.getElementById('total1').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty1').innerText=qty1;}
             else if(p===2){let t=qty2*5000;document.getElementById('total2').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty2').innerText=qty2;}
             else if(p===3){let kap=parseInt(document.getElementById('kapasitasPanel').value);let t=qty3*(kap*1000);document.getElementById('total3').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty3').innerText=qty3;}
             else if(p===4){let roleVal=parseInt(document.getElementById('rolePanel').value);let t=qty4*roleVal;document.getElementById('total4').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty4').innerText=qty4;}
+            else if(p===5){let t=qty5*10000;document.getElementById('total5').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty5').innerText=qty5;}
+            else if(p===6){let t=qty6*6000;document.getElementById('total6').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty6').innerText=qty6;}
         }
         document.querySelectorAll('.qty-btn').forEach(btn=>{
             btn.onclick=function(){
@@ -182,32 +626,34 @@
                 else if(p===2){if(arah==='tambah')qty2++;else if(arah==='kurang'&&qty2>1)qty2--;updateTotalProduk(2);}
                 else if(p===3){if(arah==='tambah')qty3++;else if(arah==='kurang'&&qty3>1)qty3--;updateTotalProduk(3);}
                 else if(p===4){if(arah==='tambah')qty4++;else if(arah==='kurang'&&qty4>1)qty4--;updateTotalProduk(4);}
+                else if(p===5){if(arah==='tambah')qty5++;else if(arah==='kurang'&&qty5>1)qty5--;updateTotalProduk(5);}
+                else if(p===6){if(arah==='tambah')qty6++;else if(arah==='kurang'&&qty6>1)qty6--;updateTotalProduk(6);}
             };
         });
 
-        // Tampilkan produk
         document.getElementById('lihatProdukBtn').onclick=()=>{document.getElementById('produkContainer').style.display='block';document.getElementById('produkContainer').scrollIntoView({behavior:'smooth'});};
 
-        // Update harga kapasitas saat pilih kapasitas
+        // Panel Kapasitas
         function updateHargaKapasitas(){let kap=parseInt(document.getElementById('kapasitasPanel').value);document.getElementById('hargaKapasitas').innerText='Rp '+(kap*1000).toLocaleString('id-ID');updateTotalProduk(3);}
         document.getElementById('kapasitasPanel').onchange=updateHargaKapasitas;
         updateHargaKapasitas();
 
-        // Update harga role dan benefits
+        // Panel Role
         const roleBenefitsMap={'15000':{nama:'Reseller',benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY']},'20000':{nama:'Admin',benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN RESELLER PANEL']},'25000':{nama:'PT',benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN RESELLER PANEL','BISA BUAT ADMIN PANEL','PRIORITAS SUPPORT']},'30000':{nama:'TK',benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN RESELLER PANEL','BISA BUAT ADMIN PANEL','BISA BUAT PT PANEL','ACCESS ALL FEATURE','WHITELABEL READY']},'50000':{nama:'CEO',benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN SEMUA ROLE','FULL CONTROL','UNLIMITED RESOURCES','PRIORITAS VVIP','CUSTOM LOGO PANEL']}};
         function updateRole(){let roleVal=document.getElementById('rolePanel').value;let harga=parseInt(roleVal);document.getElementById('hargaRole').innerText='Rp '+harga.toLocaleString('id-ID');let ul=document.getElementById('roleBenefits').querySelector('ul');ul.innerHTML='';roleBenefitsMap[roleVal].benefits.forEach(b=>{let li=document.createElement('li');li.innerHTML='<i class="fas fa-check-circle"></i> '+b;ul.appendChild(li);});updateTotalProduk(4);}
         document.getElementById('rolePanel').onchange=updateRole;
         updateRole();
 
-        // Checkout data
+        // Checkout
         let checkoutData={namaProduk:'',qty:0,total:0,detail:''};
         const modal=document.getElementById('paymentModal');
         const qrisLink="https://files.catbox.moe/7jdrnl.jpeg";
-        const adminNo="6282381531460";
+        const adminNo="6283180072584";
+        const danaNo="082381531460";
 
-        // Tombol beli untuk Bot & Alight
+        // Tombol beli Bot & Alight
         document.querySelectorAll('.btn-buy').forEach(btn=>{
-            if(btn.id!=='beliKapasitasBtn' && btn.id!=='beliRoleBtn'){
+            if(!btn.id || (btn.id!=='beliKapasitasBtn' && btn.id!=='beliRoleBtn' && btn.id!=='beliNokosOldBtn' && btn.id!=='beliNokosFreshBtn')){
                 btn.onclick=function(){
                     let pid=parseInt(this.dataset.produk);
                     let nama=this.dataset.nama;
@@ -220,50 +666,39 @@
                 };
             }
         });
-        // Beli Kapasitas Panel
-        document.getElementById('beliKapasitasBtn').onclick=function(){
-            let kap=parseInt(document.getElementById('kapasitasPanel').value);
-            let hargaSatuan=kap*1000;
-            let total=qty3*hargaSatuan;
-            checkoutData={namaProduk:`Panel DYNAN Kapasitas ${kap}GB`,qty:qty3,total:total,detail:`Kapasitas: ${kap}GB x ${qty3}`};
-            modal.style.display='flex';
-            document.getElementById('paymentDetailArea').innerHTML='';
-            document.getElementById('waButtonArea').innerHTML='';
-        };
-        // Beli Role Panel
-        document.getElementById('beliRoleBtn').onclick=function(){
-            let roleVal=document.getElementById('rolePanel').value;
-            let hargaSatuan=parseInt(roleVal);
-            let roleNama=roleBenefitsMap[roleVal].nama;
-            let total=qty4*hargaSatuan;
-            checkoutData={namaProduk:`Panel DYNAN Role ${roleNama}`,qty:qty4,total:total,detail:`Role: ${roleNama} x ${qty4}`};
-            modal.style.display='flex';
-            document.getElementById('paymentDetailArea').innerHTML='';
-            document.getElementById('waButtonArea').innerHTML='';
-        };
+        document.getElementById('beliKapasitasBtn').onclick=function(){let kap=parseInt(document.getElementById('kapasitasPanel').value);let total=qty3*(kap*1000);checkoutData={namaProduk:`Panel DYNAN Kapasitas ${kap}GB`,qty:qty3,total:total,detail:`Kapasitas: ${kap}GB x ${qty3}`};modal.style.display='flex';document.getElementById('paymentDetailArea').innerHTML='';document.getElementById('waButtonArea').innerHTML='';};
+        document.getElementById('beliRoleBtn').onclick=function(){let roleVal=document.getElementById('rolePanel').value;let roleNama=roleBenefitsMap[roleVal].nama;let total=qty4*parseInt(roleVal);checkoutData={namaProduk:`Panel DYNAN Role ${roleNama}`,qty:qty4,total:total,detail:`Role: ${roleNama} x ${qty4}`};modal.style.display='flex';document.getElementById('paymentDetailArea').innerHTML='';document.getElementById('waButtonArea').innerHTML='';};
+        document.getElementById('beliNokosOldBtn').onclick=function(){checkoutData={namaProduk:'NOKOS INDON OLD',qty:qty5,total:qty5*10000,detail:`Nokos Old x ${qty5}`};modal.style.display='flex';document.getElementById('paymentDetailArea').innerHTML='';document.getElementById('waButtonArea').innerHTML='';};
+        document.getElementById('beliNokosFreshBtn').onclick=function(){checkoutData={namaProduk:'NOKOS INDON FRESH',qty:qty6,total:qty6*6000,detail:`Nokos Fresh x ${qty6}`};modal.style.display='flex';document.getElementById('paymentDetailArea').innerHTML='';document.getElementById('waButtonArea').innerHTML='';};
+        
+        // Chat WA untuk Nokos negara lain
+        document.getElementById('chatNegaraLain').onclick=function(){window.open('https://wa.me/6283180072584?text=Halo%20Nann%20Official%2C%20saya%20mau%20tanya%20Nokos%20negara%20lain%20apakah%20tersedia%3F','_blank');};
+        document.getElementById('floatChatBtn').onclick=()=>window.open('https://wa.me/6283180072584?text=Halo%20Nann%20Official%2C%20saya%20mau%20tanya%20produknya','_blank');
 
         function sendToWA(method){
             let msg=`Saya sudah melakukan pembayaran via ${method} untuk pembelian ${checkoutData.namaProduk} sebanyak ${checkoutData.qty} unit. Total Rp ${checkoutData.total.toLocaleString('id-ID')}. ${checkoutData.detail?checkoutData.detail+'. ':''}Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.`;
             window.open(`https://wa.me/${adminNo}?text=${encodeURIComponent(msg)}`,'_blank');
             modal.style.display='none';
         }
-        document.getElementById('payDanaBtn').onclick=()=>{document.getElementById('paymentDetailArea').innerHTML=`<div style="background:#1e293b;padding:15px;border-radius:32px;"><i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br><small>Transfer Rp ${checkoutData.total.toLocaleString('id-ID')}</small><br><span style="color:#a5f3c3;">📌 Nomor admin SAMA</span></div>`;document.getElementById('waButtonArea').innerHTML=`<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;document.getElementById('confirmPayBtn').onclick=()=>sendToWA('DANA');};
-        document.getElementById('payQrisBtn').onclick=()=>{document.getElementById('paymentDetailArea').innerHTML=`<div><img src="${qrisLink}" class="qris-image"><p>Scan QRIS di atas<br>No DANA: 082381531460</p><small>Total: Rp ${checkoutData.total.toLocaleString('id-ID')}</small></div>`;document.getElementById('waButtonArea').innerHTML=`<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;document.getElementById('confirmPayQrisBtn').onclick=()=>sendToWA('QRIS');};
+        document.getElementById('payDanaBtn').onclick=()=>{document.getElementById('paymentDetailArea').innerHTML=`<div style="background:#1e293b;padding:15px;border-radius:32px;"><i class="fas fa-phone-alt"></i> <strong>No DANA : ${danaNo}</strong><br><small>Transfer Rp ${checkoutData.total.toLocaleString('id-ID')}</small><br><span style="color:#a5f3c3;">📌 Konfirmasi setelah transfer</span></div>`;document.getElementById('waButtonArea').innerHTML=`<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;document.getElementById('confirmPayBtn').onclick=()=>sendToWA('DANA');};
+        document.getElementById('payQrisBtn').onclick=()=>{document.getElementById('paymentDetailArea').innerHTML=`<div><img src="${qrisLink}" class="qris-image"><p>Scan QRIS di atas<br>No DANA: ${danaNo}</p><small>Total: Rp ${checkoutData.total.toLocaleString('id-ID')}</small></div>`;document.getElementById('waButtonArea').innerHTML=`<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;document.getElementById('confirmPayQrisBtn').onclick=()=>sendToWA('QRIS');};
         document.getElementById('closeModalBtn').onclick=()=>modal.style.display='none';
         window.onclick=e=>{if(e.target===modal) modal.style.display='none';};
 
         // Tema
-        document.getElementById('darkLightToggle').onclick=function(){document.body.classList.toggle('light-mode');let isDark=!document.body.classList.contains('light-mode');this.innerHTML=isDark?'<i class="fas fa-moon"></i> <span>Mode Gelap (Angkasa)</span>':'<i class="fas fa-sun"></i> <span>Mode Terang (Matahari)</span>';};
+        document.getElementById('darkLightToggle').onclick=function(){document.body.classList.toggle('light-mode');let isDark=!document.body.classList.contains('light-mode');this.innerHTML=isDark?'<i class="fas fa-moon"></i> <span>Mode Terang</span>':'<i class="fas fa-sun"></i> <span>Mode Gelap</span>';};
+        
         // Wishlist
         document.querySelectorAll('.wishlist-btn').forEach(btn=>{btn.onclick=function(){this.classList.toggle('active');let icon=this.querySelector('i');icon.className=this.classList.contains('active')?'fas fa-heart':'far fa-heart';};});
-        // Back to top & float chat
+        
+        // Back to top
         window.addEventListener('scroll',()=>document.getElementById('backToTop').classList.toggle('show',window.scrollY>300));
         document.getElementById('backToTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
-        document.getElementById('floatChatBtn').onclick=()=>window.open('https://wa.me/6282381531460?text=Halo%20Nann%20Official%2C%20saya%20mau%20tanya%20produknya','_blank');
+        
         // Meteor
         setTimeout(function meteor(){if(!document.body.classList.contains('light-mode')){let shooting=document.getElementById('shootingStar');shooting.style.animation='none';shooting.offsetHeight;shooting.style.left=Math.random()*70+10+'%';shooting.style.animation='shoot 4s linear infinite';}setTimeout(meteor,15000);},5000);
-        // Init total semua produk
-        updateTotalProduk(1);updateTotalProduk(2);updateTotalProduk(3);updateTotalProduk(4);
+        
+        updateTotalProduk(1);updateTotalProduk(2);updateTotalProduk(3);updateTotalProduk(4);updateTotalProduk(5);updateTotalProduk(6);
     </script>
 </body>
 </html>
