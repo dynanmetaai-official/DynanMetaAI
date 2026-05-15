@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Nann Official · Bot WA + Alight Motion + Panel DYNAN</title>
+    <title>Nann Official · Bot WA + Alight Motion + Panel DYNAN (Kapasitas & Role Terpisah)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -76,7 +76,8 @@
         .tooltip:hover .tooltip-text{visibility:visible}
         .badge-jasa{background:#f59e0b;display:inline-block;padding:4px 16px;border-radius:60px;font-size:.75rem;font-weight:700}
         .badge-premium{background:#8b5cf6;display:inline-block;padding:4px 16px;border-radius:60px;font-size:.75rem;font-weight:700}
-        .badge-panel{background:#06b6d4;display:inline-block;padding:4px 16px;border-radius:60px;font-size:.75rem;font-weight:700}
+        .badge-kapasitas{background:#06b6d4;display:inline-block;padding:4px 16px;border-radius:60px;font-size:.75rem;font-weight:700}
+        .badge-role{background:#ec489a;display:inline-block;padding:4px 16px;border-radius:60px;font-size:.75rem;font-weight:700}
         .price-tag{font-size:1.8rem;font-weight:800;margin:10px 0;color:#FCD34D}
         .benefits-list{text-align:left;background:rgba(0,0,0,.2);padding:14px;border-radius:28px;line-height:1.6;margin:12px 0;font-size:.85rem}
         .benefits-list ul{list-style:none}
@@ -115,69 +116,154 @@
 
         <div class="countdown-section"><div class="countdown-timer"><div class="countdown-item"><div class="countdown-number" id="cdDays">00</div><div class="countdown-label">Hari</div></div><div class="countdown-item"><div class="countdown-number" id="cdHours">00</div><div class="countdown-label">Jam</div></div><div class="countdown-item"><div class="countdown-number" id="cdMinutes">00</div><div class="countdown-label">Menit</div></div><div class="countdown-item"><div class="countdown-number" id="cdSeconds">00</div><div class="countdown-label">Detik</div></div></div></div>
 
-        <div class="stats-section"><div class="stat-card"><div class="stat-number" id="statCustomer">1.527</div><div class="stat-label">Pelanggan</div></div><div class="stat-card"><div class="stat-number">3</div><div class="stat-label">Produk</div></div><div class="stat-card"><div class="stat-number" id="statSold">2.143</div><div class="stat-label">Terjual</div></div></div>
+        <div class="stats-section"><div class="stat-card"><div class="stat-number" id="statCustomer">1.527</div><div class="stat-label">Pelanggan</div></div><div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Produk</div></div><div class="stat-card"><div class="stat-number" id="statSold">2.143</div><div class="stat-label">Terjual</div></div></div>
 
         <div id="produkContainer" style="display:none"><div class="products-grid">
+            <!-- PRODUK 1: BOT WA -->
             <div class="product-card"><span class="badge-jasa"><i class="fas fa-robot"></i> PREMIUM BOT</span><h2 style="margin:8px 0">🤖 JASA JADI BOT WHATSAPP</h2><div class="price-tag">Rp 1.000</div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> JADI OWNER BOT</li><li><i class="fas fa-check-circle"></i> BISA OPEN JASA SEWA BOT</li><li><i class="fas fa-check-circle"></i> PAKE BOT SEPUASNYA</li><li><i class="fas fa-check-circle"></i> FITUR 1500+</li><li><i class="fas fa-check-circle"></i> ANTI DELAY & FAST RESPON</li></ul></div><div class="qty-control"><button class="qty-btn" data-produk="1" data-arah="kurang">-</button><span class="qty-num" id="qty1">1</span><button class="qty-btn" data-produk="1" data-arah="tambah">+</button></div><div><strong>Total: <span id="total1">Rp 1.000</span></strong></div><button class="btn-buy" data-produk="1" data-nama="JASA JADI BOT WHATSAPP" data-harga="1000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button><button class="wishlist-btn" data-wishlist="1"><i class="far fa-heart"></i></button><div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Garansi 30 hari</span></div></div>
 
+            <!-- PRODUK 2: ALIGHT MOTION -->
             <div class="product-card"><span class="badge-premium"><i class="fas fa-video"></i> ALIGHT MOTION</span><h2 style="margin:8px 0">🎬 ALIGHT MOTION PREMIUM</h2><div class="price-tag">Rp 5.000</div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> AKUN PRIVATE</li><li><i class="fas fa-check-circle"></i> PREMIUM UNLIMITED</li><li><i class="fas fa-check-circle"></i> DURASI 1 TAHUN</li><li><i class="fas fa-check-circle"></i> NO EXPORT WATERMARK</li><li><i class="fas fa-check-circle"></i> ALL FITUR PRO</li></ul></div><div class="qty-control"><button class="qty-btn" data-produk="2" data-arah="kurang">-</button><span class="qty-num" id="qty2">1</span><button class="qty-btn" data-produk="2" data-arah="tambah">+</button></div><div><strong>Total: <span id="total2">Rp 5.000</span></strong></div><button class="btn-buy" data-produk="2" data-nama="ALIGHT MOTION PREMIUM (Akun Private 1 Thn)" data-harga="5000"><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button><button class="wishlist-btn" data-wishlist="2"><i class="far fa-heart"></i></button><div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Update seumur hidup</span></div></div>
 
-            <div class="product-card"><span class="badge-panel"><i class="fas fa-server"></i> PTERODACTYL PANEL</span><h2 style="margin:8px 0">🔥 PANEL LEGAL BY DYNAN</h2><div class="select-group"><label>📌 Pilih Kapasitas Panel (1GB - 10GB)</label><select id="kapasitasPanel"><option value="1">1 GB - Rp 1.000</option><option value="2">2 GB - Rp 2.000</option><option value="3">3 GB - Rp 3.000</option><option value="4">4 GB - Rp 4.000</option><option value="5">5 GB - Rp 5.000</option><option value="6">6 GB - Rp 6.000</option><option value="7">7 GB - Rp 7.000</option><option value="8">8 GB - Rp 8.000</option><option value="9">9 GB - Rp 9.000</option><option value="10">10 GB - Rp 10.000</option></select></div><div class="select-group"><label>👑 Pilih Role Panel</label><select id="rolePanel"><option value="15000">Reseller Panel - Rp 15.000</option><option value="20000">Admin Panel - Rp 20.000</option><option value="25000">PT Panel - Rp 25.000</option><option value="30000">TK Panel - Rp 30.000</option><option value="50000">CEO Panel - Rp 50.000</option></select></div><div id="panelBenefits" class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> BISA BUAT PANEL SEPUASNYA</li><li><i class="fas fa-check-circle"></i> PANEL ANTI DELAY</li></ul></div><div class="price-tag" id="panelHarga">Rp 16.000</div><div><strong>Total: <span id="totalPanel">Rp 16.000</span></strong></div><button class="btn-buy" id="beliPanelBtn" disabled><i class="fas fa-shopping-cart"></i> BELI SEKARANG</button><button class="wishlist-btn" data-wishlist="3"><i class="far fa-heart"></i></button><div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Pilih kapasitas & role dulu</span></div></div>
+            <!-- PRODUK 3: KAPASITAS PANEL (TERPISAH) -->
+            <div class="product-card"><span class="badge-kapasitas"><i class="fas fa-database"></i> KAPASITAS PANEL</span><h2 style="margin:8px 0">💾 PANEL DYNAN - Kapasitas</h2><div class="select-group"><label>📌 Pilih Kapasitas (1GB - 10GB)</label><select id="kapasitasPanel"><option value="1">1 GB - Rp 1.000</option><option value="2">2 GB - Rp 2.000</option><option value="3">3 GB - Rp 3.000</option><option value="4">4 GB - Rp 4.000</option><option value="5">5 GB - Rp 5.000</option><option value="6">6 GB - Rp 6.000</option><option value="7">7 GB - Rp 7.000</option><option value="8">8 GB - Rp 8.000</option><option value="9">9 GB - Rp 9.000</option><option value="10">10 GB - Rp 10.000</option></select></div><div class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> FREE INSTALL PANEL</li><li><i class="fas fa-check-circle"></i> ANTI DELAY</li><li><i class="fas fa-check-circle"></i> FULL SUPPORT</li></ul></div><div class="price-tag" id="hargaKapasitas">Rp 1.000</div><div class="qty-control"><button class="qty-btn" data-produk="3" data-arah="kurang">-</button><span class="qty-num" id="qty3">1</span><button class="qty-btn" data-produk="3" data-arah="tambah">+</button></div><div><strong>Total: <span id="total3">Rp 1.000</span></strong></div><button class="btn-buy" id="beliKapasitasBtn"><i class="fas fa-shopping-cart"></i> BELI KAPASITAS</button><button class="wishlist-btn" data-wishlist="3"><i class="far fa-heart"></i></button><div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Beli kapasitas panel saja</span></div></div>
+
+            <!-- PRODUK 4: ROLE PANEL (TERPISAH) -->
+            <div class="product-card"><span class="badge-role"><i class="fas fa-crown"></i> ROLE PANEL</span><h2 style="margin:8px 0">👑 PANEL DYNAN - Role</h2><div class="select-group"><label>👑 Pilih Role Panel</label><select id="rolePanel"><option value="15000">Reseller Panel - Rp 15.000</option><option value="20000">Admin Panel - Rp 20.000</option><option value="25000">PT Panel - Rp 25.000</option><option value="30000">TK Panel - Rp 30.000</option><option value="50000">CEO Panel - Rp 50.000</option></select></div><div id="roleBenefits" class="benefits-list"><ul><li><i class="fas fa-check-circle"></i> BISA BUAT PANEL SEPUASNYA</li><li><i class="fas fa-check-circle"></i> PANEL ANTI DELAY</li></ul></div><div class="price-tag" id="hargaRole">Rp 15.000</div><div class="qty-control"><button class="qty-btn" data-produk="4" data-arah="kurang">-</button><span class="qty-num" id="qty4">1</span><button class="qty-btn" data-produk="4" data-arah="tambah">+</button></div><div><strong>Total: <span id="total4">Rp 15.000</span></strong></div><button class="btn-buy" id="beliRoleBtn"><i class="fas fa-shopping-cart"></i> BELI ROLE</button><button class="wishlist-btn" data-wishlist="4"><i class="far fa-heart"></i></button><div class="tooltip"><i class="fas fa-info-circle"></i><span class="tooltip-text">Beli role panel saja</span></div></div>
         </div></div>
 
-        <div class="testimoni-section"><h3 class="testimoni-title"><i class="fas fa-star"></i> Testimoni Pelanggan <span id="testimoniCount">95</span> <i class="fas fa-star"></i></h3><div class="testimoni-slider" id="testimoniSlider"></div></div>
-        <footer>© NANN OFFICIAL • Bot WhatsApp + Alight Motion Premium + Panel DYNAN • Trusted Since 2024</footer>
+        <div class="testimoni-section"><h3 class="testimoni-title"><i class="fas fa-star"></i> Testimoni Pelanggan <span id="testimoniCount">101</span> <i class="fas fa-star"></i></h3><div class="testimoni-slider" id="testimoniSlider"></div></div>
+        <footer>© NANN OFFICIAL • Bot WhatsApp + Alight Motion Premium + Panel DYNAN (Kapasitas & Role Terpisah) • Trusted Since 2024</footer>
     </div>
 
     <div id="paymentModal" class="modal"><div class="modal-content"><h2><i class="fas fa-credit-card"></i> Pilih Metode Pembayaran</h2><div class="payment-options"><button class="pay-btn" id="payDanaBtn"><i class="fas fa-wallet"></i> DANA</button><button class="pay-btn" id="payQrisBtn"><i class="fas fa-qrcode"></i> QRIS</button></div><div id="paymentDetailArea"></div><hr><small>Setelah bayar, klik tombol "Sudah Bayar & Kirim Bukti"</small><div id="waButtonArea"></div><button id="closeModalBtn" style="margin-top:20px; background:#4b5563; padding:8px 20px; border-radius:30px; border:none; color:white; cursor:pointer;">Tutup</button></div></div>
 
     <script>
+        // Bintang & Nebula
         function createStars(){for(let i=0;i<200;i++){let s=document.createElement('div');s.classList.add('star');s.style.width=Math.random()*2.5+1+'px';s.style.height=s.style.width;s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*5+'s';document.getElementById('starsField').appendChild(s);}}
         function createNebula(){for(let i=0;i<4;i++){let n=document.createElement('div');n.classList.add('nebula');n.style.left=Math.random()*80+10+'%';n.style.top=Math.random()*80+10+'%';n.style.width=Math.random()*250+150+'px';n.style.height=n.style.width;document.getElementById('dynamicNebula').appendChild(n);}}
         createStars();createNebula();
 
+        // Jadwal Sholat Medan
         async function fetchPrayerTimes(){try{let t=new Date(),y=t.getFullYear(),m=String(t.getMonth()+1).padStart(2,'0'),d=String(t.getDate()).padStart(2,'0');let r=await fetch(`https://api.aladhan.com/v1/timings/${d}-${m}-${y}?latitude=3.5952&longitude=98.6722&method=20&timezone=Asia/Jakarta`);let data=await r.json();if(data.code===200){let tim=data.data.timings;document.getElementById('imsak').innerText=tim.Imsak.substring(0,5);document.getElementById('subuh').innerText=tim.Fajr.substring(0,5);document.getElementById('dzuhur').innerText=tim.Dhuhr.substring(0,5);document.getElementById('ashar').innerText=tim.Asr.substring(0,5);document.getElementById('maghrib').innerText=tim.Maghrib.substring(0,5);document.getElementById('isya').innerText=tim.Isha.substring(0,5);document.getElementById('prayerNote').innerHTML=`🕋 ${t.toLocaleDateString('id-ID')} - Medan`;}else throw new Error();}catch(e){document.getElementById('imsak').innerText='04:45';document.getElementById('subuh').innerText='05:00';document.getElementById('dzuhur').innerText='12:30';document.getElementById('ashar').innerText='15:45';document.getElementById('maghrib').innerText='18:30';document.getElementById('isya').innerText='19:45';document.getElementById('prayerNote').innerHTML='🕋 Jadwal default Medan';}}
         fetchPrayerTimes();setInterval(fetchPrayerTimes,3600000);
 
+        // Countdown
         function startCountdown(){let end=new Date();end.setDate(end.getDate()+7);end.setHours(23,59,59,999);function update(){let diff=end-new Date();if(diff<=0){document.getElementById('cdDays').innerText='00';document.getElementById('cdHours').innerText='00';document.getElementById('cdMinutes').innerText='00';document.getElementById('cdSeconds').innerText='00';return;}document.getElementById('cdDays').innerText=Math.floor(diff/86400000).toString().padStart(2,'0');document.getElementById('cdHours').innerText=Math.floor((diff%86400000)/3600000).toString().padStart(2,'0');document.getElementById('cdMinutes').innerText=Math.floor((diff%3600000)/60000).toString().padStart(2,'0');document.getElementById('cdSeconds').innerText=Math.floor((diff%60000)/1000).toString().padStart(2,'0');}update();setInterval(update,1000);}
         startCountdown();
 
+        // Statistik bertambah
         let pelanggan=1527,terjual=2143;
         function updateStats(){document.getElementById('statCustomer').innerText=pelanggan.toLocaleString('id-ID');document.getElementById('statSold').innerText=terjual.toLocaleString('id-ID');}
         setInterval(()=>{pelanggan+=Math.floor(Math.random()*2)+1;terjual+=Math.floor(Math.random()*4)+2;updateStats();},35000);
         updateStats();
 
+        // Testimoni (101 data)
         const testimonialTexts=["Mantap banget botnya, fast respon!","Alight Motion premium works perfectly!","Panel DYNAN stabil, recomended!","Owner ramah dan fast response","Harga bersahabat, kualitas juara","Puas banget sama service Nann Official","Bot WA keren, fitur lengkap banget!","Panelnya anti delay, sangat recommended","Alight Motion langsung aktif, mudah digunakan","Terima kasih Nann Official, bisnis saya maju","Support responsif, masalah cepat diatasi","Best dealer panel dan bot sejauh ini","Murah meriah tapi kualitas premium, thanks!","Akan repeat order lagi, mantap!","Layanan terbaik, fast respon 24 jam","Gak nyesel beli di sini, recomended!","Bot WA paling lengkap se-Indonesia","Panel DYNAN paling murah dan stabil","Alight Motion anti error, recommended banget","Owner baik dan selalu membantu","Proses cepat, barang langsung dikirim","Fitur botnya update terus, keren!","Panel kenceng, no delay, gas terus","Udah repeat order 3x, selalu puas","Pelayanan ramah, produk berkualitas","Harga miring, kualitas juara","Top markotop, bakal balik lagi","Saya jadi reseller, untung besar!","Terbaik di kelasnya, gaskeun!","Recommended untuk yang mau cari panel murah","Bot WA-nya powerful, banyak fitur keren","Alight Motion premium akun private legit","Panel DYNAN cocok untuk pemula","Owner fast respon, masalah langsung beres","Gak ada tandingannya, mantap!","Fitur lengkap, harga murah, wajib coba","Saya udah langganan 6 bulan, puas terus","Terima kasih Nann Official, sukses selalu","Pelayanan tercepat yang pernah saya alami","Bot WA anti delay, koneksi stabil","Panel bisa buat reseller, untung berlipat","Alight Motion update berkala, aman","Harga bersaing, kualitas nomor satu","Recommended seller, bakal beli lagi","Proses transaksi mudah dan cepat","Admin ramah dan informatif","Produk sesuai deskripsi, tidak mengecewakan","Pengiriman instan, langsung bisa pakai","Garansi terpenuhi, claim mudah","Saya jadi langganan tetap di sini","Teman-teman juga ikut beli di sini","Makasih banyak, sukses terus buat Nann Official","Terbaik sepanjang masa!","Pokoknya mantul, gak pake lama","Sangat puas, bakal beli lagi","Bisa dipercaya, produk original","Pengiriman cepat, respon bagus","Recommended untuk reseller","Admin ramah dan fast respon","Fitur bot lengkap dan update terus","Panel stabil, jarang error","Alight motion work di semua device","Harga termurah se-Indonesia","Pelayanan sangat memuaskan","Barang bagus, recomended banget","Owner baik hati dan sabar","Proses mudah, tidak ribet","Garansi terpercaya, claime mudah","Udah repeat order 5x, selalu puas","The best seller ever!","Gak nyesel beli disini","Murah, cepat, berkualitas","Saya jadi reseller sukses berkat Nann","Panel anti lemot, gas pol","Bot WA 1500+ fitur, mantap","Alight Motion premium seumur hidup","Terima kasih, sukses selalu","Recommended untuk anak startup","Pelayanan terbaik di kelasnya","Cocok untuk pemula yang mau jualan","Bisa buat panel unlimited, mantap","Fitur bot super lengkap, keren","Alight Motion tanpa watermark, pro","Panel DYNAN legal, aman dipakai","Owner sigap, fast respon","Harga bersahabat, banyak bonus","Udah nyoba di tempat lain, ini terbaik","Bakal jadi langganan tetap","Support 24 jam, sangat membantu","Top markotop, gaskeun!","Gak ada kata-kata, pokoknya recomended"];
-        while(testimonialTexts.length<95) testimonialTexts.push(...testimonialTexts.slice(0,10));
+        while(testimonialTexts.length<101) testimonialTexts.push(...testimonialTexts.slice(0,10));
         const names=["Andi","Siska","Budi","Citra","Rizki","Dewi","Rian","Maya","Joko","Lina","Faisal","Nadia","Hendra","Fitri","Rizal","Tono","Vina","Gani","Umar","Siti","Agus","Rina","Doni","Eka","Yanto","Wati","Cahyo","Dewi","Irfan","Nisa","Robby","Linda","Ahmad","Sarah","Bayu","Diana","Eko","Rika","Hadi","Mega","Indra","Sari","Dodi","Nina","Rudi","Tia","Bambang","Yuni","Guntur","Lusi","Ricky","Nia","Andre","Mila","Caca","Fahmi","Niken","Rizal","Oka","Prita"];
         let idx=0;
         function addTesti(){let slider=document.getElementById('testimoniSlider');let nama=names[Math.floor(Math.random()*names.length)];let card=document.createElement('div');card.className='testimonial-card';card.innerHTML=`<div class="testimonial-text">"${testimonialTexts[idx%testimonialTexts.length]}"</div><div class="testimonial-name">- ${nama}</div><div class="testimonial-rating">★★★★★</div>`;slider.appendChild(card);slider.scrollLeft=slider.scrollWidth;idx++;if(slider.children.length>20) slider.removeChild(slider.children[0]);}
         for(let i=0;i<12;i++) addTesti(); setInterval(addTesti,22000);
         document.getElementById('testimoniCount').innerText=testimonialTexts.length;
 
-        let qty1=1,qty2=1;
-        function updateTotalProduk(p){if(p===1){let t=qty1*1000;document.getElementById('total1').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty1').innerText=qty1;}else{let t=qty2*5000;document.getElementById('total2').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty2').innerText=qty2;}}
-        document.querySelectorAll('.qty-btn').forEach(btn=>{btn.onclick=function(){let p=parseInt(this.dataset.produk),arah=this.dataset.arah;if(p===1){if(arah==='tambah')qty1++;else if(arah==='kurang'&&qty1>1)qty1--;updateTotalProduk(1);}else{if(arah==='tambah')qty2++;else if(arah==='kurang'&&qty2>1)qty2--;updateTotalProduk(2);}};});
-        updateTotalProduk(1);updateTotalProduk(2);
+        // QTY untuk produk 1,2,3,4 (Bot, Alight, Kapasitas, Role)
+        let qty1=1,qty2=1,qty3=1,qty4=1;
+        function updateTotalProduk(p){
+            if(p===1){let t=qty1*1000;document.getElementById('total1').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty1').innerText=qty1;}
+            else if(p===2){let t=qty2*5000;document.getElementById('total2').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty2').innerText=qty2;}
+            else if(p===3){let kap=parseInt(document.getElementById('kapasitasPanel').value);let t=qty3*(kap*1000);document.getElementById('total3').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty3').innerText=qty3;}
+            else if(p===4){let roleVal=parseInt(document.getElementById('rolePanel').value);let t=qty4*roleVal;document.getElementById('total4').innerText='Rp '+t.toLocaleString('id-ID');document.getElementById('qty4').innerText=qty4;}
+        }
+        document.querySelectorAll('.qty-btn').forEach(btn=>{
+            btn.onclick=function(){
+                let p=parseInt(this.dataset.produk),arah=this.dataset.arah;
+                if(p===1){if(arah==='tambah')qty1++;else if(arah==='kurang'&&qty1>1)qty1--;updateTotalProduk(1);}
+                else if(p===2){if(arah==='tambah')qty2++;else if(arah==='kurang'&&qty2>1)qty2--;updateTotalProduk(2);}
+                else if(p===3){if(arah==='tambah')qty3++;else if(arah==='kurang'&&qty3>1)qty3--;updateTotalProduk(3);}
+                else if(p===4){if(arah==='tambah')qty4++;else if(arah==='kurang'&&qty4>1)qty4--;updateTotalProduk(4);}
+            };
+        });
 
+        // Tampilkan produk
         document.getElementById('lihatProdukBtn').onclick=()=>{document.getElementById('produkContainer').style.display='block';document.getElementById('produkContainer').scrollIntoView({behavior:'smooth'});};
 
-        const hargaRole={'15000':{nama:'Reseller',harga:15000,benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY']},'20000':{nama:'Admin',harga:20000,benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN RESELLER PANEL']},'25000':{nama:'PT',harga:25000,benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN RESELLER PANEL','BISA BUAT ADMIN PANEL','PRIORITAS SUPPORT']},'30000':{nama:'TK',harga:30000,benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN RESELLER PANEL','BISA BUAT ADMIN PANEL','BISA BUAT PT PANEL','ACCESS ALL FEATURE','WHITELABEL READY']},'50000':{nama:'CEO',harga:50000,benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN SEMUA ROLE','FULL CONTROL','UNLIMITED RESOURCES','PRIORITAS VVIP','CUSTOM LOGO PANEL']}};
-        function updatePanel(){let kap=parseInt(document.getElementById('kapasitasPanel').value);let roleVal=document.getElementById('rolePanel').value;let total=(kap*1000)+hargaRole[roleVal].harga;document.getElementById('panelHarga').innerText='Rp '+total.toLocaleString('id-ID');document.getElementById('totalPanel').innerText='Rp '+total.toLocaleString('id-ID');let ul=document.getElementById('panelBenefits').querySelector('ul');ul.innerHTML='';hargaRole[roleVal].benefits.forEach(b=>{let li=document.createElement('li');li.innerHTML='<i class="fas fa-check-circle"></i> '+b;ul.appendChild(li);});document.getElementById('beliPanelBtn').disabled=false;}
-        document.getElementById('kapasitasPanel').onchange=updatePanel;document.getElementById('rolePanel').onchange=updatePanel;updatePanel();
+        // Update harga kapasitas saat pilih kapasitas
+        function updateHargaKapasitas(){let kap=parseInt(document.getElementById('kapasitasPanel').value);document.getElementById('hargaKapasitas').innerText='Rp '+(kap*1000).toLocaleString('id-ID');updateTotalProduk(3);}
+        document.getElementById('kapasitasPanel').onchange=updateHargaKapasitas;
+        updateHargaKapasitas();
 
-        let checkoutData={namaProduk:'',qty:0,total:0,detail:''};const modal=document.getElementById('paymentModal');const qrisLink="https://files.catbox.moe/7jdrnl.jpeg";const adminNo="6282381531460";
-        document.querySelectorAll('.btn-buy').forEach(btn=>{if(btn.id!=='beliPanelBtn'){btn.onclick=function(){let pid=parseInt(this.dataset.produk),nama=this.dataset.nama,harga=parseInt(this.dataset.harga),qty=pid===1?qty1:qty2;checkoutData={namaProduk:nama,qty:qty,total:qty*harga,detail:''};modal.style.display='flex';document.getElementById('paymentDetailArea').innerHTML='';document.getElementById('waButtonArea').innerHTML='';};}});
-        document.getElementById('beliPanelBtn').onclick=function(){let kap=parseInt(document.getElementById('kapasitasPanel').value),roleVal=document.getElementById('rolePanel').value,roleNama=hargaRole[roleVal].nama,total=(kap*1000)+hargaRole[roleVal].harga;checkoutData={namaProduk:`PANEL DYNAN (${kap}GB - ${roleNama})`,qty:1,total:total,detail:`Kapasitas: ${kap}GB, Role: ${roleNama}`};modal.style.display='flex';document.getElementById('paymentDetailArea').innerHTML='';document.getElementById('waButtonArea').innerHTML='';};
-        function sendToWA(method){let msg=`Saya sudah melakukan pembayaran via ${method} untuk pembelian ${checkoutData.namaProduk} sebanyak ${checkoutData.qty} unit. Total Rp ${checkoutData.total.toLocaleString('id-ID')}. `;if(checkoutData.detail) msg+=checkoutData.detail+'. ';msg+=`Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.`;window.open(`https://wa.me/${adminNo}?text=${encodeURIComponent(msg)}`,'_blank');modal.style.display='none';}
+        // Update harga role dan benefits
+        const roleBenefitsMap={'15000':{nama:'Reseller',benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY']},'20000':{nama:'Admin',benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN RESELLER PANEL']},'25000':{nama:'PT',benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN RESELLER PANEL','BISA BUAT ADMIN PANEL','PRIORITAS SUPPORT']},'30000':{nama:'TK',benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN RESELLER PANEL','BISA BUAT ADMIN PANEL','BISA BUAT PT PANEL','ACCESS ALL FEATURE','WHITELABEL READY']},'50000':{nama:'CEO',benefits:['BISA BUAT PANEL SEPUASNYA','PANEL ANTI DELAY','BISA OPEN SEMUA ROLE','FULL CONTROL','UNLIMITED RESOURCES','PRIORITAS VVIP','CUSTOM LOGO PANEL']}};
+        function updateRole(){let roleVal=document.getElementById('rolePanel').value;let harga=parseInt(roleVal);document.getElementById('hargaRole').innerText='Rp '+harga.toLocaleString('id-ID');let ul=document.getElementById('roleBenefits').querySelector('ul');ul.innerHTML='';roleBenefitsMap[roleVal].benefits.forEach(b=>{let li=document.createElement('li');li.innerHTML='<i class="fas fa-check-circle"></i> '+b;ul.appendChild(li);});updateTotalProduk(4);}
+        document.getElementById('rolePanel').onchange=updateRole;
+        updateRole();
+
+        // Checkout data
+        let checkoutData={namaProduk:'',qty:0,total:0,detail:''};
+        const modal=document.getElementById('paymentModal');
+        const qrisLink="https://files.catbox.moe/7jdrnl.jpeg";
+        const adminNo="6282381531460";
+
+        // Tombol beli untuk Bot & Alight
+        document.querySelectorAll('.btn-buy').forEach(btn=>{
+            if(btn.id!=='beliKapasitasBtn' && btn.id!=='beliRoleBtn'){
+                btn.onclick=function(){
+                    let pid=parseInt(this.dataset.produk);
+                    let nama=this.dataset.nama;
+                    let harga=parseInt(this.dataset.harga);
+                    let qty=pid===1?qty1:qty2;
+                    checkoutData={namaProduk:nama,qty:qty,total:qty*harga,detail:''};
+                    modal.style.display='flex';
+                    document.getElementById('paymentDetailArea').innerHTML='';
+                    document.getElementById('waButtonArea').innerHTML='';
+                };
+            }
+        });
+        // Beli Kapasitas Panel
+        document.getElementById('beliKapasitasBtn').onclick=function(){
+            let kap=parseInt(document.getElementById('kapasitasPanel').value);
+            let hargaSatuan=kap*1000;
+            let total=qty3*hargaSatuan;
+            checkoutData={namaProduk:`Panel DYNAN Kapasitas ${kap}GB`,qty:qty3,total:total,detail:`Kapasitas: ${kap}GB x ${qty3}`};
+            modal.style.display='flex';
+            document.getElementById('paymentDetailArea').innerHTML='';
+            document.getElementById('waButtonArea').innerHTML='';
+        };
+        // Beli Role Panel
+        document.getElementById('beliRoleBtn').onclick=function(){
+            let roleVal=document.getElementById('rolePanel').value;
+            let hargaSatuan=parseInt(roleVal);
+            let roleNama=roleBenefitsMap[roleVal].nama;
+            let total=qty4*hargaSatuan;
+            checkoutData={namaProduk:`Panel DYNAN Role ${roleNama}`,qty:qty4,total:total,detail:`Role: ${roleNama} x ${qty4}`};
+            modal.style.display='flex';
+            document.getElementById('paymentDetailArea').innerHTML='';
+            document.getElementById('waButtonArea').innerHTML='';
+        };
+
+        function sendToWA(method){
+            let msg=`Saya sudah melakukan pembayaran via ${method} untuk pembelian ${checkoutData.namaProduk} sebanyak ${checkoutData.qty} unit. Total Rp ${checkoutData.total.toLocaleString('id-ID')}. ${checkoutData.detail?checkoutData.detail+'. ':''}Berikut bukti transfer: (saya lampirkan screenshot). Terima kasih.`;
+            window.open(`https://wa.me/${adminNo}?text=${encodeURIComponent(msg)}`,'_blank');
+            modal.style.display='none';
+        }
         document.getElementById('payDanaBtn').onclick=()=>{document.getElementById('paymentDetailArea').innerHTML=`<div style="background:#1e293b;padding:15px;border-radius:32px;"><i class="fas fa-phone-alt"></i> <strong>No DANA : 082381531460</strong><br><small>Transfer Rp ${checkoutData.total.toLocaleString('id-ID')}</small><br><span style="color:#a5f3c3;">📌 Nomor admin SAMA</span></div>`;document.getElementById('waButtonArea').innerHTML=`<button id="confirmPayBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;document.getElementById('confirmPayBtn').onclick=()=>sendToWA('DANA');};
         document.getElementById('payQrisBtn').onclick=()=>{document.getElementById('paymentDetailArea').innerHTML=`<div><img src="${qrisLink}" class="qris-image"><p>Scan QRIS di atas<br>No DANA: 082381531460</p><small>Total: Rp ${checkoutData.total.toLocaleString('id-ID')}</small></div>`;document.getElementById('waButtonArea').innerHTML=`<button id="confirmPayQrisBtn" class="btn-wa-confirm"><i class="fab fa-whatsapp"></i> ✅ SUDAH BAYAR & KIRIM BUKTI</button>`;document.getElementById('confirmPayQrisBtn').onclick=()=>sendToWA('QRIS');};
-        document.getElementById('closeModalBtn').onclick=()=>modal.style.display='none';window.onclick=e=>{if(e.target===modal) modal.style.display='none';};
+        document.getElementById('closeModalBtn').onclick=()=>modal.style.display='none';
+        window.onclick=e=>{if(e.target===modal) modal.style.display='none';};
 
+        // Tema
         document.getElementById('darkLightToggle').onclick=function(){document.body.classList.toggle('light-mode');let isDark=!document.body.classList.contains('light-mode');this.innerHTML=isDark?'<i class="fas fa-moon"></i> <span>Mode Gelap (Angkasa)</span>':'<i class="fas fa-sun"></i> <span>Mode Terang (Matahari)</span>';};
+        // Wishlist
         document.querySelectorAll('.wishlist-btn').forEach(btn=>{btn.onclick=function(){this.classList.toggle('active');let icon=this.querySelector('i');icon.className=this.classList.contains('active')?'fas fa-heart':'far fa-heart';};});
-        window.addEventListener('scroll',()=>document.getElementById('backToTop').classList.toggle('show',window.scrollY>300));document.getElementById('backToTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});document.getElementById('floatChatBtn').onclick=()=>window.open('https://wa.me/6282381531460?text=Halo%20Nann%20Official%2C%20saya%20mau%20tanya%20produknya','_blank');
+        // Back to top & float chat
+        window.addEventListener('scroll',()=>document.getElementById('backToTop').classList.toggle('show',window.scrollY>300));
+        document.getElementById('backToTop').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+        document.getElementById('floatChatBtn').onclick=()=>window.open('https://wa.me/6282381531460?text=Halo%20Nann%20Official%2C%20saya%20mau%20tanya%20produknya','_blank');
+        // Meteor
         setTimeout(function meteor(){if(!document.body.classList.contains('light-mode')){let shooting=document.getElementById('shootingStar');shooting.style.animation='none';shooting.offsetHeight;shooting.style.left=Math.random()*70+10+'%';shooting.style.animation='shoot 4s linear infinite';}setTimeout(meteor,15000);},5000);
+        // Init total semua produk
+        updateTotalProduk(1);updateTotalProduk(2);updateTotalProduk(3);updateTotalProduk(4);
     </script>
 </body>
 </html>
