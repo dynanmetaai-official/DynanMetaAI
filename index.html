@@ -17,14 +17,8 @@
             align-items: center;
             padding: 1.5rem;
         }
-        .container {
-            max-width: 450px;
-            width: 100%;
-        }
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+        .container { max-width: 450px; width: 100%; }
+        .logo { text-align: center; margin-bottom: 2rem; }
         .logo h1 {
             font-family: 'Playfair Display', serif;
             font-size: 2.5rem;
@@ -33,10 +27,7 @@
             background-clip: text;
             color: transparent;
         }
-        .logo p {
-            color: rgba(255,255,245,0.6);
-            font-size: 0.8rem;
-        }
+        .logo p { color: rgba(255,255,245,0.6); font-size: 0.8rem; }
         .card {
             background: rgba(10,10,20,0.6);
             backdrop-filter: blur(16px);
@@ -44,37 +35,37 @@
             padding: 2rem;
             border: 1px solid rgba(212,175,55,0.3);
         }
-        .tab-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        .tab-btn {
-            flex: 1;
-            background: none;
-            border: none;
-            padding: 0.8rem;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 60px;
-            transition: all 0.2s;
-            color: rgba(255,255,245,0.6);
-        }
-        .tab-btn.active {
-            background: linear-gradient(135deg, #d4af37, #b8960c);
-            color: #1a1508;
-        }
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
+        .form-group { margin-bottom: 1.2rem; }
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-size: 0.8rem;
             color: rgba(255,255,245,0.7);
         }
-        .form-group input, .form-group select {
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .password-wrapper input {
+            width: 100%;
+            padding: 0.9rem;
+            padding-right: 3rem;
+            border-radius: 60px;
+            border: 1px solid rgba(212,175,55,0.4);
+            background: rgba(20,20,35,0.8);
+            color: white;
+            font-size: 0.9rem;
+        }
+        .password-wrapper input:focus { outline: none; border-color: #d4af37; }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            cursor: pointer;
+            color: rgba(255,255,245,0.6);
+            font-size: 1rem;
+        }
+        input[type="text"], select {
             width: 100%;
             padding: 0.9rem;
             border-radius: 60px;
@@ -82,10 +73,6 @@
             background: rgba(20,20,35,0.8);
             color: white;
             font-size: 0.9rem;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #d4af37;
         }
         .btn-submit {
             width: 100%;
@@ -104,6 +91,17 @@
             text-align: center;
             font-size: 0.8rem;
             color: #ff6b6b;
+        }
+        .link-register {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,245,0.6);
+        }
+        .link-register a {
+            color: #d4af37;
+            cursor: pointer;
+            text-decoration: none;
         }
         .info-text {
             text-align: center;
@@ -124,11 +122,6 @@
             <p>Luxury Digital Marketplace</p>
         </div>
         <div class="card">
-            <div class="tab-buttons">
-                <button class="tab-btn active" id="loginTab">Login</button>
-                <button class="tab-btn" id="registerTab">Register</button>
-            </div>
-
             <!-- Form Login -->
             <div id="loginForm">
                 <div class="form-group">
@@ -137,12 +130,18 @@
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" id="loginPassword" placeholder="Masukkan password">
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPassword" placeholder="Masukkan password">
+                        <i class="fas fa-eye toggle-password" data-target="loginPassword"></i>
+                    </div>
                 </div>
                 <button class="btn-submit" id="loginBtn">Login</button>
+                <div class="link-register">
+                    Belum punya akun? <a id="showRegister">Daftar di sini</a>
+                </div>
             </div>
 
-            <!-- Form Register -->
+            <!-- Form Register (hidden by default) -->
             <div id="registerForm" style="display:none;">
                 <div class="form-group">
                     <label>Username</label>
@@ -150,16 +149,15 @@
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" id="regPassword" placeholder="Masukkan password">
-                </div>
-                <div class="form-group">
-                    <label>Daftar sebagai</label>
-                    <select id="regRole">
-                        <option value="member">Member</option>
-                        <option value="owner">Owner (khusus admin)</option>
-                    </select>
+                    <div class="password-wrapper">
+                        <input type="password" id="regPassword" placeholder="Masukkan password (min 4 karakter)">
+                        <i class="fas fa-eye toggle-password" data-target="regPassword"></i>
+                    </div>
                 </div>
                 <button class="btn-submit" id="registerBtn">Daftar</button>
+                <div class="link-register">
+                    Sudah punya akun? <a id="showLogin">Login di sini</a>
+                </div>
             </div>
 
             <div id="message" class="message"></div>
@@ -170,56 +168,62 @@
     </div>
 
     <script>
-        // ========== INISIALISASI DATA DEFAULT ==========
+        // Toggle password
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                }
+            });
+        });
+        
+        // Inisialisasi data default
         function initData() {
-            // Default Owner
+            // Akun Owner (dynan / 257368419)
             if (!localStorage.getItem('users')) {
                 const defaultUsers = [
-                    { id: 1, username: 'owner', password: btoa('owner123'), role: 'owner', saldo: 0 },
-                    { id: 2, username: 'member', password: btoa('member123'), role: 'member', saldo: 50000 }
+                    { id: 1, username: 'dynan', password: btoa('257368419'), role: 'owner', saldo: 0 }
                 ];
                 localStorage.setItem('users', JSON.stringify(defaultUsers));
             }
             
-            // Default Produk
+            // Produk default
             if (!localStorage.getItem('products')) {
                 const defaultProducts = [
-                    { id: 1, name: '🤖 JASA JADI BOT WHATSAPP', price: 1000, category: 'bot', benefits: 'JADI OWNER BOT, BISA OPEN JASA SEWA BOT, PAKE BOT SEPUASNYA, FITUR 1500+, ANTI DELAY' },
-                    { id: 2, name: '🎬 ALIGHT MOTION PREMIUM', price: 10000, category: 'alight', benefits: 'AKUN PRIVATE, PREMIUM UNLIMITED, DURASI 1 TAHUN, NO EXPORT WATERMARK, ALL FITUR PRO' },
-                    { id: 3, name: '💾 PANEL DYNAN - Kapasitas (1-10GB)', price: 'custom', category: 'kapasitas', benefits: 'FREE INSTALL PANEL, ANTI DELAY' },
-                    { id: 4, name: '👑 PANEL DYNAN - Role', price: 'custom', category: 'role', benefits: 'BISA BUAT PANEL SEPUASNYA, PANEL ANTI DELAY' },
-                    { id: 5, name: '🥚 NOKOS INDON OLD', price: 10000, category: 'nokos', benefits: 'VERSI OLD LIMITED, PREMIUM ACCESS, STABLE VERSION' },
-                    { id: 6, name: '🥚 NOKOS INDON FRESH', price: 6000, category: 'nokos', benefits: 'VERSI FRESH UPDATE, PREMIUM ACCESS, FULL SUPPORT' }
+                    { id: 1, name: '🤖 JASA JADI BOT WHATSAPP', price: 1000, benefit: 'JADI OWNER BOT, BISA OPEN JASA SEWA BOT, PAKE BOT SEPUASNYA, FITUR 1500+, ANTI DELAY' },
+                    { id: 2, name: '🎬 ALIGHT MOTION PREMIUM', price: 10000, benefit: 'AKUN PRIVATE, PREMIUM UNLIMITED, DURASI 1 TAHUN, NO EXPORT WATERMARK, ALL FITUR PRO' },
+                    { id: 3, name: '🥚 NOKOS INDON OLD', price: 10000, benefit: 'VERSI OLD LIMITED, PREMIUM ACCESS, STABLE VERSION' },
+                    { id: 4, name: '🥚 NOKOS INDON FRESH', price: 6000, benefit: 'VERSI FRESH UPDATE, PREMIUM ACCESS, FULL SUPPORT' }
                 ];
                 localStorage.setItem('products', JSON.stringify(defaultProducts));
             }
             
-            // Topup requests
             if (!localStorage.getItem('topup_requests')) {
                 localStorage.setItem('topup_requests', JSON.stringify([]));
             }
-            
-            // Transaksi pembelian
             if (!localStorage.getItem('transactions')) {
                 localStorage.setItem('transactions', JSON.stringify([]));
             }
         }
-        
         initData();
         
-        // Tab切换
-        document.getElementById('loginTab').onclick = () => {
-            document.getElementById('loginTab').classList.add('active');
-            document.getElementById('registerTab').classList.remove('active');
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('registerForm').style.display = 'none';
-            document.getElementById('message').innerHTML = '';
-        };
-        document.getElementById('registerTab').onclick = () => {
-            document.getElementById('registerTab').classList.add('active');
-            document.getElementById('loginTab').classList.remove('active');
+        // Toggle form
+        document.getElementById('showRegister').onclick = () => {
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('message').innerHTML = '';
+        };
+        document.getElementById('showLogin').onclick = () => {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
             document.getElementById('message').innerHTML = '';
         };
         
@@ -241,10 +245,8 @@
                 return;
             }
             
-            // Simpan session
             localStorage.setItem('currentUser', JSON.stringify({ id: user.id, username: user.username, role: user.role, saldo: user.saldo }));
             
-            // Redirect sesuai role
             if (user.role === 'owner') {
                 window.location.href = 'owner.html';
             } else {
@@ -252,17 +254,15 @@
             }
         };
         
-        // REGISTER
+        // REGISTER (hanya member)
         document.getElementById('registerBtn').onclick = () => {
             const username = document.getElementById('regUsername').value.trim();
             const password = document.getElementById('regPassword').value;
-            const role = document.getElementById('regRole').value;
             
             if (!username || !password) {
                 document.getElementById('message').innerHTML = 'Isi semua field!';
                 return;
             }
-            
             if (password.length < 4) {
                 document.getElementById('message').innerHTML = 'Password minimal 4 karakter!';
                 return;
@@ -279,8 +279,8 @@
                 id: newId,
                 username: username,
                 password: btoa(password),
-                role: role,
-                saldo: role === 'owner' ? 0 : 0
+                role: 'member',
+                saldo: 0
             };
             users.push(newUser);
             localStorage.setItem('users', JSON.stringify(users));
@@ -290,7 +290,7 @@
             document.getElementById('regPassword').value = '';
             
             setTimeout(() => {
-                document.getElementById('loginTab').click();
+                document.getElementById('showLogin').click();
             }, 1500);
         };
     </script>
