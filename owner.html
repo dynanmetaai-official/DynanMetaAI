@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Owner Dashboard · Nann Official</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(ellipse at 30% 20%, #0a0a12, #020205);
+            background: radial-gradient(ellipse at 30% 20%, #0a0a12, #010105);
             color: #f0f0f5;
             padding: 1.2rem;
             min-height: 100vh;
@@ -23,7 +23,7 @@
             flex-wrap: wrap;
             gap: 1rem;
             margin-bottom: 2rem;
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             background: rgba(10,10,20,0.4);
             backdrop-filter: blur(12px);
             border-radius: 60px;
@@ -145,10 +145,10 @@
         <div class="section">
             <h2><i class="fas fa-plus-circle"></i> Tambah Produk Baru</h2>
             <div class="form-add">
-                <input type="text" id="productName" placeholder="Nama Produk (contoh: Bot WhatsApp Premium)">
-                <input type="number" id="productPrice" placeholder="Harga (contoh: 10000)">
-                <textarea id="productBenefit" rows="2" placeholder="Benefit produk (pisahkan dengan koma atau enter)&#10;contoh: Benefit 1, Benefit 2, Benefit 3"></textarea>
-                <button class="btn-small" id="addProductBtn">➕ Tambah Produk</button>
+                <input type="text" id="productName" placeholder="Nama Produk">
+                <input type="number" id="productPrice" placeholder="Harga">
+                <textarea id="productBenefit" rows="2" placeholder="Benefit produk"></textarea>
+                <button class="btn-small" id="addProductBtn">➕ Tambah</button>
             </div>
             <div id="addMessage" class="message"></div>
         </div>
@@ -159,19 +159,20 @@
             <div id="productList"></div>
         </div>
         
-        <!-- KONFIRMASI TOPUP MEMBER -->
+        <!-- KONFIRMASI TOPUP -->
         <div class="section">
-            <h2><i class="fas fa-upload"></i> Konfirmasi Top Up Saldo Member</h2>
+            <h2><i class="fas fa-upload"></i> Konfirmasi Top Up Member</h2>
             <div id="topupList"></div>
         </div>
         
-        <!-- DAFTAR MEMBER & TAMBAH SALDO -->
+        <!-- DAFTAR MEMBER -->
         <div class="section">
-            <h2><i class="fas fa-users"></i> Daftar Member & Tambah Saldo</h2>
+            <h2><i class="fas fa-users"></i> Daftar Member & Manajemen</h2>
             <div id="memberList"></div>
         </div>
     </div>
     
+    <script src="saldo.js"></script>
     <script>
         // Cek session owner
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -180,10 +181,9 @@
         }
         
         function loadStats() {
-            const users = JSON.parse(localStorage.getItem('users'));
-            const members = users.filter(u => u.role === 'member');
-            const products = JSON.parse(localStorage.getItem('products'));
-            const topups = JSON.parse(localStorage.getItem('topup_requests'));
+            const members = SaldoManager.getAllMembers();
+            const products = SaldoManager.getAllProducts();
+            const topups = JSON.parse(localStorage.getItem('topup_requests')) || [];
             const pendingTopups = topups.filter(t => t.status === 'pending');
             
             document.getElementById('stats').innerHTML = `
@@ -197,54 +197,47 @@
         document.getElementById('addProductBtn').onclick = () => {
             const name = document.getElementById('productName').value.trim();
             const price = parseInt(document.getElementById('productPrice').value);
-            const benefitRaw = document.getElementById('productBenefit').value.trim();
+            const benefit = document.getElementById('productBenefit').value.trim();
             
             if (!name || !price || price <= 0) {
-                document.getElementById('addMessage').innerHTML = 'Isi nama produk dan harga yang valid!';
+                document.getElementById('addMessage').innerHTML = 'Isi nama dan harga produk yang valid!';
                 document.getElementById('addMessage').className = 'message error';
                 return;
             }
             
-            const products = JSON.parse(localStorage.getItem('products'));
-            const newId = products.length + 1;
-            const newProduct = {
-                id: newId,
-                name: name,
-                price: price,
-                benefit: benefitRaw || 'Produk premium berkualitas'
-            };
-            products.push(newProduct);
-            localStorage.setItem('products', JSON.stringify(products));
-            
-            document.getElementById('productName').value = '';
-            document.getElementById('productPrice').value = '';
-            document.getElementById('productBenefit').value = '';
-            
-            document.getElementById('addMessage').innerHTML = '✅ Produk berhasil ditambahkan!';
-            document.getElementById('addMessage').className = 'message success';
-            
-            loadProducts();
-            loadStats();
+            const result = SaldoManager.tambahProduk(name, price, benefit);
+            if (result.success) {
+                document.getElementById('addMessage').innerHTML = result.message;
+                document.getElementById('addMessage').className = 'message success';
+                document.getElementById('productName').value = '';
+                document.getElementById('productPrice').value = '';
+                document.getElementById('productBenefit').value = '';
+                loadProducts();
+                loadStats();
+            } else {
+                document.getElementById('addMessage').innerHTML = result.message;
+                document.getElementById('addMessage').className = 'message error';
+            }
             
             setTimeout(() => {
                 document.getElementById('addMessage').innerHTML = '';
-            }, 3000);
+            }, 2000);
         };
         
         function loadProducts() {
-            const products = JSON.parse(localStorage.getItem('products'));
+            const products = SaldoManager.getAllProducts();
             if (products.length === 0) {
                 document.getElementById('productList').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada produk</p>';
                 return;
             }
             
-            let html = '<table><thead><tr><th>Nama Produk</th><th>Harga</th><th>Benefit</th><th>Aksi</th></tr></thead><tbody>';
+            let html = '<table><thead><tr><th>Nama</th><th>Harga</th><th>Benefit</th><th>Aksi</th></tr></thead><tbody>';
             products.forEach(product => {
                 html += `
                     <tr>
                         <td>${product.name}</td>
                         <td>Rp ${product.price.toLocaleString('id-ID')}</td>
-                        <td>${product.benefit.substring(0, 80)}${product.benefit.length > 80 ? '...' : ''}</td>
+                        <td>${product.benefit.substring(0, 60)}${product.benefit.length > 60 ? '...' : ''}</td>
                         <td><button class="btn-small danger" onclick="deleteProduct(${product.id})">Hapus</button></td>
                     </tr>
                 `;
@@ -255,18 +248,16 @@
         
         window.deleteProduct = (productId) => {
             if (confirm('Yakin ingin menghapus produk ini?')) {
-                let products = JSON.parse(localStorage.getItem('products'));
-                products = products.filter(p => p.id !== productId);
-                localStorage.setItem('products', JSON.stringify(products));
+                const result = SaldoManager.hapusProduk(productId);
+                alert(result.message);
                 loadProducts();
                 loadStats();
-                alert('✅ Produk dihapus!');
             }
         };
         
         function loadTopupRequests() {
-            const topups = JSON.parse(localStorage.getItem('topup_requests'));
-            const users = JSON.parse(localStorage.getItem('users'));
+            const topups = JSON.parse(localStorage.getItem('topup_requests')) || [];
+            const users = SaldoManager.getUsers();
             const pendingTopups = topups.filter(t => t.status === 'pending');
             
             if (pendingTopups.length === 0) {
@@ -274,15 +265,15 @@
                 return;
             }
             
-            let html = '<table><thead></td><th>Member</th><th>Jumlah</th><th>Bukti</th><th>Aksi</th></tr></thead><tbody>';
+            let html = '<table><thead><tr><th>Member</th><th>Jumlah</th><th>Bukti</th><th>Aksi</th></tr></thead><tbody>';
             pendingTopups.forEach(topup => {
                 const member = users.find(u => u.id === topup.user_id);
                 html += `
                     <tr>
                         <td>${member ? member.username : 'Unknown'}</td>
                         <td>Rp ${topup.amount.toLocaleString('id-ID')}</td>
-                        <td><button class="btn-small" onclick="viewBukti('${topup.bukti}')">Lihat Bukti</button></td>
-                        <td><button class="btn-small success" onclick="confirmTopup(${topup.id}, ${topup.amount}, ${topup.user_id})">Konfirmasi</button></td>
+                        <td>${topup.bukti.substring(0, 30)}${topup.bukti.length > 30 ? '...' : ''}</td>
+                        <td><button class="btn-small success" onclick="confirmTopup(${topup.id})">Konfirmasi</button></td>
                     </tr>
                 `;
             });
@@ -290,50 +281,32 @@
             document.getElementById('topupList').innerHTML = html;
         }
         
-        window.viewBukti = (bukti) => {
-            alert(`Bukti transfer: ${bukti}\n(Silakan cek WhatsApp admin untuk verifikasi)`);
-        };
-        
-        window.confirmTopup = (topupId, amount, userId) => {
-            const users = JSON.parse(localStorage.getItem('users'));
-            const memberIndex = users.findIndex(u => u.id === userId);
-            if (memberIndex !== -1) {
-                users[memberIndex].saldo += amount;
-                localStorage.setItem('users', JSON.stringify(users));
-            }
-            
-            const topups = JSON.parse(localStorage.getItem('topup_requests'));
-            const topupIndex = topups.findIndex(t => t.id === topupId);
-            if (topupIndex !== -1) {
-                topups[topupIndex].status = 'completed';
-                localStorage.setItem('topup_requests', JSON.stringify(topups));
-            }
-            
-            alert('✅ Saldo member berhasil ditambahkan!');
+        window.confirmTopup = (topupId) => {
+            const result = SaldoManager.konfirmasiTopup(topupId);
+            alert(result.message);
             loadTopupRequests();
             loadMemberList();
             loadStats();
         };
         
         function loadMemberList() {
-            const users = JSON.parse(localStorage.getItem('users'));
-            const members = users.filter(u => u.role === 'member');
-            
+            const members = SaldoManager.getAllMembers();
             if (members.length === 0) {
                 document.getElementById('memberList').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada member</p>';
                 return;
             }
             
-            let html = '<table><thead><tr><th>Username</th><th>Saldo</th><th>Tambah Saldo</th></tr></thead><tbody>';
+            let html = '</table><thead><tr><th>Username</th><th>Saldo</th><th>Tambah Saldo</th><th>Aksi</th></tr></thead><tbody>';
             members.forEach(member => {
                 html += `
                     <tr>
                         <td>${member.username}</td>
-                        <td>Rp ${member.saldo.toLocaleString('id-ID')}</td>
+                        <td id="saldo_${member.id}">Rp ${member.saldo.toLocaleString('id-ID')}</td>
                         <td>
-                            <input type="number" id="saldo_${member.id}" placeholder="Jumlah" style="width:100px; padding:0.3rem; border-radius:30px;">
-                            <button class="btn-small" onclick="addSaldo(${member.id})">Tambah</button>
+                            <input type="number" id="input_saldo_${member.id}" placeholder="Jumlah" style="width:100px; padding:0.3rem; border-radius:30px;">
+                            <button class="btn-small" onclick="tambahSaldoMember(${member.id})">Tambah</button>
                         </td>
+                        <td><button class="btn-small danger" onclick="hapusMember(${member.id})">Hapus Akun</button></td>
                     </tr>
                 `;
             });
@@ -341,19 +314,26 @@
             document.getElementById('memberList').innerHTML = html;
         }
         
-        window.addSaldo = (userId) => {
-            const amount = parseInt(document.getElementById(`saldo_${userId}`).value);
+        window.tambahSaldoMember = (memberId) => {
+            const amount = parseInt(document.getElementById(`input_saldo_${memberId}`).value);
             if (!amount || amount <= 0) {
                 alert('Masukkan jumlah saldo yang valid!');
                 return;
             }
             
-            const users = JSON.parse(localStorage.getItem('users'));
-            const memberIndex = users.findIndex(u => u.id === userId);
-            if (memberIndex !== -1) {
-                users[memberIndex].saldo += amount;
-                localStorage.setItem('users', JSON.stringify(users));
-                alert(`✅ Berhasil menambah Rp ${amount.toLocaleString('id-ID')} ke ${users[memberIndex].username}`);
+            const result = SaldoManager.tambahSaldo(memberId, amount);
+            alert(result.message);
+            if (result.success) {
+                document.getElementById(`saldo_${memberId}`).innerText = `Rp ${result.newSaldo.toLocaleString('id-ID')}`;
+                document.getElementById(`input_saldo_${memberId}`).value = '';
+                loadStats();
+            }
+        };
+        
+        window.hapusMember = (memberId) => {
+            if (confirm('Yakin ingin menghapus akun member ini? Data tidak dapat dikembalikan.')) {
+                const result = SaldoManager.hapusMember(memberId);
+                alert(result.message);
                 loadMemberList();
                 loadStats();
             }
