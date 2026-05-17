@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Member Dashboard · Nann Official</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at 30% 20%, #0a0a12, #020205);
+            color: #f0f0f5;
+            padding: 1.2rem;
+            min-height: 100vh;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(10,10,20,0.4);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .header h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; background: linear-gradient(135deg, #e8d5b0, #d4af37); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .saldo-card {
+            background: rgba(212,175,55,0.15);
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .saldo-card i { color: #d4af37; }
+        .saldo-card span { font-weight: 700; color: #d4af37; }
+        .btn-logout, .btn-topup {
+            background: rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.4);
+            padding: 0.6rem 1.2rem;
+            border-radius: 60px;
+            cursor: pointer;
+            color: white;
+        }
+        .btn-topup { background: linear-gradient(135deg, #22c55e, #16a34a); border: none; }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .product-card {
+            background: rgba(12,12,22,0.6);
+            backdrop-filter: blur(14px);
+            border-radius: 32px;
+            padding: 1.3rem;
+            border: 1px solid rgba(212,175,55,0.25);
+            transition: all 0.25s;
+        }
+        .product-card:hover { transform: translateY(-5px); border-color: rgba(212,175,55,0.7); }
+        .price-tag { font-size: 1.5rem; font-weight: 700; margin: 8px 0; color: #d4af37; }
+        .benefits { font-size: 0.7rem; margin: 8px 0; opacity: 0.8; }
+        .qty-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Member Dashboard · Nann Official</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at 30% 20%, #0a0a12, #020205);
+            color: #f0f0f5;
+            padding: 1.2rem;
+            min-height: 100vh;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(10,10,20,0.4);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .header h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; background: linear-gradient(135deg, #e8d5b0, #d4af37); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .saldo-card {
+            background: rgba(212,175,55,0.15);
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .saldo-card i { color: #d4af37; }
+        .saldo-card span { font-weight: 700; color: #d4af37; }
+        .btn-logout, .btn-topup {
+            background: rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.4);
+            padding: 0.6rem 1.2rem;
+            border-radius: 60px;
+            cursor: pointer;
+            color: white;
+        }
+        .btn-topup { background: linear-gradient(135deg, #22c55e, #16a34a); border: none; }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .product-card {
+            background: rgba(12,12,22,0.6);
+            backdrop-filter: blur(14px);
+            border-radius: 32px;
+            padding: 1.3rem;
+            border: 1px solid rgba(212,175,55,0.25);
+            transition: all 0.25s;
+        }
+        .product-card:hover { transform: translateY(-5px); border-color: rgba(212,175,55,0.7); }
+        .price-tag { font-size: 1.5rem; font-weight: 700; margin: 8px 0; color: #d4af37; }
+        .benefits { font-size: 0.7rem; margin: 8px 0; opacity: 0.8; }
+        .qty-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 10px 0;
+        }
+        .qty-btn {
+            background: rgba(30,30,50,0.8);
+            border: 1px solid rgba(212,175,55,0.4);
+            width: 32px;
+            height: 32px;
+            font-size: 1.1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            color: #d4af37;
+        }
+        .btn-buy {
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #1a1508;
+        }
+        .btn-buy:disabled { background: #5a4e32; cursor: not-allowed; opacity: 0.6; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(12px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #0f111e;
+            border-radius: 48px;
+            max-width: 420px;
+            width: 90%;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid rgba(212,175,55,0.4);
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 60px;
+            border: 1px solid rgba(212,175,55,0.4);
+            background: rgba(20,20,35,0.8);
+            color: white;
+            margin: 1rem 0;
+        }
+        .message { margin-top: 1rem; padding: 0.5rem; border-radius: 30px; text-align: center; font-size: 0.8rem; }
+        .message.success { background: rgba(34,197,94,0.2); color: #4ade80; }
+        .message.error { background: rgba(220,38,38,0.2); color: #f87171; }
+        
+        @media (max-width: 768px) {
+            .products-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛍️ NANN OFFICIAL · MEMBER DASHBOARD</h1>
+            <div style="display: flex; gap: 0.8rem;">
+                <div class="saldo-card"><i class="fas fa-wallet"></i> Saldo: <span id="saldoDisplay">Rp 0</span></div>
+                <button class="btn-topup" id="topupBtn"><i class="fas fa-plus-circle"></i> Top Up</button>
+                <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+        
+        <div id="productsContainer" class="products-grid"></div>
+    </div>
+    
+    <!-- Modal Topup -->
+    <div id="topupModal" class="modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-upload"></i> Top Up Saldo</h2>
+            <input type="number" id="topupAmount" placeholder="Masukkan jumlah topup (Rp)">
+            <input type="text" id="topupBukti" placeholder="Link bukti transfer / deskripsi">
+            <button id="submitTopupBtn" style="background:#22c55e; border:none; padding:0.8rem; border-radius:60px; width:100%; font-weight:bold;">Kirim Permintaan Topup</button>
+            <button id="closeModalBtn" style="margin-top:0.8rem; background:#4b5563; padding:0.5rem; border-radius:60px; width:100%;">Tutup</button>
+            <div id="topupMessage" class="message"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Cek session
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser || currentUser.role !== 'member') {
+            window.location.href = 'index.html';
+        }
+        
+        function updateSaldoDisplay() {
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users.find(u => u.id === currentUser.id);
+            if (user) {
+                currentUser.saldo = user.saldo;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                document.getElementById('saldoDisplay').innerHTML = `Rp ${user.saldo.toLocaleString('id-ID')}`;
+            }
+        }
+        
+        function loadProducts() {
+            const products = JSON.parse(localStorage.getItem('products'));
+            let html = '';
+            products.forEach(product => {
+                const priceDisplay = typeof product.price === 'number' ? `Rp ${product.price.toLocaleString('id-ID')}` : product.price;
+                html += `
+                    <div class="product-card">
+                        <div style="font-size:1.5rem;">${product.name.split(' ')[0]}</div>
+                        <h3>${product.name}</h3>
+                        <div class="price-tag">${priceDisplay}</div>
+                        <div class="benefits">${product.benefits.substring(0, 100)}...</div>
+                        <div class="qty-control">
+                            <button class="qty-btn" data-id="${product.id}" data-arah="kurang">-</button>
+                            <span class="qty-num" id="qty_${product.id}">1</span>
+                            <button class="qty-btn" data-id="${product.id}" data-arah="tambah">+</button>
+                        </div>
+                        <button class="btn-buy" data-id="${product.id}" data-price="${typeof product.price === 'number' ? product.price : 0}" data-name="${product.name}">BELI SEKARANG</button>
+                    </div>
+                `;
+            });
+            document.getElementById('productsContainer').innerHTML = html;
+            
+            // Inisialisasi qty
+            const qtys = {};
+            products.forEach(p => { qtys[p.id] = 1; });
+            
+            document.querySelectorAll('.qty-btn').forEach(btn => {
+                btn.onclick = () => {
+                    const id = parseInt(btn.dataset.id);
+                    const arah = btn.dataset.arah;
+                    const qtySpan = document.getElementById(`qty_${id}`);
+                    let currentQty = parseInt(qtySpan.innerText);
+                    if (arah === 'tambah') currentQty++;
+                    else if (arah === 'kurang' && currentQty > 1) currentQty--;
+                    qtySpan.innerText = currentQty;
+                };
+            });
+            
+            document.querySelectorAll('.btn-buy').forEach(btn => {
+                btn.onclick = () => {
+                    const productId = parseInt(btn.dataset.id);
+                    const price = parseInt(btn.dataset.price);
+                    const productName = btn.dataset.name;
+                    const qty = parseInt(document.getElementById(`qty_${productId}`).innerText);
+                    const total = price * qty;
+                    
+                    if (currentUser.saldo < total) {
+                        alert(`❌ Saldo tidak mencukupi! Saldo Anda Rp ${currentUser.saldo.toLocaleString('id-ID')}, butuh Rp ${total.toLocaleString('id-ID')}`);
+                        return;
+                    }
+                    
+                    if (confirm(`Beli ${productName} x${qty} seharga Rp ${total.toLocaleString('id-ID')}?`)) {
+                        // Kurangi saldo
+                        const users = JSON.parse(localStorage.getItem('users'));
+                        const userIndex = users.findIndex(u => u.id === currentUser.id);
+                        users[userIndex].saldo -= total;
+                        localStorage.setItem('users', JSON.stringify(users));
+                        currentUser.saldo = users[userIndex].saldo;
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        
+                        // Simpan transaksi
+                        const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+                        transactions.push({
+                            id: Date.now(),
+                            user_id: currentUser.id,
+                            product_name: productName,
+                            qty: qty,
+                            total: total,
+                            date: new Date().toISOString()
+                        });
+                        localStorage.setItem('transactions', JSON.stringify(transactions));
+                        
+                        updateSaldoDisplay();
+                        alert(`✅ Pembelian berhasil! ${productName} x${qty} telah dibeli.`);
+                    }
+                };
+            });
+        }
+        
+        // Topup
+        const modal = document.getElementById('topupModal');
+        document.getElementById('topupBtn').onclick = () => { modal.style.display = 'flex'; };
+        document.getElementById('closeModalBtn').onclick = () => { modal.style.display = 'none'; };
+        
+        document.getElementById('submitTopupBtn').onclick = () => {
+            const amount = parseInt(document.getElementById('topupAmount').value);
+            const bukti = document.getElementById('topupBukti').value.trim();
+            
+            if (!amount || amount <= 0) {
+                document.getElementById('topupMessage').innerHTML = 'Masukkan jumlah topup yang valid!';
+                return;
+            }
+            if (!bukti) {
+                document.getElementById('topupMessage').innerHTML = 'Masukkan link bukti transfer!';
+                return;
+            }
+            
+            const topups = JSON.parse(localStorage.getItem('topup_requests')) || [];
+            topups.push({
+                id: Date.now(),
+                user_id: currentUser.id,
+                amount: amount,
+                bukti: bukti,
+                status: 'pending',
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('topup_requests', JSON.stringify(topups));
+            
+            document.getElementById('topupMessage').innerHTML = '✅ Permintaan topup dikirim! Owner akan memproses.';
+            document.getElementById('topupAmount').value = '';
+            document.getElementById('topupBukti').value = '';
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.getElementById('topupMessage').innerHTML = '';
+            }, 2000);
+        };
+        
+        document.getElementById('logoutBtn').onclick = () => {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        };
+        
+        updateSaldoDisplay();
+        loadProducts();
+        
+        // Update saldo setiap 2 detik
+        setInterval(() => {
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users.find(u => u.id === currentUser.id);
+            if (user && user.saldo !== currentUser.saldo) {
+                currentUser.saldo = user.saldo;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateSaldoDisplay();
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
