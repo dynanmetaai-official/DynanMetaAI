@@ -45,9 +45,7 @@
             align-items: center;
             gap: 0.8rem;
         }
-        .saldo-card i { color: #d4af37; }
-        .saldo-card span { font-weight: 700; color: #d4af37; }
-        .btn-logout, .btn-topup {
+        .btn-logout, .btn-topup, .btn-edit {
             background: rgba(212,175,55,0.2);
             border: 1px solid rgba(212,175,55,0.4);
             padding: 0.6rem 1.2rem;
@@ -56,6 +54,7 @@
             color: white;
         }
         .btn-topup { background: linear-gradient(135deg, #22c55e, #16a34a); border: none; }
+        .btn-edit { background: rgba(59,130,246,0.3); border-color: #3b82f6; }
         
         .products-grid {
             display: grid;
@@ -137,6 +136,7 @@
         
         @media (max-width: 768px) {
             .products-grid { grid-template-columns: 1fr; }
+            .header { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -147,6 +147,7 @@
             <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
                 <div class="saldo-card"><i class="fas fa-wallet"></i> Saldo: <span id="saldoDisplay">Rp 0</span></div>
                 <button class="btn-topup" id="topupBtn"><i class="fas fa-plus-circle"></i> Top Up</button>
+                <button class="btn-edit" id="editProfileBtn"><i class="fas fa-user-edit"></i> Edit Profil</button>
                 <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
         </div>
@@ -154,6 +155,7 @@
         <div id="productsContainer" class="products-grid"></div>
     </div>
     
+    <!-- Modal Topup -->
     <div id="topupModal" class="modal">
         <div class="modal-content">
             <h2><i class="fas fa-upload"></i> Top Up Saldo</h2>
@@ -165,12 +167,22 @@
         </div>
     </div>
     
+    <!-- Modal Edit Profil -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-user-edit"></i> Edit Profil</h2>
+            <input type="text" id="editUsername" placeholder="Username baru">
+            <input type="password" id="editPassword" placeholder="Password baru (min 4 karakter)">
+            <button id="submitEditBtn" style="background:#d4af37; border:none; padding:0.8rem; border-radius:60px; width:100%; font-weight:bold;">Update Profil</button>
+            <button id="closeEditBtn" style="margin-top:0.8rem; background:#4b5563; padding:0.5rem; border-radius:60px; width:100%;">Tutup</button>
+            <div id="editMessage" class="message"></div>
+        </div>
+    </div>
+    
     <script src="saldo.js"></script>
     <script>
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (!currentUser || currentUser.role !== 'member') {
-            window.location.href = 'index.html';
-        }
+        if (!currentUser || currentUser.role !== 'member') window.location.href = 'index.html';
         
         function updateSaldoDisplay() {
             const saldo = SaldoManager.getSaldo(currentUser.id);
@@ -185,7 +197,6 @@
                 document.getElementById('productsContainer').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada produk. Hubungi owner.</p>';
                 return;
             }
-            
             let html = '';
             products.forEach(product => {
                 html += `
@@ -209,33 +220,31 @@
                     const id = parseInt(btn.dataset.id);
                     const arah = btn.dataset.arah;
                     const qtySpan = document.getElementById(`qty_${id}`);
-                    let currentQty = parseInt(qtySpan.innerText);
-                    if (arah === 'tambah') currentQty++;
-                    else if (arah === 'kurang' && currentQty > 1) currentQty--;
-                    qtySpan.innerText = currentQty;
+                    let current = parseInt(qtySpan.innerText);
+                    if (arah === 'tambah') current++;
+                    else if (arah === 'kurang' && current > 1) current--;
+                    qtySpan.innerText = current;
                 };
             });
             
             document.querySelectorAll('.btn-buy').forEach(btn => {
                 btn.onclick = () => {
-                    const productId = parseInt(btn.dataset.id);
+                    const id = parseInt(btn.dataset.id);
                     const price = parseInt(btn.dataset.price);
-                    const productName = btn.dataset.name;
-                    const qty = parseInt(document.getElementById(`qty_${productId}`).innerText);
+                    const name = btn.dataset.name;
+                    const qty = parseInt(document.getElementById(`qty_${id}`).innerText);
                     const total = price * qty;
-                    
                     const currentSaldo = SaldoManager.getSaldo(currentUser.id);
                     if (currentSaldo < total) {
                         alert(`❌ Saldo tidak mencukupi! Saldo Rp ${currentSaldo.toLocaleString('id-ID')}, butuh Rp ${total.toLocaleString('id-ID')}`);
                         return;
                     }
-                    
-                    if (confirm(`Beli ${productName} x${qty} seharga Rp ${total.toLocaleString('id-ID')}?`)) {
+                    if (confirm(`Beli ${name} x${qty} seharga Rp ${total.toLocaleString('id-ID')}?`)) {
                         const result = SaldoManager.kurangiSaldo(currentUser.id, total);
                         if (result.success) {
-                            SaldoManager.simpanTransaksi(currentUser.id, productName, qty, total);
+                            SaldoManager.simpanTransaksi(currentUser.id, name, qty, total);
                             updateSaldoDisplay();
-                            alert(`✅ Pembelian berhasil! ${productName} x${qty} telah dibeli. Saldo tersisa Rp ${result.newSaldo.toLocaleString('id-ID')}`);
+                            alert(`✅ Pembelian berhasil! ${name} x${qty} telah dibeli. Sisa saldo Rp ${result.newSaldo.toLocaleString('id-ID')}`);
                         } else {
                             alert(result.message);
                         }
@@ -244,14 +253,13 @@
             });
         }
         
-        const modal = document.getElementById('topupModal');
-        document.getElementById('topupBtn').onclick = () => { modal.style.display = 'flex'; };
-        document.getElementById('closeModalBtn').onclick = () => { modal.style.display = 'none'; };
-        
+        // Topup Modal
+        const topupModal = document.getElementById('topupModal');
+        document.getElementById('topupBtn').onclick = () => topupModal.style.display = 'flex';
+        document.getElementById('closeModalBtn').onclick = () => topupModal.style.display = 'none';
         document.getElementById('submitTopupBtn').onclick = () => {
             const amount = parseInt(document.getElementById('topupAmount').value);
             const bukti = document.getElementById('topupBukti').value.trim();
-            
             if (!amount || amount <= 0) {
                 document.getElementById('topupMessage').innerHTML = 'Masukkan jumlah topup yang valid!';
                 document.getElementById('topupMessage').className = 'message error';
@@ -262,17 +270,30 @@
                 document.getElementById('topupMessage').className = 'message error';
                 return;
             }
-            
             const result = SaldoManager.simpanTopupRequest(currentUser.id, amount, bukti);
             document.getElementById('topupMessage').innerHTML = result.message;
             document.getElementById('topupMessage').className = 'message success';
             document.getElementById('topupAmount').value = '';
             document.getElementById('topupBukti').value = '';
-            
-            setTimeout(() => {
-                modal.style.display = 'none';
-                document.getElementById('topupMessage').innerHTML = '';
-            }, 2000);
+            setTimeout(() => { topupModal.style.display = 'none'; document.getElementById('topupMessage').innerHTML = ''; }, 2000);
+        };
+        
+        // Edit Profil Modal
+        const editModal = document.getElementById('editModal');
+        document.getElementById('editProfileBtn').onclick = () => editModal.style.display = 'flex';
+        document.getElementById('closeEditBtn').onclick = () => editModal.style.display = 'none';
+        document.getElementById('submitEditBtn').onclick = () => {
+            const newUsername = document.getElementById('editUsername').value.trim();
+            const newPassword = document.getElementById('editPassword').value;
+            const result = SaldoManager.updateProfile(currentUser.id, newUsername, newPassword);
+            document.getElementById('editMessage').innerHTML = result.message;
+            document.getElementById('editMessage').className = result.success ? 'message success' : 'message error';
+            if (result.success) {
+                currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                document.getElementById('editUsername').value = '';
+                document.getElementById('editPassword').value = '';
+                setTimeout(() => editModal.style.display = 'none', 1500);
+            }
         };
         
         document.getElementById('logoutBtn').onclick = () => {
@@ -282,10 +303,7 @@
         
         updateSaldoDisplay();
         loadProducts();
-        
-        setInterval(() => {
-            updateSaldoDisplay();
-        }, 3000);
+        setInterval(() => updateSaldoDisplay(), 3000);
     </script>
 </body>
 </html>
