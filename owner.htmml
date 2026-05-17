@@ -74,7 +74,6 @@
             font-size: 1.3rem;
         }
         
-        /* Tabel */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -105,13 +104,16 @@
             flex-wrap: wrap;
             margin-top: 1rem;
         }
-        .form-add input, .form-add select {
+        .form-add input, .form-add textarea {
             padding: 0.7rem;
-            border-radius: 60px;
+            border-radius: 30px;
             border: 1px solid rgba(212,175,55,0.4);
             background: rgba(20,20,35,0.8);
             color: white;
         }
+        .form-add input { flex: 1; }
+        .form-add textarea { flex: 2; min-width: 200px; }
+        
         .message {
             margin-top: 1rem;
             padding: 0.8rem;
@@ -125,6 +127,8 @@
             table, thead, tbody, th, td, tr { display: block; }
             th { display: none; }
             td { display: flex; justify-content: space-between; padding: 0.5rem; }
+            .form-add { flex-direction: column; }
+            .form-add input, .form-add textarea { width: 100%; }
         }
     </style>
 </head>
@@ -137,36 +141,31 @@
         
         <div class="stats" id="stats"></div>
         
-        <!-- Manajemen Topup -->
-        <div class="section">
-            <h2><i class="fas fa-upload"></i> Konfirmasi Top Up Saldo Member</h2>
-            <div id="topupList"></div>
-        </div>
-        
-        <!-- Tambah Produk -->
+        <!-- TAMBAH PRODUK -->
         <div class="section">
             <h2><i class="fas fa-plus-circle"></i> Tambah Produk Baru</h2>
             <div class="form-add">
-                <input type="text" id="productName" placeholder="Nama Produk" style="flex:2">
-                <input type="number" id="productPrice" placeholder="Harga" style="flex:1">
-                <select id="productCategory" style="flex:1">
-                    <option value="bot">Bot WA</option>
-                    <option value="alight">Alight Motion</option>
-                    <option value="kapasitas">Kapasitas Panel</option>
-                    <option value="role">Role Panel</option>
-                    <option value="nokos">Nokos</option>
-                </select>
-                <button class="btn-small" id="addProductBtn">Tambah</button>
+                <input type="text" id="productName" placeholder="Nama Produk (contoh: Bot WhatsApp Premium)">
+                <input type="number" id="productPrice" placeholder="Harga (contoh: 10000)">
+                <textarea id="productBenefit" rows="2" placeholder="Benefit produk (pisahkan dengan koma atau enter)&#10;contoh: Benefit 1, Benefit 2, Benefit 3"></textarea>
+                <button class="btn-small" id="addProductBtn">➕ Tambah Produk</button>
             </div>
+            <div id="addMessage" class="message"></div>
         </div>
         
-        <!-- Daftar Produk -->
+        <!-- DAFTAR PRODUK -->
         <div class="section">
             <h2><i class="fas fa-box"></i> Daftar Produk</h2>
             <div id="productList"></div>
         </div>
         
-        <!-- Daftar Member & Tambah Saldo -->
+        <!-- KONFIRMASI TOPUP MEMBER -->
+        <div class="section">
+            <h2><i class="fas fa-upload"></i> Konfirmasi Top Up Saldo Member</h2>
+            <div id="topupList"></div>
+        </div>
+        
+        <!-- DAFTAR MEMBER & TAMBAH SALDO -->
         <div class="section">
             <h2><i class="fas fa-users"></i> Daftar Member & Tambah Saldo</h2>
             <div id="memberList"></div>
@@ -174,8 +173,8 @@
     </div>
     
     <script>
-        // Cek session
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        // Cek session owner
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (!currentUser || currentUser.role !== 'owner') {
             window.location.href = 'index.html';
         }
@@ -194,6 +193,77 @@
             `;
         }
         
+        // TAMBAH PRODUK
+        document.getElementById('addProductBtn').onclick = () => {
+            const name = document.getElementById('productName').value.trim();
+            const price = parseInt(document.getElementById('productPrice').value);
+            const benefitRaw = document.getElementById('productBenefit').value.trim();
+            
+            if (!name || !price || price <= 0) {
+                document.getElementById('addMessage').innerHTML = 'Isi nama produk dan harga yang valid!';
+                document.getElementById('addMessage').className = 'message error';
+                return;
+            }
+            
+            const products = JSON.parse(localStorage.getItem('products'));
+            const newId = products.length + 1;
+            const newProduct = {
+                id: newId,
+                name: name,
+                price: price,
+                benefit: benefitRaw || 'Produk premium berkualitas'
+            };
+            products.push(newProduct);
+            localStorage.setItem('products', JSON.stringify(products));
+            
+            document.getElementById('productName').value = '';
+            document.getElementById('productPrice').value = '';
+            document.getElementById('productBenefit').value = '';
+            
+            document.getElementById('addMessage').innerHTML = '✅ Produk berhasil ditambahkan!';
+            document.getElementById('addMessage').className = 'message success';
+            
+            loadProducts();
+            loadStats();
+            
+            setTimeout(() => {
+                document.getElementById('addMessage').innerHTML = '';
+            }, 3000);
+        };
+        
+        function loadProducts() {
+            const products = JSON.parse(localStorage.getItem('products'));
+            if (products.length === 0) {
+                document.getElementById('productList').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada produk</p>';
+                return;
+            }
+            
+            let html = '<table><thead><tr><th>Nama Produk</th><th>Harga</th><th>Benefit</th><th>Aksi</th></tr></thead><tbody>';
+            products.forEach(product => {
+                html += `
+                    <tr>
+                        <td>${product.name}</td>
+                        <td>Rp ${product.price.toLocaleString('id-ID')}</td>
+                        <td>${product.benefit.substring(0, 80)}${product.benefit.length > 80 ? '...' : ''}</td>
+                        <td><button class="btn-small danger" onclick="deleteProduct(${product.id})">Hapus</button></td>
+                    </tr>
+                `;
+            });
+            html += '</tbody></table>';
+            document.getElementById('productList').innerHTML = html;
+        }
+        
+        window.deleteProduct = (productId) => {
+            if (confirm('Yakin ingin menghapus produk ini?')) {
+                let products = JSON.parse(localStorage.getItem('products'));
+                products = products.filter(p => p.id !== productId);
+                localStorage.setItem('products', JSON.stringify(products));
+                loadProducts();
+                loadStats();
+                alert('✅ Produk dihapus!');
+            }
+        };
+        
         function loadTopupRequests() {
             const topups = JSON.parse(localStorage.getItem('topup_requests'));
             const users = JSON.parse(localStorage.getItem('users'));
@@ -204,7 +274,7 @@
                 return;
             }
             
-            let html = '<table><thead><tr><th>Member</th><th>Jumlah</th><th>Bukti</th><th>Aksi</th></tr></thead><tbody>';
+            let html = '<table><thead></td><th>Member</th><th>Jumlah</th><th>Bukti</th><th>Aksi</th></tr></thead><tbody>';
             pendingTopups.forEach(topup => {
                 const member = users.find(u => u.id === topup.user_id);
                 html += `
@@ -225,7 +295,6 @@
         };
         
         window.confirmTopup = (topupId, amount, userId) => {
-            // Tambah saldo member
             const users = JSON.parse(localStorage.getItem('users'));
             const memberIndex = users.findIndex(u => u.id === userId);
             if (memberIndex !== -1) {
@@ -233,7 +302,6 @@
                 localStorage.setItem('users', JSON.stringify(users));
             }
             
-            // Update status topup
             const topups = JSON.parse(localStorage.getItem('topup_requests'));
             const topupIndex = topups.findIndex(t => t.id === topupId);
             if (topupIndex !== -1) {
@@ -291,72 +359,15 @@
             }
         };
         
-        function loadProducts() {
-            const products = JSON.parse(localStorage.getItem('products'));
-            let html = '<table><thead><tr><th>Nama</th><th>Harga</th><th>Kategori</th><th>Aksi</th></tr></thead><tbody>';
-            products.forEach(product => {
-                const priceDisplay = typeof product.price === 'number' ? `Rp ${product.price.toLocaleString('id-ID')}` : product.price;
-                html += `
-                    <tr>
-                        <td>${product.name}</td>
-                        <td>${priceDisplay}</td>
-                        <td>${product.category}</td>
-                        <td><button class="btn-small danger" onclick="deleteProduct(${product.id})">Hapus</button></td>
-                    </tr>
-                `;
-            });
-            html += '</tbody></table>';
-            document.getElementById('productList').innerHTML = html;
-        }
-        
-        window.deleteProduct = (productId) => {
-            if (confirm('Yakin ingin menghapus produk ini?')) {
-                let products = JSON.parse(localStorage.getItem('products'));
-                products = products.filter(p => p.id !== productId);
-                localStorage.setItem('products', JSON.stringify(products));
-                loadProducts();
-                loadStats();
-            }
-        };
-        
-        document.getElementById('addProductBtn').onclick = () => {
-            const name = document.getElementById('productName').value.trim();
-            const price = parseInt(document.getElementById('productPrice').value);
-            const category = document.getElementById('productCategory').value;
-            
-            if (!name || !price) {
-                alert('Isi nama dan harga produk!');
-                return;
-            }
-            
-            const products = JSON.parse(localStorage.getItem('products'));
-            const newId = products.length + 1;
-            products.push({
-                id: newId,
-                name: name,
-                price: price,
-                category: category,
-                benefits: 'Produk baru'
-            });
-            localStorage.setItem('products', JSON.stringify(products));
-            
-            document.getElementById('productName').value = '';
-            document.getElementById('productPrice').value = '';
-            
-            alert('✅ Produk berhasil ditambahkan!');
-            loadProducts();
-            loadStats();
-        };
-        
         document.getElementById('logoutBtn').onclick = () => {
             localStorage.removeItem('currentUser');
             window.location.href = 'index.html';
         };
         
         loadStats();
+        loadProducts();
         loadTopupRequests();
         loadMemberList();
-        loadProducts();
     </script>
 </body>
 </html>
