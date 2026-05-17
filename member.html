@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Member Dashboard · Nann Official</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(ellipse at 30% 20%, #0a0a12, #020205);
+            background: radial-gradient(ellipse at 30% 20%, #0a0a12, #010105);
             color: #f0f0f5;
             padding: 1.2rem;
             min-height: 100vh;
@@ -23,7 +23,7 @@
             flex-wrap: wrap;
             gap: 1rem;
             margin-bottom: 2rem;
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             background: rgba(10,10,20,0.4);
             backdrop-filter: blur(12px);
             border-radius: 60px;
@@ -133,6 +133,7 @@
         }
         .message { margin-top: 1rem; padding: 0.5rem; border-radius: 30px; text-align: center; font-size: 0.8rem; }
         .message.success { background: rgba(34,197,94,0.2); color: #4ade80; }
+        .message.error { background: rgba(220,38,38,0.2); color: #f87171; }
         
         @media (max-width: 768px) {
             .products-grid { grid-template-columns: 1fr; }
@@ -153,7 +154,6 @@
         <div id="productsContainer" class="products-grid"></div>
     </div>
     
-    <!-- Modal Topup -->
     <div id="topupModal" class="modal">
         <div class="modal-content">
             <h2><i class="fas fa-upload"></i> Top Up Saldo</h2>
@@ -165,6 +165,7 @@
         </div>
     </div>
     
+    <script src="saldo.js"></script>
     <script>
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (!currentUser || currentUser.role !== 'member') {
@@ -172,19 +173,16 @@
         }
         
         function updateSaldoDisplay() {
-            const users = JSON.parse(localStorage.getItem('users'));
-            const user = users.find(u => u.id === currentUser.id);
-            if (user) {
-                currentUser.saldo = user.saldo;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                document.getElementById('saldoDisplay').innerHTML = `Rp ${user.saldo.toLocaleString('id-ID')}`;
-            }
+            const saldo = SaldoManager.getSaldo(currentUser.id);
+            currentUser.saldo = saldo;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            document.getElementById('saldoDisplay').innerHTML = `Rp ${saldo.toLocaleString('id-ID')}`;
         }
         
         function loadProducts() {
-            const products = JSON.parse(localStorage.getItem('products'));
+            const products = SaldoManager.getAllProducts();
             if (products.length === 0) {
-                document.getElementById('productsContainer').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada produk. Hubungi owner untuk menambah produk.</p>';
+                document.getElementById('productsContainer').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada produk. Hubungi owner.</p>';
                 return;
             }
             
@@ -206,7 +204,6 @@
             });
             document.getElementById('productsContainer').innerHTML = html;
             
-            // Qty logic
             document.querySelectorAll('.qty-btn').forEach(btn => {
                 btn.onclick = () => {
                     const id = parseInt(btn.dataset.id);
@@ -219,7 +216,6 @@
                 };
             });
             
-            // Buy logic
             document.querySelectorAll('.btn-buy').forEach(btn => {
                 btn.onclick = () => {
                     const productId = parseInt(btn.dataset.id);
@@ -228,38 +224,26 @@
                     const qty = parseInt(document.getElementById(`qty_${productId}`).innerText);
                     const total = price * qty;
                     
-                    if (currentUser.saldo < total) {
-                        alert(`❌ Saldo tidak mencukupi! Saldo Anda Rp ${currentUser.saldo.toLocaleString('id-ID')}, butuh Rp ${total.toLocaleString('id-ID')}`);
+                    const currentSaldo = SaldoManager.getSaldo(currentUser.id);
+                    if (currentSaldo < total) {
+                        alert(`❌ Saldo tidak mencukupi! Saldo Rp ${currentSaldo.toLocaleString('id-ID')}, butuh Rp ${total.toLocaleString('id-ID')}`);
                         return;
                     }
                     
                     if (confirm(`Beli ${productName} x${qty} seharga Rp ${total.toLocaleString('id-ID')}?`)) {
-                        const users = JSON.parse(localStorage.getItem('users'));
-                        const userIndex = users.findIndex(u => u.id === currentUser.id);
-                        users[userIndex].saldo -= total;
-                        localStorage.setItem('users', JSON.stringify(users));
-                        currentUser.saldo = users[userIndex].saldo;
-                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                        
-                        const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
-                        transactions.push({
-                            id: Date.now(),
-                            user_id: currentUser.id,
-                            product_name: productName,
-                            qty: qty,
-                            total: total,
-                            date: new Date().toISOString()
-                        });
-                        localStorage.setItem('transactions', JSON.stringify(transactions));
-                        
-                        updateSaldoDisplay();
-                        alert(`✅ Pembelian berhasil! ${productName} x${qty} telah dibeli.`);
+                        const result = SaldoManager.kurangiSaldo(currentUser.id, total);
+                        if (result.success) {
+                            SaldoManager.simpanTransaksi(currentUser.id, productName, qty, total);
+                            updateSaldoDisplay();
+                            alert(`✅ Pembelian berhasil! ${productName} x${qty} telah dibeli. Saldo tersisa Rp ${result.newSaldo.toLocaleString('id-ID')}`);
+                        } else {
+                            alert(result.message);
+                        }
                     }
                 };
             });
         }
         
-        // Topup modal
         const modal = document.getElementById('topupModal');
         document.getElementById('topupBtn').onclick = () => { modal.style.display = 'flex'; };
         document.getElementById('closeModalBtn').onclick = () => { modal.style.display = 'none'; };
@@ -270,27 +254,17 @@
             
             if (!amount || amount <= 0) {
                 document.getElementById('topupMessage').innerHTML = 'Masukkan jumlah topup yang valid!';
-                document.getElementById('topupMessage').className = 'message';
+                document.getElementById('topupMessage').className = 'message error';
                 return;
             }
             if (!bukti) {
                 document.getElementById('topupMessage').innerHTML = 'Masukkan link bukti transfer!';
-                document.getElementById('topupMessage').className = 'message';
+                document.getElementById('topupMessage').className = 'message error';
                 return;
             }
             
-            const topups = JSON.parse(localStorage.getItem('topup_requests')) || [];
-            topups.push({
-                id: Date.now(),
-                user_id: currentUser.id,
-                amount: amount,
-                bukti: bukti,
-                status: 'pending',
-                date: new Date().toISOString()
-            });
-            localStorage.setItem('topup_requests', JSON.stringify(topups));
-            
-            document.getElementById('topupMessage').innerHTML = '✅ Permintaan topup dikirim! Owner akan memproses.';
+            const result = SaldoManager.simpanTopupRequest(currentUser.id, amount, bukti);
+            document.getElementById('topupMessage').innerHTML = result.message;
             document.getElementById('topupMessage').className = 'message success';
             document.getElementById('topupAmount').value = '';
             document.getElementById('topupBukti').value = '';
@@ -310,14 +284,8 @@
         loadProducts();
         
         setInterval(() => {
-            const users = JSON.parse(localStorage.getItem('users'));
-            const user = users.find(u => u.id === currentUser.id);
-            if (user && user.saldo !== currentUser.saldo) {
-                currentUser.saldo = user.saldo;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                updateSaldoDisplay();
-            }
-        }, 2000);
+            updateSaldoDisplay();
+        }, 3000);
     </script>
 </body>
 </html>
