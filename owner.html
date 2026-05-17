@@ -72,6 +72,8 @@
         .section h2 {
             margin-bottom: 1.2rem;
             font-size: 1.3rem;
+            border-left: 3px solid #d4af37;
+            padding-left: 1rem;
         }
         
         table {
@@ -102,17 +104,18 @@
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
-            margin-top: 1rem;
+            margin-bottom: 1rem;
         }
         .form-add input, .form-add textarea {
-            padding: 0.7rem;
-            border-radius: 30px;
+            padding: 0.7rem 1rem;
+            border-radius: 60px;
             border: 1px solid rgba(212,175,55,0.4);
             background: rgba(20,20,35,0.8);
             color: white;
+            flex: 1;
         }
-        .form-add input { flex: 1; }
-        .form-add textarea { flex: 2; min-width: 200px; }
+        .form-add textarea { flex: 2; min-width: 200px; border-radius: 30px; }
+        .form-add button { flex: 0.5; min-width: 100px; }
         
         .message {
             margin-top: 1rem;
@@ -123,12 +126,14 @@
         .message.success { background: rgba(34,197,94,0.2); color: #4ade80; }
         .message.error { background: rgba(220,38,38,0.2); color: #f87171; }
         
+        .saldo-input { width: 100px; padding: 0.3rem; border-radius: 30px; border: 1px solid rgba(212,175,55,0.4); background: rgba(20,20,35,0.8); color: white; }
+        
         @media (max-width: 768px) {
+            .form-add { flex-direction: column; }
+            .form-add input, .form-add textarea, .form-add button { width: 100%; }
             table, thead, tbody, th, td, tr { display: block; }
             th { display: none; }
             td { display: flex; justify-content: space-between; padding: 0.5rem; }
-            .form-add { flex-direction: column; }
-            .form-add input, .form-add textarea { width: 100%; }
         }
     </style>
 </head>
@@ -147,7 +152,7 @@
             <div class="form-add">
                 <input type="text" id="productName" placeholder="Nama Produk">
                 <input type="number" id="productPrice" placeholder="Harga">
-                <textarea id="productBenefit" rows="2" placeholder="Benefit produk"></textarea>
+                <textarea id="productBenefit" rows="2" placeholder="Benefit produk (contoh: Fitur A, Fitur B, Garansi)"></textarea>
                 <button class="btn-small" id="addProductBtn">➕ Tambah</button>
             </div>
             <div id="addMessage" class="message"></div>
@@ -167,25 +172,21 @@
         
         <!-- DAFTAR MEMBER -->
         <div class="section">
-            <h2><i class="fas fa-users"></i> Daftar Member & Manajemen</h2>
+            <h2><i class="fas fa-users"></i> Daftar Member</h2>
             <div id="memberList"></div>
         </div>
     </div>
     
     <script src="saldo.js"></script>
     <script>
-        // Cek session owner
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (!currentUser || currentUser.role !== 'owner') {
-            window.location.href = 'index.html';
-        }
+        if (!currentUser || currentUser.role !== 'owner') window.location.href = 'index.html';
         
         function loadStats() {
             const members = SaldoManager.getAllMembers();
             const products = SaldoManager.getAllProducts();
-            const topups = JSON.parse(localStorage.getItem('topup_requests')) || [];
+            const topups = SaldoManager.getAllTopupRequests();
             const pendingTopups = topups.filter(t => t.status === 'pending');
-            
             document.getElementById('stats').innerHTML = `
                 <div class="stat-card"><div class="stat-number">${members.length}</div><div class="stat-label">Total Member</div></div>
                 <div class="stat-card"><div class="stat-number">${products.length}</div><div class="stat-label">Total Produk</div></div>
@@ -198,57 +199,39 @@
             const name = document.getElementById('productName').value.trim();
             const price = parseInt(document.getElementById('productPrice').value);
             const benefit = document.getElementById('productBenefit').value.trim();
-            
             if (!name || !price || price <= 0) {
                 document.getElementById('addMessage').innerHTML = 'Isi nama dan harga produk yang valid!';
                 document.getElementById('addMessage').className = 'message error';
                 return;
             }
-            
             const result = SaldoManager.tambahProduk(name, price, benefit);
-            if (result.success) {
-                document.getElementById('addMessage').innerHTML = result.message;
-                document.getElementById('addMessage').className = 'message success';
-                document.getElementById('productName').value = '';
-                document.getElementById('productPrice').value = '';
-                document.getElementById('productBenefit').value = '';
-                loadProducts();
-                loadStats();
-            } else {
-                document.getElementById('addMessage').innerHTML = result.message;
-                document.getElementById('addMessage').className = 'message error';
-            }
-            
-            setTimeout(() => {
-                document.getElementById('addMessage').innerHTML = '';
-            }, 2000);
+            document.getElementById('addMessage').innerHTML = result.message;
+            document.getElementById('addMessage').className = 'message success';
+            document.getElementById('productName').value = '';
+            document.getElementById('productPrice').value = '';
+            document.getElementById('productBenefit').value = '';
+            loadProducts();
+            loadStats();
+            setTimeout(() => document.getElementById('addMessage').innerHTML = '', 2000);
         };
         
         function loadProducts() {
             const products = SaldoManager.getAllProducts();
             if (products.length === 0) {
-                document.getElementById('productList').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada produk</p>';
+                document.getElementById('productList').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada produk. Silakan tambah produk.</p>';
                 return;
             }
-            
-            let html = '<table><thead><tr><th>Nama</th><th>Harga</th><th>Benefit</th><th>Aksi</th></tr></thead><tbody>';
-            products.forEach(product => {
-                html += `
-                    <tr>
-                        <td>${product.name}</td>
-                        <td>Rp ${product.price.toLocaleString('id-ID')}</td>
-                        <td>${product.benefit.substring(0, 60)}${product.benefit.length > 60 ? '...' : ''}</td>
-                        <td><button class="btn-small danger" onclick="deleteProduct(${product.id})">Hapus</button></td>
-                    </tr>
-                `;
+            let html = '<table><thead><tr><th>Nama Produk</th><th>Harga</th><th>Benefit</th><th>Aksi</th></tr></thead><tbody>';
+            products.forEach(p => {
+                html += `<tr><td>${p.name}</td><td>Rp ${p.price.toLocaleString('id-ID')}</td><td>${p.benefit.substring(0, 60)}${p.benefit.length > 60 ? '...' : ''}</td><td><button class="btn-small danger" onclick="deleteProduct(${p.id})">Hapus</button></td></tr>`;
             });
             html += '</tbody></table>';
             document.getElementById('productList').innerHTML = html;
         }
         
-        window.deleteProduct = (productId) => {
+        window.deleteProduct = (id) => {
             if (confirm('Yakin ingin menghapus produk ini?')) {
-                const result = SaldoManager.hapusProduk(productId);
+                const result = SaldoManager.hapusProduk(id);
                 alert(result.message);
                 loadProducts();
                 loadStats();
@@ -256,33 +239,24 @@
         };
         
         function loadTopupRequests() {
-            const topups = JSON.parse(localStorage.getItem('topup_requests')) || [];
+            const topups = SaldoManager.getAllTopupRequests();
             const users = SaldoManager.getUsers();
-            const pendingTopups = topups.filter(t => t.status === 'pending');
-            
-            if (pendingTopups.length === 0) {
+            const pending = topups.filter(t => t.status === 'pending');
+            if (pending.length === 0) {
                 document.getElementById('topupList').innerHTML = '<p style="text-align:center; opacity:0.6;">Tidak ada permintaan topup</p>';
                 return;
             }
-            
             let html = '<table><thead><tr><th>Member</th><th>Jumlah</th><th>Bukti</th><th>Aksi</th></tr></thead><tbody>';
-            pendingTopups.forEach(topup => {
-                const member = users.find(u => u.id === topup.user_id);
-                html += `
-                    <tr>
-                        <td>${member ? member.username : 'Unknown'}</td>
-                        <td>Rp ${topup.amount.toLocaleString('id-ID')}</td>
-                        <td>${topup.bukti.substring(0, 30)}${topup.bukti.length > 30 ? '...' : ''}</td>
-                        <td><button class="btn-small success" onclick="confirmTopup(${topup.id})">Konfirmasi</button></td>
-                    </tr>
-                `;
+            pending.forEach(t => {
+                const member = users.find(u => u.id === t.user_id);
+                html += `<tr><td>${member ? member.username : 'Unknown'}</td><td>Rp ${t.amount.toLocaleString('id-ID')}</td><td>${t.bukti.substring(0, 30)}${t.bukti.length > 30 ? '...' : ''}</td><td><button class="btn-small success" onclick="confirmTopup(${t.id})">Konfirmasi</button></td></tr>`;
             });
             html += '</tbody></table>';
             document.getElementById('topupList').innerHTML = html;
         }
         
-        window.confirmTopup = (topupId) => {
-            const result = SaldoManager.konfirmasiTopup(topupId);
+        window.confirmTopup = (id) => {
+            const result = SaldoManager.konfirmasiTopup(id);
             alert(result.message);
             loadTopupRequests();
             loadMemberList();
@@ -292,21 +266,20 @@
         function loadMemberList() {
             const members = SaldoManager.getAllMembers();
             if (members.length === 0) {
-                document.getElementById('memberList').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada member</p>';
+                document.getElementById('memberList').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada member yang mendaftar</p>';
                 return;
             }
-            
-            let html = '</table><thead><tr><th>Username</th><th>Saldo</th><th>Tambah Saldo</th><th>Aksi</th></tr></thead><tbody>';
-            members.forEach(member => {
+            let html = '<table><thead><tr><th>Username</th><th>Saldo</th><th>Tambah Saldo</th><th>Aksi</th></tr></thead><tbody>';
+            members.forEach(m => {
                 html += `
                     <tr>
-                        <td>${member.username}</td>
-                        <td id="saldo_${member.id}">Rp ${member.saldo.toLocaleString('id-ID')}</td>
+                        <td>${m.username}</td>
+                        <td id="saldo_${m.id}">Rp ${m.saldo.toLocaleString('id-ID')}</td>
                         <td>
-                            <input type="number" id="input_saldo_${member.id}" placeholder="Jumlah" style="width:100px; padding:0.3rem; border-radius:30px;">
-                            <button class="btn-small" onclick="tambahSaldoMember(${member.id})">Tambah</button>
+                            <input type="number" id="input_saldo_${m.id}" class="saldo-input" placeholder="Jumlah">
+                            <button class="btn-small" onclick="tambahSaldoMember(${m.id})">Tambah</button>
                         </td>
-                        <td><button class="btn-small danger" onclick="hapusMember(${member.id})">Hapus Akun</button></td>
+                        <td><button class="btn-small danger" onclick="hapusMember(${m.id})">Hapus Akun</button></td>
                     </tr>
                 `;
             });
@@ -314,25 +287,24 @@
             document.getElementById('memberList').innerHTML = html;
         }
         
-        window.tambahSaldoMember = (memberId) => {
-            const amount = parseInt(document.getElementById(`input_saldo_${memberId}`).value);
+        window.tambahSaldoMember = (id) => {
+            const amount = parseInt(document.getElementById(`input_saldo_${id}`).value);
             if (!amount || amount <= 0) {
                 alert('Masukkan jumlah saldo yang valid!');
                 return;
             }
-            
-            const result = SaldoManager.tambahSaldo(memberId, amount);
+            const result = SaldoManager.tambahSaldo(id, amount);
             alert(result.message);
             if (result.success) {
-                document.getElementById(`saldo_${memberId}`).innerText = `Rp ${result.newSaldo.toLocaleString('id-ID')}`;
-                document.getElementById(`input_saldo_${memberId}`).value = '';
+                document.getElementById(`saldo_${id}`).innerText = `Rp ${result.newSaldo.toLocaleString('id-ID')}`;
+                document.getElementById(`input_saldo_${id}`).value = '';
                 loadStats();
             }
         };
         
-        window.hapusMember = (memberId) => {
+        window.hapusMember = (id) => {
             if (confirm('Yakin ingin menghapus akun member ini? Data tidak dapat dikembalikan.')) {
-                const result = SaldoManager.hapusMember(memberId);
+                const result = SaldoManager.hapusMember(id);
                 alert(result.message);
                 loadMemberList();
                 loadStats();
