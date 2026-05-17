@@ -164,12 +164,10 @@
     </div>
     <script src="saldo.js"></script>
     <script>
-        // Bintang
         function createStars(){for(let i=0;i<120;i++){let s=document.createElement('div');s.classList.add('star');s.style.width=Math.random()*2+1+'px';s.style.height=s.style.width;s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animation='starFade '+ (Math.random()*3+2)+'s infinite alternate';document.getElementById('starsField').appendChild(s);}}
         function createNebula(){for(let i=0;i<3;i++){let n=document.createElement('div');n.classList.add('nebula');n.style.left=Math.random()*80+10+'%';n.style.top=Math.random()*70+15+'%';n.style.width=Math.random()*250+150+'px';n.style.height=n.style.width;document.getElementById('dynamicNebula').appendChild(n);}}
         createStars();createNebula();
         
-        // Toggle password
         document.querySelectorAll('.toggle-password').forEach(icon => {
             icon.addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');
@@ -186,29 +184,25 @@
             });
         });
         
-        // Inisialisasi data default
         function initData() {
             if (!localStorage.getItem('users')) {
-                const defaultUsers = [
+                localStorage.setItem('users', JSON.stringify([
                     { id: 1, username: 'dynan', password: btoa('257368419'), role: 'owner', saldo: 0 }
-                ];
-                localStorage.setItem('users', JSON.stringify(defaultUsers));
+                ]));
             }
             if (!localStorage.getItem('products')) {
-                const defaultProducts = [
-                    { id: 1, name: '🤖 JASA JADI BOT WHATSAPP', price: 1000, benefit: 'JADI OWNER BOT, BISA OPEN JASA SEWA BOT, PAKE BOT SEPUASNYA, FITUR 1500+, ANTI DELAY' },
-                    { id: 2, name: '🎬 ALIGHT MOTION PREMIUM', price: 10000, benefit: 'AKUN PRIVATE, PREMIUM UNLIMITED, DURASI 1 TAHUN, NO EXPORT WATERMARK, ALL FITUR PRO' },
-                    { id: 3, name: '🥚 NOKOS INDON OLD', price: 10000, benefit: 'VERSI OLD LIMITED, PREMIUM ACCESS, STABLE VERSION' },
-                    { id: 4, name: '🥚 NOKOS INDON FRESH', price: 6000, benefit: 'VERSI FRESH UPDATE, PREMIUM ACCESS, FULL SUPPORT' }
-                ];
-                localStorage.setItem('products', JSON.stringify(defaultProducts));
+                localStorage.setItem('products', JSON.stringify([
+                    { id: 1, name: '🤖 JASA JADI BOT WHATSAPP', price: 1000, benefit: 'JADI OWNER BOT, FITUR 1500+, ANTI DELAY' },
+                    { id: 2, name: '🎬 ALIGHT MOTION PREMIUM', price: 10000, benefit: 'AKUN PRIVATE, NO WATERMARK, ALL FITUR PRO' },
+                    { id: 3, name: '🥚 NOKOS INDON OLD', price: 10000, benefit: 'VERSI OLD LIMITED, PREMIUM ACCESS' },
+                    { id: 4, name: '🥚 NOKOS INDON FRESH', price: 6000, benefit: 'VERSI FRESH UPDATE, FULL SUPPORT' }
+                ]));
             }
-            if (!localStorage.getItem('topup_requests')) localStorage.setItem('topup_requests', JSON.stringify([]));
-            if (!localStorage.getItem('transactions')) localStorage.setItem('transactions', JSON.stringify([]));
+            if (!localStorage.getItem('topup_requests')) localStorage.setItem('topup_requests', '[]');
+            if (!localStorage.getItem('transactions')) localStorage.setItem('transactions', '[]');
         }
         initData();
         
-        // Toggle form
         document.getElementById('showRegister').onclick = () => {
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('registerForm').style.display = 'block';
@@ -220,38 +214,27 @@
             document.getElementById('message').innerHTML = '';
         };
         
-        // LOGIN
         document.getElementById('loginBtn').onclick = () => {
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
-            
             if (!username || !password) {
                 document.getElementById('message').innerHTML = 'Isi username dan password!';
                 return;
             }
-            
             const users = SaldoManager.getUsers();
             const user = users.find(u => u.username === username && atob(u.password) === password);
-            
             if (!user) {
                 document.getElementById('message').innerHTML = 'Username atau password salah!';
                 return;
             }
-            
             localStorage.setItem('currentUser', JSON.stringify({ id: user.id, username: user.username, role: user.role, saldo: user.saldo }));
-            
-            if (user.role === 'owner') {
-                window.location.href = 'owner.html';
-            } else {
-                window.location.href = 'member.html';
-            }
+            if (user.role === 'owner') window.location.href = 'owner.html';
+            else window.location.href = 'member.html';
         };
         
-        // REGISTER (hanya member)
         document.getElementById('registerBtn').onclick = () => {
             const username = document.getElementById('regUsername').value.trim();
             const password = document.getElementById('regPassword').value;
-            
             if (!username || !password) {
                 document.getElementById('message').innerHTML = 'Isi semua field!';
                 return;
@@ -260,31 +243,18 @@
                 document.getElementById('message').innerHTML = 'Password minimal 4 karakter!';
                 return;
             }
-            
             const users = SaldoManager.getUsers();
             if (users.find(u => u.username === username)) {
                 document.getElementById('message').innerHTML = 'Username sudah terdaftar!';
                 return;
             }
-            
             const newId = users.length + 1;
-            const newUser = {
-                id: newId,
-                username: username,
-                password: btoa(password),
-                role: 'member',
-                saldo: 0
-            };
-            users.push(newUser);
+            users.push({ id: newId, username: username, password: btoa(password), role: 'member', saldo: 0 });
             localStorage.setItem('users', JSON.stringify(users));
-            
             document.getElementById('message').innerHTML = '✅ Registrasi berhasil! Silakan login.';
             document.getElementById('regUsername').value = '';
             document.getElementById('regPassword').value = '';
-            
-            setTimeout(() => {
-                document.getElementById('showLogin').click();
-            }, 1500);
+            setTimeout(() => document.getElementById('showLogin').click(), 1500);
         };
     </script>
 </body>
