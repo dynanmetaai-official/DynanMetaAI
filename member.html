@@ -29,7 +29,14 @@
             border-radius: 60px;
             border: 1px solid rgba(212,175,55,0.3);
         }
-        .header h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; background: linear-gradient(135deg, #e8d5b0, #d4af37); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #e8d5b0, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
         .saldo-card {
             background: rgba(212,175,55,0.15);
             padding: 0.5rem 1.2rem;
@@ -66,92 +73,19 @@
         }
         .product-card:hover { transform: translateY(-5px); border-color: rgba(212,175,55,0.7); }
         .price-tag { font-size: 1.5rem; font-weight: 700; margin: 8px 0; color: #d4af37; }
-        .benefits { font-size: 0.7rem; margin: 8px 0; opacity: 0.8; }
-        .qty-control {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Member Dashboard · Nann Official</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(ellipse at 30% 20%, #0a0a12, #020205);
-            color: #f0f0f5;
-            padding: 1.2rem;
-            min-height: 100vh;
-        }
-        .container { max-width: 1400px; margin: 0 auto; }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: rgba(10,10,20,0.4);
-            backdrop-filter: blur(12px);
-            border-radius: 60px;
-            border: 1px solid rgba(212,175,55,0.3);
-        }
-        .header h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; background: linear-gradient(135deg, #e8d5b0, #d4af37); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .saldo-card {
-            background: rgba(212,175,55,0.15);
-            padding: 0.5rem 1.2rem;
-            border-radius: 60px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-        .saldo-card i { color: #d4af37; }
-        .saldo-card span { font-weight: 700; color: #d4af37; }
-        .btn-logout, .btn-topup {
-            background: rgba(212,175,55,0.2);
-            border: 1px solid rgba(212,175,55,0.4);
-            padding: 0.6rem 1.2rem;
-            border-radius: 60px;
-            cursor: pointer;
-            color: white;
-        }
-        .btn-topup { background: linear-gradient(135deg, #22c55e, #16a34a); border: none; }
-        
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        .product-card {
-            background: rgba(12,12,22,0.6);
-            backdrop-filter: blur(14px);
-            border-radius: 32px;
-            padding: 1.3rem;
-            border: 1px solid rgba(212,175,55,0.25);
-            transition: all 0.25s;
-        }
-        .product-card:hover { transform: translateY(-5px); border-color: rgba(212,175,55,0.7); }
-        .price-tag { font-size: 1.5rem; font-weight: 700; margin: 8px 0; color: #d4af37; }
-        .benefits { font-size: 0.7rem; margin: 8px 0; opacity: 0.8; }
+        .benefit-text { font-size: 0.75rem; margin: 10px 0; opacity: 0.8; line-height: 1.5; }
         .qty-control {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            margin: 10px 0;
+            margin: 12px 0;
         }
         .qty-btn {
             background: rgba(30,30,50,0.8);
             border: 1px solid rgba(212,175,55,0.4);
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             font-size: 1.1rem;
             border-radius: 40px;
             cursor: pointer;
@@ -167,7 +101,6 @@
             cursor: pointer;
             color: #1a1508;
         }
-        .btn-buy:disabled { background: #5a4e32; cursor: not-allowed; opacity: 0.6; }
         
         .modal {
             display: none;
@@ -200,7 +133,6 @@
         }
         .message { margin-top: 1rem; padding: 0.5rem; border-radius: 30px; text-align: center; font-size: 0.8rem; }
         .message.success { background: rgba(34,197,94,0.2); color: #4ade80; }
-        .message.error { background: rgba(220,38,38,0.2); color: #f87171; }
         
         @media (max-width: 768px) {
             .products-grid { grid-template-columns: 1fr; }
@@ -211,7 +143,7 @@
     <div class="container">
         <div class="header">
             <h1>🛍️ NANN OFFICIAL · MEMBER DASHBOARD</h1>
-            <div style="display: flex; gap: 0.8rem;">
+            <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
                 <div class="saldo-card"><i class="fas fa-wallet"></i> Saldo: <span id="saldoDisplay">Rp 0</span></div>
                 <button class="btn-topup" id="topupBtn"><i class="fas fa-plus-circle"></i> Top Up</button>
                 <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
@@ -234,7 +166,6 @@
     </div>
     
     <script>
-        // Cek session
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (!currentUser || currentUser.role !== 'member') {
             window.location.href = 'index.html';
@@ -252,30 +183,30 @@
         
         function loadProducts() {
             const products = JSON.parse(localStorage.getItem('products'));
+            if (products.length === 0) {
+                document.getElementById('productsContainer').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada produk. Hubungi owner untuk menambah produk.</p>';
+                return;
+            }
+            
             let html = '';
             products.forEach(product => {
-                const priceDisplay = typeof product.price === 'number' ? `Rp ${product.price.toLocaleString('id-ID')}` : product.price;
                 html += `
                     <div class="product-card">
-                        <div style="font-size:1.5rem;">${product.name.split(' ')[0]}</div>
-                        <h3>${product.name}</h3>
-                        <div class="price-tag">${priceDisplay}</div>
-                        <div class="benefits">${product.benefits.substring(0, 100)}...</div>
+                        <h3 style="font-size:1.2rem;">${product.name}</h3>
+                        <div class="price-tag">Rp ${product.price.toLocaleString('id-ID')}</div>
+                        <div class="benefit-text"><i class="fas fa-gift"></i> ${product.benefit}</div>
                         <div class="qty-control">
                             <button class="qty-btn" data-id="${product.id}" data-arah="kurang">-</button>
                             <span class="qty-num" id="qty_${product.id}">1</span>
                             <button class="qty-btn" data-id="${product.id}" data-arah="tambah">+</button>
                         </div>
-                        <button class="btn-buy" data-id="${product.id}" data-price="${typeof product.price === 'number' ? product.price : 0}" data-name="${product.name}">BELI SEKARANG</button>
+                        <button class="btn-buy" data-id="${product.id}" data-price="${product.price}" data-name="${product.name}">BELI SEKARANG</button>
                     </div>
                 `;
             });
             document.getElementById('productsContainer').innerHTML = html;
             
-            // Inisialisasi qty
-            const qtys = {};
-            products.forEach(p => { qtys[p.id] = 1; });
-            
+            // Qty logic
             document.querySelectorAll('.qty-btn').forEach(btn => {
                 btn.onclick = () => {
                     const id = parseInt(btn.dataset.id);
@@ -288,6 +219,7 @@
                 };
             });
             
+            // Buy logic
             document.querySelectorAll('.btn-buy').forEach(btn => {
                 btn.onclick = () => {
                     const productId = parseInt(btn.dataset.id);
@@ -302,7 +234,6 @@
                     }
                     
                     if (confirm(`Beli ${productName} x${qty} seharga Rp ${total.toLocaleString('id-ID')}?`)) {
-                        // Kurangi saldo
                         const users = JSON.parse(localStorage.getItem('users'));
                         const userIndex = users.findIndex(u => u.id === currentUser.id);
                         users[userIndex].saldo -= total;
@@ -310,7 +241,6 @@
                         currentUser.saldo = users[userIndex].saldo;
                         localStorage.setItem('currentUser', JSON.stringify(currentUser));
                         
-                        // Simpan transaksi
                         const transactions = JSON.parse(localStorage.getItem('transactions')) || [];
                         transactions.push({
                             id: Date.now(),
@@ -329,7 +259,7 @@
             });
         }
         
-        // Topup
+        // Topup modal
         const modal = document.getElementById('topupModal');
         document.getElementById('topupBtn').onclick = () => { modal.style.display = 'flex'; };
         document.getElementById('closeModalBtn').onclick = () => { modal.style.display = 'none'; };
@@ -340,10 +270,12 @@
             
             if (!amount || amount <= 0) {
                 document.getElementById('topupMessage').innerHTML = 'Masukkan jumlah topup yang valid!';
+                document.getElementById('topupMessage').className = 'message';
                 return;
             }
             if (!bukti) {
                 document.getElementById('topupMessage').innerHTML = 'Masukkan link bukti transfer!';
+                document.getElementById('topupMessage').className = 'message';
                 return;
             }
             
@@ -359,6 +291,7 @@
             localStorage.setItem('topup_requests', JSON.stringify(topups));
             
             document.getElementById('topupMessage').innerHTML = '✅ Permintaan topup dikirim! Owner akan memproses.';
+            document.getElementById('topupMessage').className = 'message success';
             document.getElementById('topupAmount').value = '';
             document.getElementById('topupBukti').value = '';
             
@@ -376,7 +309,6 @@
         updateSaldoDisplay();
         loadProducts();
         
-        // Update saldo setiap 2 detik
         setInterval(() => {
             const users = JSON.parse(localStorage.getItem('users'));
             const user = users.find(u => u.id === currentUser.id);
