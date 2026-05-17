@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Owner Dashboard · Nann Official</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at 30% 20%, #0a0a12, #020205);
+            color: #f0f0f5;
+            padding: 1.2rem;
+            min-height: 100vh;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(10,10,20,0.4);
+            backdrop-filter: blur(12px);
+            border-radius: 60px;
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #e8d5b0, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .btn-logout {
+            background: rgba(212,175,55,0.2);
+            border: 1px solid rgba(212,175,55,0.4);
+            padding: 0.6rem 1.2rem;
+            border-radius: 60px;
+            cursor: pointer;
+            color: white;
+        }
+        .stats {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+            padding: 1rem 1.5rem;
+            border-radius: 36px;
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        .stat-number { font-size: 1.8rem; font-weight: 700; color: #d4af37; }
+        .stat-label { font-size: 0.7rem; }
+        
+        .section {
+            background: rgba(10,10,20,0.4);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .section h2 {
+            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+        }
+        
+        /* Tabel */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(212,175,55,0.2);
+        }
+        th { color: #d4af37; }
+        
+        .btn-small {
+            background: linear-gradient(135deg, #d4af37, #b8960c);
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 60px;
+            cursor: pointer;
+            color: #1a1508;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        .btn-small.danger { background: #dc2626; color: white; }
+        .btn-small.success { background: #22c55e; color: white; }
+        
+        .form-add {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .form-add input, .form-add select {
+            padding: 0.7rem;
+            border-radius: 60px;
+            border: 1px solid rgba(212,175,55,0.4);
+            background: rgba(20,20,35,0.8);
+            color: white;
+        }
+        .message {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 30px;
+            text-align: center;
+        }
+        .message.success { background: rgba(34,197,94,0.2); color: #4ade80; }
+        .message.error { background: rgba(220,38,38,0.2); color: #f87171; }
+        
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr { display: block; }
+            th { display: none; }
+            td { display: flex; justify-content: space-between; padding: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👑 NANN OFFICIAL · OWNER DASHBOARD</h1>
+            <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+        
+        <div class="stats" id="stats"></div>
+        
+        <!-- Manajemen Topup -->
+        <div class="section">
+            <h2><i class="fas fa-upload"></i> Konfirmasi Top Up Saldo Member</h2>
+            <div id="topupList"></div>
+        </div>
+        
+        <!-- Tambah Produk -->
+        <div class="section">
+            <h2><i class="fas fa-plus-circle"></i> Tambah Produk Baru</h2>
+            <div class="form-add">
+                <input type="text" id="productName" placeholder="Nama Produk" style="flex:2">
+                <input type="number" id="productPrice" placeholder="Harga" style="flex:1">
+                <select id="productCategory" style="flex:1">
+                    <option value="bot">Bot WA</option>
+                    <option value="alight">Alight Motion</option>
+                    <option value="kapasitas">Kapasitas Panel</option>
+                    <option value="role">Role Panel</option>
+                    <option value="nokos">Nokos</option>
+                </select>
+                <button class="btn-small" id="addProductBtn">Tambah</button>
+            </div>
+        </div>
+        
+        <!-- Daftar Produk -->
+        <div class="section">
+            <h2><i class="fas fa-box"></i> Daftar Produk</h2>
+            <div id="productList"></div>
+        </div>
+        
+        <!-- Daftar Member & Tambah Saldo -->
+        <div class="section">
+            <h2><i class="fas fa-users"></i> Daftar Member & Tambah Saldo</h2>
+            <div id="memberList"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Cek session
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser || currentUser.role !== 'owner') {
+            window.location.href = 'index.html';
+        }
+        
+        function loadStats() {
+            const users = JSON.parse(localStorage.getItem('users'));
+            const members = users.filter(u => u.role === 'member');
+            const products = JSON.parse(localStorage.getItem('products'));
+            const topups = JSON.parse(localStorage.getItem('topup_requests'));
+            const pendingTopups = topups.filter(t => t.status === 'pending');
+            
+            document.getElementById('stats').innerHTML = `
+                <div class="stat-card"><div class="stat-number">${members.length}</div><div class="stat-label">Total Member</div></div>
+                <div class="stat-card"><div class="stat-number">${products.length}</div><div class="stat-label">Total Produk</div></div>
+                <div class="stat-card"><div class="stat-number">${pendingTopups.length}</div><div class="stat-label">Pending Topup</div></div>
+            `;
+        }
+        
+        function loadTopupRequests() {
+            const topups = JSON.parse(localStorage.getItem('topup_requests'));
+            const users = JSON.parse(localStorage.getItem('users'));
+            const pendingTopups = topups.filter(t => t.status === 'pending');
+            
+            if (pendingTopups.length === 0) {
+                document.getElementById('topupList').innerHTML = '<p style="text-align:center; opacity:0.6;">Tidak ada permintaan topup</p>';
+                return;
+            }
+            
+            let html = '<table><thead><tr><th>Member</th><th>Jumlah</th><th>Bukti</th><th>Aksi</th></tr></thead><tbody>';
+            pendingTopups.forEach(topup => {
+                const member = users.find(u => u.id === topup.user_id);
+                html += `
+                    <tr>
+                        <td>${member ? member.username : 'Unknown'}</td>
+                        <td>Rp ${topup.amount.toLocaleString('id-ID')}</td>
+                        <td><button class="btn-small" onclick="viewBukti('${topup.bukti}')">Lihat Bukti</button></td>
+                        <td><button class="btn-small success" onclick="confirmTopup(${topup.id}, ${topup.amount}, ${topup.user_id})">Konfirmasi</button></td>
+                    </tr>
+                `;
+            });
+            html += '</tbody></table>';
+            document.getElementById('topupList').innerHTML = html;
+        }
+        
+        window.viewBukti = (bukti) => {
+            alert(`Bukti transfer: ${bukti}\n(Silakan cek WhatsApp admin untuk verifikasi)`);
+        };
+        
+        window.confirmTopup = (topupId, amount, userId) => {
+            // Tambah saldo member
+            const users = JSON.parse(localStorage.getItem('users'));
+            const memberIndex = users.findIndex(u => u.id === userId);
+            if (memberIndex !== -1) {
+                users[memberIndex].saldo += amount;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Update status topup
+            const topups = JSON.parse(localStorage.getItem('topup_requests'));
+            const topupIndex = topups.findIndex(t => t.id === topupId);
+            if (topupIndex !== -1) {
+                topups[topupIndex].status = 'completed';
+                localStorage.setItem('topup_requests', JSON.stringify(topups));
+            }
+            
+            alert('✅ Saldo member berhasil ditambahkan!');
+            loadTopupRequests();
+            loadMemberList();
+            loadStats();
+        };
+        
+        function loadMemberList() {
+            const users = JSON.parse(localStorage.getItem('users'));
+            const members = users.filter(u => u.role === 'member');
+            
+            if (members.length === 0) {
+                document.getElementById('memberList').innerHTML = '<p style="text-align:center; opacity:0.6;">Belum ada member</p>';
+                return;
+            }
+            
+            let html = '<table><thead><tr><th>Username</th><th>Saldo</th><th>Tambah Saldo</th></tr></thead><tbody>';
+            members.forEach(member => {
+                html += `
+                    <tr>
+                        <td>${member.username}</td>
+                        <td>Rp ${member.saldo.toLocaleString('id-ID')}</td>
+                        <td>
+                            <input type="number" id="saldo_${member.id}" placeholder="Jumlah" style="width:100px; padding:0.3rem; border-radius:30px;">
+                            <button class="btn-small" onclick="addSaldo(${member.id})">Tambah</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            html += '</tbody></table>';
+            document.getElementById('memberList').innerHTML = html;
+        }
+        
+        window.addSaldo = (userId) => {
+            const amount = parseInt(document.getElementById(`saldo_${userId}`).value);
+            if (!amount || amount <= 0) {
+                alert('Masukkan jumlah saldo yang valid!');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('users'));
+            const memberIndex = users.findIndex(u => u.id === userId);
+            if (memberIndex !== -1) {
+                users[memberIndex].saldo += amount;
+                localStorage.setItem('users', JSON.stringify(users));
+                alert(`✅ Berhasil menambah Rp ${amount.toLocaleString('id-ID')} ke ${users[memberIndex].username}`);
+                loadMemberList();
+                loadStats();
+            }
+        };
+        
+        function loadProducts() {
+            const products = JSON.parse(localStorage.getItem('products'));
+            let html = '<table><thead><tr><th>Nama</th><th>Harga</th><th>Kategori</th><th>Aksi</th></tr></thead><tbody>';
+            products.forEach(product => {
+                const priceDisplay = typeof product.price === 'number' ? `Rp ${product.price.toLocaleString('id-ID')}` : product.price;
+                html += `
+                    <tr>
+                        <td>${product.name}</td>
+                        <td>${priceDisplay}</td>
+                        <td>${product.category}</td>
+                        <td><button class="btn-small danger" onclick="deleteProduct(${product.id})">Hapus</button></td>
+                    </tr>
+                `;
+            });
+            html += '</tbody></table>';
+            document.getElementById('productList').innerHTML = html;
+        }
+        
+        window.deleteProduct = (productId) => {
+            if (confirm('Yakin ingin menghapus produk ini?')) {
+                let products = JSON.parse(localStorage.getItem('products'));
+                products = products.filter(p => p.id !== productId);
+                localStorage.setItem('products', JSON.stringify(products));
+                loadProducts();
+                loadStats();
+            }
+        };
+        
+        document.getElementById('addProductBtn').onclick = () => {
+            const name = document.getElementById('productName').value.trim();
+            const price = parseInt(document.getElementById('productPrice').value);
+            const category = document.getElementById('productCategory').value;
+            
+            if (!name || !price) {
+                alert('Isi nama dan harga produk!');
+                return;
+            }
+            
+            const products = JSON.parse(localStorage.getItem('products'));
+            const newId = products.length + 1;
+            products.push({
+                id: newId,
+                name: name,
+                price: price,
+                category: category,
+                benefits: 'Produk baru'
+            });
+            localStorage.setItem('products', JSON.stringify(products));
+            
+            document.getElementById('productName').value = '';
+            document.getElementById('productPrice').value = '';
+            
+            alert('✅ Produk berhasil ditambahkan!');
+            loadProducts();
+            loadStats();
+        };
+        
+        document.getElementById('logoutBtn').onclick = () => {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        };
+        
+        loadStats();
+        loadTopupRequests();
+        loadMemberList();
+        loadProducts();
+    </script>
+</body>
+</html>
